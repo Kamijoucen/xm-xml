@@ -39,4 +39,12 @@ public class TokenLocation {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "line=" + line +
+                ", column=" + column +
+                '}';
+    }
 }

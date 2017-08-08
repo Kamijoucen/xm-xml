@@ -1,8 +1,9 @@
-package com.kamijoucen.xml.core.impl;
+package com.kamijoucen.xml.parser.impl;
 
 import com.kamijoucen.xml.common.SimpleBufferReader;
-import com.kamijoucen.xml.core.Scanner;
+import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.exception.FileAccessException;
+import com.kamijoucen.xml.exception.XmlSyntaxException;
 import com.kamijoucen.xml.token.Token;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.token.TokenType;
@@ -64,7 +65,8 @@ public class DefaultScanner implements Scanner {
             if (currentChar == '\0') {
                 state = State.END_OF_FILE;
             } else {
-                if (currentChar == '<' || currentChar == '>' || currentChar == '=') {
+                preprocess();
+                if (currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '/') {
                     state = State.KEYWORDS;
                 } else if (currentChar == '\"' || currentChar == '\'') {
                     state = State.STRING;
@@ -133,27 +135,43 @@ public class DefaultScanner implements Scanner {
         addCharToBuffer(currentChar);
         if (currentChar == '<') {
             if ((char) peekChar() == '/') {
-                makeToken(TokenType.TAG_END_START, "</", tokenLocation);
+                getNextChar();
+                addCharToBuffer(currentChar);
+                makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
             } else {
                 makeToken(TokenType.TAG_START, "<", tokenLocation);
             }
         } else if (currentChar == '>') {
             makeToken(TokenType.TAG_END, ">", tokenLocation);
+        } else if (currentChar == '/') {
+            if ((char) peekChar() == '>') {
+                getNextChar();
+                addCharToBuffer(currentChar);
+                makeToken(TokenType.SINGLE_TAG_END, buffer.toString(), tokenLocation);
+            } else {
+                throw new XmlSyntaxException("词法错误:标识符'/'后面只能出现'>'\t\t错误位置:" + tokenLocation);
+            }
         } else {
-            // TODO: 2017/8/8
+            // TODO: 2017/8/8 属性
         }
+        getNextChar();
     }
 
     private void handleIdentifier() {
         tokenLocation = makeTokenLocation();
         addCharToBuffer(currentChar);
-
-        // TODO: 2017/8/8
+        getNextChar();
+        char ch = 0;
+        while (isIdentifierChar(currentChar)) {
+            addCharToBuffer(currentChar);
+            getNextChar();
+        }
+        makeToken(TokenType.IDENTIFIER, buffer.toString(), tokenLocation);
     }
 
     private void handleEndOfFile() {
         tokenLocation = makeTokenLocation();
-        // TODO: 2017/8/8
+        makeToken(TokenType.END_OF_FILE, "END_OF_FILE", tokenLocation);
     }
 
     // make token
@@ -166,6 +184,10 @@ public class DefaultScanner implements Scanner {
 
     private TokenLocation makeTokenLocation() {
         return new TokenLocation(line, column, fileName);
+    }
+
+    private boolean isIdentifierChar(char ch) {
+        return Character.isAlphabetic(ch);
     }
 
 }

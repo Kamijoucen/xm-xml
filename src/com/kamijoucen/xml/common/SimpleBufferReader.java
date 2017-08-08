@@ -1,7 +1,5 @@
 package com.kamijoucen.xml.common;
 
-import com.kamijoucen.xml.exception.FileAccessException;
-
 import java.io.IOException;
 import java.io.Reader;
 
@@ -57,15 +55,15 @@ public class SimpleBufferReader extends Reader {
 
     public int peek() throws IOException {
         // FIXME: 2017/8/8
-        if (charIndex + 1 >= catchSize) {
+        if (charIndex >= catchSize) {
             fill();
-            if (charIndex + 1 >= catchSize) {
+            if (charIndex >= catchSize) {
                 return -1;
             } else {
-                return cb[charIndex + 1];
+                return cb[charIndex];
             }
         } else {
-            return cb[charIndex + 1];
+            return cb[charIndex];
         }
     }
 

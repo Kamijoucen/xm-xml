@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.core;
+package com.kamijoucen.xml.parser;
 
 import com.kamijoucen.xml.token.Token;
 

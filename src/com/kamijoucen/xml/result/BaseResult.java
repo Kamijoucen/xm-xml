@@ -1,11 +1,11 @@
-package com.kamijoucen.xml.ast;
+package com.kamijoucen.xml.result;
 
 import com.kamijoucen.xml.token.TokenLocation;
 
-public abstract class BaseAst {
+public abstract class BaseResult {
     private TokenLocation tokenLocation;
 
-    public BaseAst(TokenLocation tokenLocation) {
+    public BaseResult(TokenLocation tokenLocation) {
         this.tokenLocation = tokenLocation;
     }
 }

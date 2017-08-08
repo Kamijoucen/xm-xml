@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.core.impl;
+package com.kamijoucen.xml.parser.impl;
 
 public enum State {
     NONE,

@@ -66,7 +66,7 @@ public class DefaultScanner implements Scanner {
                 state = State.END_OF_FILE;
             } else {
                 preprocess();
-                if (currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '/') {
+                if (isKeyWords(currentChar)) {
                     state = State.KEYWORDS;
                 } else if (currentChar == '\"' || currentChar == '\'') {
                     state = State.STRING;
@@ -165,7 +165,7 @@ public class DefaultScanner implements Scanner {
             addCharToBuffer(currentChar);
             getNextChar();
         }
-        makeToken(TokenType.IDENTIFIER, buffer.toString(), tokenLocation);
+        makeToken(TokenType.IDENTIFIER, buffer.toString().trim(), tokenLocation);
     }
 
     private void handleEndOfFile() {
@@ -186,7 +186,11 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return Character.isAlphabetic(ch) || Character.isDigit(ch);
+        return !isKeyWords(ch);
+    }
+
+    private boolean isKeyWords(char ch) {
+        return ch == '<' || ch == '>' || ch == '/' || ch == '\"' || ch == '\'' || ch == '=';
     }
 
 }

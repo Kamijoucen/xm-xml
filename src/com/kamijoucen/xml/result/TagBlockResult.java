@@ -8,6 +8,7 @@ import java.util.List;
 public class TagBlockResult extends BaseResult {
 
     private String tagName;
+    // TODO: 2017/8/9 低效的数据结构
     private List<AttrResult> attrs = new ArrayList<AttrResult>();
     private List<BaseResult> body = new ArrayList<BaseResult>();
 

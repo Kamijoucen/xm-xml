@@ -50,7 +50,7 @@ public class DefaultParser implements Parser {
         if (!blockEnd.getTagName().equals(blockStart.getTagName())) {
             throw new XmlSyntaxException(blockEnd.getTokenLocation() + "处应该出现</" + blockStart.getTagName() + ">");
         }
-        return null;
+        return blockResult;
     }
 
 
@@ -64,6 +64,7 @@ public class DefaultParser implements Parser {
         }
         if (scanner.getNextToken().getTokenType() != TokenType.TAG_END) {
             throw new XmlSyntaxException(scanner.getToken().getTokenLocation() + "处需要一个标签结束符");
+
         }
         scanner.getNextToken();
         return new TagEndStartAstResult(tag.getStrVal(), tag.getTokenLocation());

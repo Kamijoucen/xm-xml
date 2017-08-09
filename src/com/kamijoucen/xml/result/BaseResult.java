@@ -8,4 +8,12 @@ public abstract class BaseResult {
     public BaseResult(TokenLocation tokenLocation) {
         this.tokenLocation = tokenLocation;
     }
+
+    public TokenLocation getTokenLocation() {
+        return tokenLocation;
+    }
+
+    public void setTokenLocation(TokenLocation tokenLocation) {
+        this.tokenLocation = tokenLocation;
+    }
 }

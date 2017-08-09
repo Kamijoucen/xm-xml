@@ -2,8 +2,9 @@ package com.kamijoucen.xml.parser.impl;
 
 import com.kamijoucen.core.CollecUtils;
 import com.kamijoucen.validate.Validate;
-import com.kamijoucen.xml.ast.TagEndStartAst;
-import com.kamijoucen.xml.ast.TagStartAst;
+import com.kamijoucen.xml.result.BaseResult;
+import com.kamijoucen.xml.result.ast.TagEndStartAstResult;
+import com.kamijoucen.xml.result.ast.TagStartAstResult;
 import com.kamijoucen.xml.exception.XmlSyntaxException;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.result.DocumentResult;
@@ -18,36 +19,42 @@ import java.util.List;
 public class DefaultParser implements Parser {
 
     private Scanner scanner;
-    private List<TagBlockResult> docs = CollecUtils.list();
+    private List<BaseResult> docs = CollecUtils.list();
 
     public DefaultParser(Scanner scanner) {
         Validate.notNull(scanner);
         this.scanner = scanner;
+        scanner.getNextToken();
     }
 
     @Override
     public DocumentResult parser() {
-        while (scanner.getNextToken().getTokenType() != TokenType.END_OF_FILE) {
+        while (scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
             docs.add(parserTagBlock());
         }
         return null;
     }
 
-    private TagBlockResult parserTagBlock() {
-        if (scanner.getToken().getTokenType() == TokenType.IDENTIFIER) {
+    private BaseResult parserTagBlock() {
+        if (scanner.getToken().getTokenType() == TokenType.IDENTIFIER) { // 文本节点
             TextResult body = parserChildText();
-            return null;
+            return body;
         }
-        TagStartAst blockStart = parserTagStart();
+        TagStartAstResult blockStart = parserTagStart();
+        TagBlockResult blockResult = new TagBlockResult(blockStart.getTagName(), null);
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
-            TagBlockResult body = parserTagBlock();
+            BaseResult body = parserTagBlock();
+            blockResult.addChild(body);
         }
-        TagEndStartAst blockEnd = parserTagEndStart();
+        TagEndStartAstResult blockEnd = parserTagEndStart();
+        if (!blockEnd.getTagName().equals(blockStart.getTagName())) {
+            throw new XmlSyntaxException(blockEnd.getTokenLocation() + "处应该出现</" + blockStart.getTagName() + ">");
+        }
         return null;
     }
 
 
-    private TagEndStartAst parserTagEndStart() {
+    private TagEndStartAstResult parserTagEndStart() {
         if (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             throw new XmlSyntaxException(scanner.getToken().getTokenLocation() + "处需要一个'</'");
         }
@@ -58,10 +65,11 @@ public class DefaultParser implements Parser {
         if (scanner.getNextToken().getTokenType() != TokenType.TAG_END) {
             throw new XmlSyntaxException(scanner.getToken().getTokenLocation() + "处需要一个标签结束符");
         }
-        return new TagEndStartAst(tag.getStrVal(), tag.getTokenLocation());
+        scanner.getNextToken();
+        return new TagEndStartAstResult(tag.getStrVal(), tag.getTokenLocation());
     }
 
-    private TagStartAst parserTagStart() {
+    private TagStartAstResult parserTagStart() {
         if (scanner.getToken().getTokenType() != TokenType.TAG_START) {
             throw new XmlSyntaxException(scanner.getToken().getTokenLocation() + "应该是一个标签起始符");
         }
@@ -74,7 +82,7 @@ public class DefaultParser implements Parser {
         }
         scanner.getNextToken();
         // TODO: 2017/8/8 解析属性对
-        return new TagStartAst(tag.getStrVal(), tag.getTokenLocation());
+        return new TagStartAstResult(tag.getStrVal(), tag.getTokenLocation());
     }
 
     private TextResult parserChildText() {

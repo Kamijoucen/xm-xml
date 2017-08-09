@@ -1,10 +1,11 @@
-package com.kamijoucen.xml.ast;
+package com.kamijoucen.xml.result.ast;
 
+import com.kamijoucen.xml.result.BaseResult;
 import com.kamijoucen.xml.token.TokenLocation;
 
-public class ChildTextAst extends BaseAst {
+public class ChildTextAstResult extends BaseResult {
     private String text;
-    public ChildTextAst(String text, TokenLocation tokenLocation) {
+    public ChildTextAstResult(String text, TokenLocation tokenLocation) {
         super(tokenLocation);
         this.text = text;
     }

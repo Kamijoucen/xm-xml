@@ -161,7 +161,6 @@ public class DefaultScanner implements Scanner {
         tokenLocation = makeTokenLocation();
         addCharToBuffer(currentChar);
         getNextChar();
-        char ch = 0;
         while (isIdentifierChar(currentChar)) {
             addCharToBuffer(currentChar);
             getNextChar();
@@ -187,7 +186,7 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return Character.isAlphabetic(ch);
+        return Character.isAlphabetic(ch) || Character.isDigit(ch);
     }
 
 }

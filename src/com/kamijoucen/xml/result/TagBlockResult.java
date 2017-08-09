@@ -16,11 +16,11 @@ public class TagBlockResult extends BaseResult {
         this.tagName = tagName;
     }
 
-    void putAttr(String key, String val, TokenLocation tokenLocation) {
+    public void putAttr(String key, String val, TokenLocation tokenLocation) {
         attrs.add(new AttrResult(key, val, tokenLocation));
     }
 
-    void addChild(BaseResult b) {
+    public void addChild(BaseResult b) {
         body.add(b);
     }
 

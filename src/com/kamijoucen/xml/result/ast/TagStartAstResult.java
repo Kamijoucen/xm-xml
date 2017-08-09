@@ -1,12 +1,13 @@
-package com.kamijoucen.xml.ast;
+package com.kamijoucen.xml.result.ast;
 
+import com.kamijoucen.xml.result.BaseResult;
 import com.kamijoucen.xml.token.TokenLocation;
 
-public class TagStartAst extends BaseAst {
+public class TagStartAstResult extends BaseResult {
 
     private String tagName;
 
-    public TagStartAst(String tagName, TokenLocation tokenLocation) {
+    public TagStartAstResult(String tagName, TokenLocation tokenLocation) {
         super(tokenLocation);
         this.tagName = tagName;
     }

@@ -62,16 +62,19 @@ public class DefaultScanner implements Scanner {
                     handleEndOfFile();
                     break;
             }
+            preprocess();
             if (currentChar == '\0') {
                 state = State.END_OF_FILE;
             } else {
-                preprocess();
                 if (isKeyWords(currentChar)) {
                     state = State.KEYWORDS;
                 } else if (currentChar == '\"') {
                     state = State.STRING;
-                } else {
+                } else if (!isKeyWords(currentChar) && !Character.isWhitespace(currentChar)) {
                     state = State.IDENTIFIER;
+                } else {
+                    System.out.println(currentChar + "--");
+                    getNextChar();
                 }
             }
         } while (!matched);
@@ -111,7 +114,7 @@ public class DefaultScanner implements Scanner {
     }
 
     private void preprocess() {
-        for (; Character.isWhitespace(currentChar); ) {
+        for (; Character.isWhitespace(currentChar) && currentChar != '\0'; ) {
             getNextChar();
         }
         // TODO: 2017/8/8 消除注释
@@ -201,5 +204,4 @@ public class DefaultScanner implements Scanner {
     private boolean isKeyWords(char ch) {
         return ch == '<' || ch == '>' || ch == '/' || ch == '\'' || ch == '=';
     }
-
 }

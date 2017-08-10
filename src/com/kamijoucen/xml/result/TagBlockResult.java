@@ -28,4 +28,13 @@ public class TagBlockResult extends BaseResult {
     public String getTagName() {
         return tagName;
     }
+
+
+    public List<BaseResult> getBody() {
+        return body;
+    }
+
+    public List<AttrResult> getAttrs() {
+        return attrs;
+    }
 }

@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.parser.impl;
 
-import com.kamijoucen.core.CollecUtils;
+import com.kamijoucen.utils.CollecUtils;
+import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.validate.Validate;
 import com.kamijoucen.xml.result.*;
 import com.kamijoucen.xml.result.ast.SingleTagStartAstResult;
@@ -30,6 +31,7 @@ public class DomParser implements Parser {
         while (scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
             docs.add(parserTagBlock());
         }
+        BaseResult query = CollecUtils.find(((TagBlockResult) CollecUtils.firstObj(docs)).getBody(), (b) -> b instanceof TagBlockResult && StringUtils.equals(((TagBlockResult) b).getTagName(), "FrequentlyUsedFonts"));
         return null;
     }
 

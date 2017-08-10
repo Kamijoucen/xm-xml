@@ -13,6 +13,8 @@ public class AttrResult extends BaseResult {
         this.value = val;
     }
 
+
+
     public String getKey() {
         return key;
     }

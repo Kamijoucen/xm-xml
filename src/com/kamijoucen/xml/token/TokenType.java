@@ -6,6 +6,7 @@ public enum TokenType {
     TAG_END_START,
     IDENTIFIER,
     END_OF_FILE,
-    SINGLE_TAG_END
-
+    SINGLE_TAG_END,
+    STRING,
+    OPERATE
 }

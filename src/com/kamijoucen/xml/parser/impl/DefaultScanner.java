@@ -22,6 +22,7 @@ public class DefaultScanner implements Scanner {
     private StringBuilder buffer = new StringBuilder();
     private SimpleBufferReader input;
     private State state = State.NONE;
+    private boolean isChildState = false;
 
     public DefaultScanner(String fileName, String charSet) throws FileNotFoundException {
         this.fileName = fileName;
@@ -68,7 +69,7 @@ public class DefaultScanner implements Scanner {
                 preprocess();
                 if (isKeyWords(currentChar)) {
                     state = State.KEYWORDS;
-                } else if (currentChar == '\"' || currentChar == '\'') {
+                } else if (currentChar == '\"') {
                     state = State.STRING;
                 } else {
                     state = State.IDENTIFIER;
@@ -127,7 +128,16 @@ public class DefaultScanner implements Scanner {
     // handle
     private void handleString() {
         tokenLocation = makeTokenLocation();
-        // TODO: 2017/8/8
+        getNextChar();
+        while (currentChar != '\"') {
+            if (currentChar == '\0') {
+                throw new XmlSyntaxException(tokenLocation + "处字符串没有找到结束标识");
+            }
+            addCharToBuffer(currentChar);
+            getNextChar();
+        }
+        makeToken(TokenType.STRING, buffer.toString(), tokenLocation);
+        getNextChar();
     }
 
     private void handleKeyWords() {
@@ -152,7 +162,7 @@ public class DefaultScanner implements Scanner {
                 throw new XmlSyntaxException("词法错误:标识符'/'后面只能出现'>'\t\t错误位置:" + tokenLocation);
             }
         } else {
-            // TODO: 2017/8/8 属性
+            makeToken(TokenType.OPERATE, buffer.toString(), tokenLocation);
         }
         getNextChar();
     }
@@ -186,11 +196,11 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return !isKeyWords(ch);
+        return !isKeyWords(ch) && !Character.isWhitespace(ch);
     }
 
     private boolean isKeyWords(char ch) {
-        return ch == '<' || ch == '>' || ch == '/' || ch == '\"' || ch == '\'' || ch == '=';
+        return ch == '<' || ch == '>' || ch == '/' || ch == '\'' || ch == '=';
     }
 
 }

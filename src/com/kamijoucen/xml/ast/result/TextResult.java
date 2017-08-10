@@ -1,13 +1,12 @@
-package com.kamijoucen.xml.result;
+package com.kamijoucen.xml.ast.result;
 
 import com.kamijoucen.xml.token.TokenLocation;
 
-public class TextResult extends BaseResult {
+public class TextResult implements BaseResult {
 
     private String str;
 
-    public TextResult(String str, TokenLocation tokenLocation) {
-        super(tokenLocation);
+    public TextResult(String str) {
         this.str = str;
     }
 
@@ -17,5 +16,10 @@ public class TextResult extends BaseResult {
 
     public void setStr(String str) {
         this.str = str;
+    }
+
+    @Override
+    public String val() {
+        return str;
     }
 }

@@ -1,19 +1,14 @@
-package com.kamijoucen.xml.result;
+package com.kamijoucen.xml.ast.result;
 
-import com.kamijoucen.xml.token.TokenLocation;
-
-public class AttrResult extends BaseResult {
+public class AttrResult implements BaseResult {
 
     private String key;
     private String value;
 
-    public AttrResult(String key, String val, TokenLocation tokenLocation) {
-        super(tokenLocation);
+    public AttrResult(String key, String val) {
         this.key = key;
         this.value = val;
     }
-
-
 
     public String getKey() {
         return key;
@@ -40,17 +35,7 @@ public class AttrResult extends BaseResult {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AttrResult that = (AttrResult) o;
-
-        return key.equals(that.key);
-    }
-
-    @Override
-    public int hashCode() {
-        return key.hashCode();
+    public String val() {
+        return value;
     }
 }

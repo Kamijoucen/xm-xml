@@ -22,7 +22,6 @@ public class DefaultScanner implements Scanner {
     private StringBuilder buffer = new StringBuilder();
     private SimpleBufferReader input;
     private State state = State.NONE;
-    private boolean isChildState = false;
 
     public DefaultScanner(String fileName, String charSet) throws FileNotFoundException {
         this.fileName = fileName;

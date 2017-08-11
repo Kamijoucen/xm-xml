@@ -116,11 +116,12 @@ public class DefaultScanner implements Scanner {
     }
 
     private void preprocess() {
-        for (; Character.isWhitespace(currentChar) && currentChar != '\0'; ) {
-            getNextChar();
-        }
-        // TODO: 2017/8/8 消除注释
-
+        do {
+            for (; Character.isWhitespace(currentChar) && currentChar != '\0'; ) {
+                getNextChar();
+            }
+            handleComment();
+        } while (Character.isWhitespace(currentChar));
     }
 
     @Override
@@ -143,6 +144,31 @@ public class DefaultScanner implements Scanner {
         }
         makeToken(TokenType.STRING, buffer.toString(), tokenLocation);
         getNextChar();
+    }
+
+    private void handleComment() {
+        tokenLocation = makeTokenLocation();
+        if (currentChar == '<' && peekChar() == '!') {
+            getNextChar();  // eat !
+            getNextChar();  // eat -
+            if (currentChar != '-') {
+                throw new XmlSyntaxException();
+            }
+            getNextChar();  // eat -
+            if (currentChar != '-') {
+                throw new XmlSyntaxException();
+            }
+            getNextChar();  // eat next char
+            while (currentChar != '-' || peekChar() != '-') {
+                getNextChar();
+            }
+            getNextChar();
+            getNextChar();
+            if (currentChar != '>') {
+                throw new XmlSyntaxException("词法错误：注释没有找到结束标志");
+            }
+            getNextChar();
+        }
     }
 
     private void handleKeyWords() {

@@ -5,5 +5,6 @@ public enum State {
     END_OF_FILE,
     IDENTIFIER,
     KEYWORDS,
-    STRING
+    STRING,
+    COMMENT
 }

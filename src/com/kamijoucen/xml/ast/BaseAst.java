@@ -4,17 +4,14 @@ import com.kamijoucen.xml.ast.result.BaseResult;
 
 import java.util.List;
 
-/**
- * 对于结构的抽象
- */
 public interface BaseAst {
-    BaseAst child(String s);
+    BaseAst child(String str);
 
-    List<BaseAst> childs(String s);
+    List<BaseAst> childs(String str);
 
-    BaseResult attr(String s);
+    BaseResult attr(String str);
 
-    List<BaseAst> attrs(String s);
+    List<BaseAst> attrs(String str);
 
     String firstChildText();
 

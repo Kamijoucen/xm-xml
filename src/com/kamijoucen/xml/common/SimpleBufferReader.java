@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class SimpleBufferReader extends Reader {
-
     private Reader in;
     private char[] cb;
     private int catchSize = 0;

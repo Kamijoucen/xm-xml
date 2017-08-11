@@ -26,10 +26,11 @@ public class LLParser implements Parser {
     @Override
     public BaseAst parserTagBlock() {
         TagStartAst blockStart = parserTagStart();
-        if (blockStart instanceof SingleTagStartAst) {
-            return blockStart;
-        }
         TagBlockAst blockAst = new TagBlockAst(blockStart.getTagName());
+        if (blockStart instanceof SingleTagStartAst) {
+            blockAst.setAttrs(blockStart.getAttrs());
+            return blockAst;
+        }
         blockAst.setAttrs(blockStart.getAttrs());
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             switch (scanner.getToken().getTokenType()) {

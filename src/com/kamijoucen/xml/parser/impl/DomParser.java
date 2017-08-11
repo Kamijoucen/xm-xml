@@ -32,18 +32,22 @@ public class DomParser implements Parser {
         while (scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
             docs.add(parserTagBlock());
         }
+
+        TagBlockAst block = (TagBlockAst) CollecUtils.firstObj(docs);
+//
+        block.child("a").child("b").attr("lisicen").val();
+
+
         return null;
     }
 
     private BaseAst parserTagBlock() {
-//        if (scanner.getToken().getTokenType() == TokenType.IDENTIFIER) { // 文本节点
-//            return parserChildText();
-//        }
         TagStartAst blockStart = parserTagStart();
         if (blockStart instanceof SingleTagStartAst) {  // 是单标签
             return blockStart;
         }
         TagBlockAst blockAst = new TagBlockAst(blockStart.getTagName());
+        blockAst.setAttrs(blockStart.getAttrs());
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             switch (scanner.getToken().getTokenType()) {
                 case IDENTIFIER:  // 子节点是文本
@@ -55,10 +59,8 @@ public class DomParser implements Parser {
                     blockAst.addChild(cb);
                     break;
                 default:
-                    throw new XmlSyntaxException("标签的子节点是位置标识");
+                    throw new XmlSyntaxException("标签的子节点是未知标识");
             }
-//            BaseAst body = parserTagBlock();
-//            blockAst.addChild(body);
         }
         TagEndStartAst blockEnd = parserTagEndStart();
         if (!blockEnd.getTagName().equals(blockStart.getTagName())) {

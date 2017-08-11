@@ -19,5 +19,4 @@ public interface BaseAst {
     String firstChildText();
 
     List<String> childText();
-
 }

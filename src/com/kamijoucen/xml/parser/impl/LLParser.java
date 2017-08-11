@@ -112,7 +112,8 @@ public class LLParser implements Parser {
             }
         } else if (op.getTokenType() == TokenType.IDENTIFIER
                 || op.getTokenType() == TokenType.TAG_END
-                || op.getTokenType() == TokenType.SINGLE_TAG_END) {
+                || op.getTokenType() == TokenType.SINGLE_TAG_END
+                || op.getTokenType() == TokenType.XML_HEAD_END) {
             return new AttrResult(key.getStrVal(), "");
         } else {
             throw new XmlSyntaxException(key.getTokenLocation() + "属性后存在未识别的标识符");
@@ -126,6 +127,23 @@ public class LLParser implements Parser {
         return new TextResult(token.getStrVal());
     }
 
-
+    @Override
+    public XmlHeaderResult parserXmlHeader() {
+        if (scanner.getToken().getTokenType() != TokenType.XML_HEAD_START) {
+            throw new XmlSyntaxException();
+        }
+        if (scanner.getNextToken().getTokenType() != TokenType.IDENTIFIER
+                && !scanner.getToken().getStrVal().toLowerCase().equals("xml")) {
+            throw new XmlSyntaxException();
+        }
+        scanner.getNextToken();
+        XmlHeaderResult result = new XmlHeaderResult();
+        while (scanner.getToken().getTokenType() != TokenType.XML_HEAD_END
+                && scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
+            result.addAttr(parserAttr());
+        }
+        scanner.getNextToken();
+        return result;
+    }
 
 }

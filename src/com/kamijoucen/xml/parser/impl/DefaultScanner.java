@@ -1,6 +1,6 @@
 package com.kamijoucen.xml.parser.impl;
 
-import com.kamijoucen.xml.common.SimpleBufferReader;
+import com.kamijoucen.xml.io.SimpleBufferReader;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.exception.FileAccessException;
 import com.kamijoucen.xml.exception.XmlSyntaxException;
@@ -149,23 +149,23 @@ public class DefaultScanner implements Scanner {
     private void handleComment() {
         tokenLocation = makeTokenLocation();
         if (currentChar == '<' && peekChar() == '!') {
-            getNextChar();  // eat !
-            getNextChar();  // eat -
+            getNextChar();
+            getNextChar();
             if (currentChar != '-') {
                 throw new XmlSyntaxException();
             }
-            getNextChar();  // eat -
+            getNextChar();
             if (currentChar != '-') {
                 throw new XmlSyntaxException();
             }
-            getNextChar();  // eat next char
+            getNextChar();
             while (currentChar != '-' || peekChar() != '-') {
                 getNextChar();
             }
             getNextChar();
             getNextChar();
             if (currentChar != '>') {
-                throw new XmlSyntaxException("词法错误：注释没有找到结束标志");
+                throw new XmlSyntaxException(tokenLocation + "注释没有找到结束标志");
             }
             getNextChar();
         }
@@ -175,10 +175,15 @@ public class DefaultScanner implements Scanner {
         tokenLocation = makeTokenLocation();
         addCharToBuffer(currentChar);
         if (currentChar == '<') {
-            if ((char) peekChar() == '/') {
+            char pch = (char) peekChar();
+            if (pch == '/') {
                 getNextChar();
                 addCharToBuffer(currentChar);
                 makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
+            } else if (pch == '?') {
+                getNextChar();
+                addCharToBuffer(currentChar);
+                makeToken(TokenType.XML_HEAD_START, buffer.toString(), tokenLocation);
             } else {
                 makeToken(TokenType.TAG_START, "<", tokenLocation);
             }
@@ -192,8 +197,16 @@ public class DefaultScanner implements Scanner {
             } else {
                 throw new XmlSyntaxException("词法错误:标识符'/'后面只能出现'>'\t\t错误位置:" + tokenLocation);
             }
-        } else {
+        } else if (currentChar == '=') {
             makeToken(TokenType.OPERATE, buffer.toString(), tokenLocation);
+        } else {  // ?
+            if (peekChar() == '>') {
+                getNextChar();
+                addCharToBuffer(currentChar);
+                makeToken(TokenType.XML_HEAD_END, buffer.toString(), tokenLocation);
+            } else {
+                throw new XmlSyntaxException(tokenLocation + "处应该是 ?>");
+            }
         }
         getNextChar();
     }
@@ -231,8 +244,6 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isKeyWords(char ch) {
-        return ch == '<' || ch == '>' || ch == '/' || ch == '\'' || ch == '=';
+        return ch == '<' || ch == '>' || ch == '/' || ch == '\'' || ch == '=' || ch == '?';
     }
-
-
 }

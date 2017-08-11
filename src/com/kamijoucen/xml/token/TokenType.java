@@ -8,5 +8,7 @@ public enum TokenType {
     END_OF_FILE,
     SINGLE_TAG_END,
     STRING,
-    OPERATE
+    OPERATE,
+    XML_HEAD_START,
+    XML_HEAD_END
 }

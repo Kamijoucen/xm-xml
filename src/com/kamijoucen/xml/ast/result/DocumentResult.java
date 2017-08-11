@@ -12,6 +12,7 @@ import com.kamijoucen.xml.parser.Parser;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.parser.impl.DefaultScanner;
 import com.kamijoucen.xml.parser.impl.LLParser;
+import com.kamijoucen.xml.token.Token;
 import com.kamijoucen.xml.token.TokenType;
 
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class DocumentResult {
 
+    private XmlHeaderResult xmlHeader;
     private Scanner scanner;
     private Parser parser;
     private final List<TagBlockAst> roots = CollecUtils.list();
@@ -57,8 +59,10 @@ public class DocumentResult {
     }
 
     private void parserAll() {
+        if (scanner.getToken().getTokenType() == TokenType.XML_HEAD_START) {
+            this.xmlHeader = parser.parserXmlHeader();
+        }
         while (scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
-            // TODO: 2017/8/11 单标签会报错
             roots.add(Utils.cast(parser.parserTagBlock()));
         }
     }

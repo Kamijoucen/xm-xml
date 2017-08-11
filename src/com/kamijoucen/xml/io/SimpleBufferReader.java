@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.common;
+package com.kamijoucen.xml.io;
 
 import java.io.IOException;
 import java.io.Reader;

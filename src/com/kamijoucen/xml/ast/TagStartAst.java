@@ -1,20 +1,17 @@
 package com.kamijoucen.xml.ast;
 
-import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.xml.ast.result.AttrResult;
 import com.kamijoucen.xml.ast.result.BaseResult;
-import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
 
-public class TagStartAst implements BaseAst {
+public class TagStartAst extends BaseAstWrapper {
 
     private String tagName;
-    private List<AttrResult> attrs = CollecUtils.list();
 
     public TagStartAst(String tagName, List<AttrResult> attrs) {
         this.tagName = tagName;
-        this.attrs = attrs;
+        this.attrs.addAll(attrs);
     }
 
     public String getTagName() {
@@ -25,41 +22,8 @@ public class TagStartAst implements BaseAst {
         this.tagName = tagName;
     }
 
-    public List<AttrResult> getAttrs() {
+    public List<BaseResult> getAttrs() {
         return attrs;
     }
 
-    public void setAttrs(List<AttrResult> attrs) {
-        this.attrs = attrs;
-    }
-
-    @Override
-    public BaseAst child(String s) {
-        return null;
-    }
-
-    @Override
-    public List<BaseAst> childs(String s) {
-        return null;
-    }
-
-    @Override
-    public BaseResult attr(String s) {
-        return null;
-    }
-
-    @Override
-    public List<BaseAst> attrs(String s) {
-        return null;
-    }
-
-    @Override
-    public String firstChildText() {
-        return null;
-    }
-
-    @Override
-    public List<String> childText() {
-        return null;
-    }
 }

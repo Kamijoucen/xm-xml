@@ -40,7 +40,11 @@ public abstract class BaseAstWrapper implements BaseAst {
 
     @Override
     public String firstChildText() {
-        return null;
+        if (CollecUtils.isEmptyCollection(texts)) {
+            return null;
+        } else {
+            return CollecUtils.firstObj(texts).val();
+        }
     }
 
     @Override

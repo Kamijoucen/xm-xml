@@ -16,7 +16,7 @@ public class TagBlockAst extends BaseAstWrapper {
         this.tagName = tagName;
     }
 
-    public void setAttrs(List<AttrResult> attrs) {
+    public void setAttrs(List<BaseResult> attrs) {
         this.attrs.addAll(attrs);
     }
 

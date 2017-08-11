@@ -13,48 +13,31 @@ import com.kamijoucen.xml.token.TokenType;
 
 import java.util.List;
 
-public class DomParser implements Parser {
+public class LLParser implements Parser {
 
     private Scanner scanner;
-    private List<Object> docs = CollecUtils.list();
 
-    public DomParser(Scanner scanner) {
+    public LLParser(Scanner scanner) {
         Validate.notNull(scanner);
         this.scanner = scanner;
         scanner.getNextToken();
     }
 
     @Override
-    public DocumentResult parser() {
-
-//        DocumentResult document = new DocumentResult()
-
-        while (scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
-            docs.add(parserTagBlock());
-        }
-
-        TagBlockAst block = (TagBlockAst) CollecUtils.firstObj(docs);
-//
-        block.child("a").child("b").attr("lisicen").val();
-
-
-        return null;
-    }
-
-    private BaseAst parserTagBlock() {
+    public BaseAst parserTagBlock() {
         TagStartAst blockStart = parserTagStart();
-        if (blockStart instanceof SingleTagStartAst) {  // 是单标签
+        if (blockStart instanceof SingleTagStartAst) {
             return blockStart;
         }
         TagBlockAst blockAst = new TagBlockAst(blockStart.getTagName());
         blockAst.setAttrs(blockStart.getAttrs());
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             switch (scanner.getToken().getTokenType()) {
-                case IDENTIFIER:  // 子节点是文本
+                case IDENTIFIER:
                     TextResult text = parserChildText();
                     blockAst.addText(text);
                     break;
-                case TAG_START:   // 子节点是标签块
+                case TAG_START:
                     BaseAst cb = parserTagBlock();
                     blockAst.addChild(cb);
                     break;
@@ -70,7 +53,7 @@ public class DomParser implements Parser {
     }
 
 
-    private TagEndStartAst parserTagEndStart() {
+    public TagEndStartAst parserTagEndStart() {
         if (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             throw new XmlSyntaxException(scanner.getToken().getTokenLocation() + "处需要一个'</'");
         }
@@ -86,7 +69,8 @@ public class DomParser implements Parser {
         return new TagEndStartAst(tag.getStrVal(), startLocation);
     }
 
-    private TagStartAst parserTagStart() {
+    @Override
+    public TagStartAst parserTagStart() {
         if (scanner.getToken().getTokenType() != TokenType.TAG_START) {
             throw new XmlSyntaxException(scanner.getToken().getTokenLocation() + "应该是一个标签起始符");
         }
@@ -99,9 +83,7 @@ public class DomParser implements Parser {
         while (scanner.getToken().getTokenType() != TokenType.TAG_END
                 && scanner.getToken().getTokenType() != TokenType.SINGLE_TAG_END
                 && scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
-            AttrResult attr = parserAttr();
-            attrs.add(attr);
-            System.out.println(attr);
+            attrs.add(parserAttr());
         }
 
         TokenType end = scanner.getToken().getTokenType();
@@ -115,7 +97,8 @@ public class DomParser implements Parser {
         }
     }
 
-    private AttrResult parserAttr() {
+    @Override
+    public AttrResult parserAttr() {
         Token key = scanner.getToken();
         Token op = scanner.getNextToken();
         if (op.getTokenType() == TokenType.OPERATE) {
@@ -135,10 +118,13 @@ public class DomParser implements Parser {
         }
     }
 
-    private TextResult parserChildText() {
+    @Override
+    public TextResult parserChildText() {
         Token token = scanner.getToken();
         scanner.getNextToken();
         return new TextResult(token.getStrVal());
     }
+
+
 
 }

@@ -7,14 +7,18 @@ import com.kamijoucen.xml.ast.result.AttrResult;
 import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.ast.result.TextResult;
+import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class BaseAstWrapper implements BaseAst {
 
+    // TODO: 2017/8/12 低效的数据结构，需要该为查询树
     protected List<BaseAst> body = CollecUtils.list();
     protected List<BaseResult> attrs = CollecUtils.list();
     protected List<TextResult> texts = CollecUtils.list();
+    protected TokenLocation tokenLocation;
 
     @Override
     public BaseAst child(String s) {
@@ -52,4 +56,8 @@ public abstract class BaseAstWrapper implements BaseAst {
         return null;
     }
 
+    @Override
+    public TokenLocation getTokenLocation() {
+        return tokenLocation;
+    }
 }

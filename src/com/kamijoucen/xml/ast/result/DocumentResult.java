@@ -12,7 +12,6 @@ import com.kamijoucen.xml.parser.Parser;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.parser.impl.DefaultScanner;
 import com.kamijoucen.xml.parser.impl.LLParser;
-import com.kamijoucen.xml.token.Token;
 import com.kamijoucen.xml.token.TokenType;
 
 import java.io.FileNotFoundException;

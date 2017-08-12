@@ -2,11 +2,12 @@ package com.kamijoucen.xml.ast.result;
 
 import com.kamijoucen.xml.token.TokenLocation;
 
-public class TextResult implements BaseResult {
+public class TextResult extends BaseResultWrapper {
 
     private String str;
 
-    public TextResult(String str) {
+    public TextResult(String str, TokenLocation tokenLocation) {
+        this.tokenLocation = tokenLocation;
         this.str = str;
     }
 

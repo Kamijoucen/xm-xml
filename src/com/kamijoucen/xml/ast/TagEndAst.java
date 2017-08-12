@@ -5,12 +5,12 @@ import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
 
-public class TagEndStartAst implements BaseAst {
+public class TagEndAst implements BaseAst {
 
     private String tagName;
     private TokenLocation tokenLocation;
 
-    public TagEndStartAst(String tagName, TokenLocation tokenLocation) {
+    public TagEndAst(String tagName, TokenLocation tokenLocation) {
         this.tokenLocation = tokenLocation;
         this.tagName = tagName;
     }

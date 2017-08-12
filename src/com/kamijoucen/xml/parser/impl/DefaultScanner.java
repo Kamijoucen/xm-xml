@@ -137,7 +137,7 @@ public class DefaultScanner implements Scanner {
         getNextChar();
         while (currentChar != '\"') {
             if (currentChar == '\0') {
-                throw new XmlSyntaxException(tokenLocation + "处字符串没有找到结束标识");
+                throw new XmlSyntaxException("错误位置:" + tokenLocation + "处字符串没有找到结束标识");
             }
             addCharToBuffer(currentChar);
             getNextChar();
@@ -152,11 +152,11 @@ public class DefaultScanner implements Scanner {
             getNextChar();
             getNextChar();
             if (currentChar != '-') {
-                throw new XmlSyntaxException();
+                throw new XmlSyntaxException("错误位置:" + tokenLocation + "注释的起始标示有误");
             }
             getNextChar();
             if (currentChar != '-') {
-                throw new XmlSyntaxException();
+                throw new XmlSyntaxException("错误位置:" + tokenLocation + "注释的起始标示有误");
             }
             getNextChar();
             while (currentChar != '-' || peekChar() != '-') {
@@ -165,7 +165,7 @@ public class DefaultScanner implements Scanner {
             getNextChar();
             getNextChar();
             if (currentChar != '>') {
-                throw new XmlSyntaxException(tokenLocation + "注释没有找到结束标志");
+                throw new XmlSyntaxException("错误位置:" + tokenLocation + "注释没有找到结束标志");
             }
             getNextChar();
         }
@@ -195,7 +195,7 @@ public class DefaultScanner implements Scanner {
                 addCharToBuffer(currentChar);
                 makeToken(TokenType.SINGLE_TAG_END, buffer.toString(), tokenLocation);
             } else {
-                throw new XmlSyntaxException("词法错误:标识符'/'后面只能出现'>'\t\t错误位置:" + tokenLocation);
+                throw new XmlSyntaxException("错误位置:" + tokenLocation + "词法错误:标识符'/'后面只能出现'>'");
             }
         } else if (currentChar == '=') {
             makeToken(TokenType.OPERATE, buffer.toString(), tokenLocation);
@@ -205,7 +205,7 @@ public class DefaultScanner implements Scanner {
                 addCharToBuffer(currentChar);
                 makeToken(TokenType.XML_HEAD_END, buffer.toString(), tokenLocation);
             } else {
-                throw new XmlSyntaxException(tokenLocation + "处应该是 ?>");
+                throw new XmlSyntaxException("错误位置:" + tokenLocation + "处应该是 ?>");
             }
         }
         getNextChar();

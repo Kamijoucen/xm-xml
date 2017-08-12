@@ -1,8 +1,5 @@
 package com.kamijoucen.xml.token;
 
-/**
- * 词法单元
- */
 public class Token {
     private TokenLocation tokenLocation;
     private TokenType tokenType;

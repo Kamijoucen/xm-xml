@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.xml.ast.result.BaseResult;
+import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface BaseAst {
     String firstChildText();
 
     List<String> childText();
+
+    TokenLocation getTokenLocation();
 }

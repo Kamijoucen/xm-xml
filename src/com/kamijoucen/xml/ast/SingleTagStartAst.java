@@ -7,8 +7,8 @@ import java.util.List;
 
 public class SingleTagStartAst extends TagStartAst {
 
-    public SingleTagStartAst(String tagName, List<AttrResult> attrs) {
-        super(tagName, attrs);
+    public SingleTagStartAst(String tagName, List<AttrResult> attrs, TagStartType type, TokenLocation tokenLocation) {
+        super(tagName, attrs, type, tokenLocation);
     }
 
 }

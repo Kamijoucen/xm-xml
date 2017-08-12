@@ -2,14 +2,18 @@ package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.xml.ast.result.AttrResult;
 import com.kamijoucen.xml.ast.result.BaseResult;
+import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
 
 public class TagStartAst extends BaseAstWrapper {
 
     private String tagName;
+    private TagStartType type;
 
-    public TagStartAst(String tagName, List<AttrResult> attrs) {
+    public TagStartAst(String tagName, List<AttrResult> attrs, TagStartType type, TokenLocation tokenLocation) {
+        this.tokenLocation = tokenLocation;
+        this.type = type;
         this.tagName = tagName;
         this.attrs.addAll(attrs);
     }
@@ -25,5 +29,19 @@ public class TagStartAst extends BaseAstWrapper {
     public List<BaseResult> getAttrs() {
         return attrs;
     }
+
+    public TagStartType getType() {
+        return type;
+    }
+
+    public void setType(TagStartType type) {
+        this.type = type;
+    }
+
+    public enum TagStartType {
+        BLOCK,
+        SINGLE
+    }
+
 
 }

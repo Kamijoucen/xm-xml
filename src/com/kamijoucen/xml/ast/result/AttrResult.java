@@ -1,13 +1,16 @@
 package com.kamijoucen.xml.ast.result;
 
-public class AttrResult implements BaseResult {
+import com.kamijoucen.xml.token.TokenLocation;
+
+public class AttrResult extends BaseResultWrapper {
 
     private String key;
     private String value;
 
-    public AttrResult(String key, String val) {
+    public AttrResult(String key, String val, TokenLocation tokenLocation) {
         this.key = key;
         this.value = val;
+        this.tokenLocation = tokenLocation;
     }
 
     public String getKey() {

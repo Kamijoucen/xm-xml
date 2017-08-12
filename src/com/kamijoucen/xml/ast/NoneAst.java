@@ -3,11 +3,13 @@ package com.kamijoucen.xml.ast;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.ast.result.NoneResult;
+import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
 
 public enum NoneAst implements BaseAst {
     INSTANCE;
+    private static TokenLocation tokenLocation = new TokenLocation(-1, -1, null);
     @Override
     public BaseAst child(String s) {
         return INSTANCE;
@@ -36,5 +38,10 @@ public enum NoneAst implements BaseAst {
     @Override
     public List<String> childText() {
         return CollecUtils.readOnlyList();
+    }
+
+    @Override
+    public TokenLocation getTokenLocation() {
+        return tokenLocation;
     }
 }

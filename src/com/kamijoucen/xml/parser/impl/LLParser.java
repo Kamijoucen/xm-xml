@@ -43,13 +43,18 @@ public class LLParser implements Parser {
                     BaseAst cb = parserTagBlock();
                     blockAst.addChild(cb);
                     break;
+                case END_OF_FILE:
+                    throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + " <"
+                            + blockStart.getTagName() + "> 标签(" + blockStart.getTokenLocation() + ")未找到匹配的结束标签就遇到文件结束");
                 default:
                     throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + " 标签的子节点只能是文本或者其他标签");
             }
         }
         TagEndAst blockEnd = parserTagEnd();
         if (!blockEnd.getTagName().equals(blockStart.getTagName())) {
-            throw new XmlSyntaxException("错误位置:" + blockEnd.getTokenLocation() + "处标签嵌套不正确，应该匹配 <" + blockStart.getTagName() + "> 的结束标签");
+            throw new XmlSyntaxException("错误位置:" + blockEnd.getTokenLocation()
+                    + "处标签嵌套不正确，应该匹配 <"
+                    + blockStart.getTagName() + "> (" + blockStart.getTokenLocation() + ") 的结束标签");
         }
         blockAst.setEnd(blockEnd);
         return blockAst;
@@ -84,9 +89,12 @@ public class LLParser implements Parser {
         }
         scanner.getNextToken();
         List<AttrResult> attrs = CollecUtils.list();
-        while (scanner.getToken().getTokenType() != TokenType.TAG_END
-                && scanner.getToken().getTokenType() != TokenType.SINGLE_TAG_END
-                && scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
+        if (!isTagEndToken(scanner.getToken().getTokenType())
+                && scanner.getToken().getTokenType() != TokenType.IDENTIFIER) {
+            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
+                    + "标签内部只允许出现属性,但出现了 '" + scanner.getToken().getStrVal() + "'");
+        }
+        while (!isTagEndToken(scanner.getToken().getTokenType())) {
             attrs.add(parserAttr());
         }
 
@@ -147,6 +155,10 @@ public class LLParser implements Parser {
         }
         scanner.getNextToken();
         return result;
+    }
+
+    private boolean isTagEndToken(TokenType type) {
+        return type == TokenType.TAG_END || type == TokenType.SINGLE_TAG_END || type == TokenType.XML_HEAD_END;
     }
 
 }

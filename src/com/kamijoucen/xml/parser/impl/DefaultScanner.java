@@ -240,10 +240,10 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return !isKeyWords(ch) && !Character.isWhitespace(ch);
+        return !isKeyWords(ch) && !Character.isWhitespace(ch) && ch != '\"';
     }
 
     private boolean isKeyWords(char ch) {
-        return ch == '<' || ch == '>' || ch == '/' || ch == '\'' || ch == '=' || ch == '?';
+        return ch == '<' || ch == '>' || ch == '/' || ch == '=' || ch == '?';
     }
 }

@@ -53,7 +53,7 @@ public class SimpleBufferReader extends Reader {
     }
 
     public int peek() throws IOException {
-        // FIXME: 2017/8/8
+        // FIXME: 2017/8/8 存在bug，当peek时charindex指向最后一个字符会导致缓存重读取，指向最后一个的字符会丢失。
         if (charIndex >= catchSize) {
             fill();
             if (charIndex >= catchSize) {

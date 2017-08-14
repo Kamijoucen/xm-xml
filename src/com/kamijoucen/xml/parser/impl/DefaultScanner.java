@@ -22,6 +22,7 @@ public class DefaultScanner implements Scanner {
     private StringBuilder buffer = new StringBuilder();
     private SimpleBufferReader input;
     private State state = State.NONE;
+    private char currentStringToken = 0;
 
     public DefaultScanner(String fileName, String charSet) throws FileNotFoundException {
         this.fileName = fileName;
@@ -69,7 +70,8 @@ public class DefaultScanner implements Scanner {
                 } else {
                     if (isKeyWords(currentChar)) {
                         state = State.KEYWORDS;
-                    } else if (currentChar == '\"') {
+                    } else if (currentChar == '\"' || currentChar == '\'') {
+                        currentStringToken = currentChar;
                         state = State.STRING;
                     } else if (!isKeyWords(currentChar) && !Character.isWhitespace(currentChar)) {
                         state = State.IDENTIFIER;
@@ -135,7 +137,7 @@ public class DefaultScanner implements Scanner {
     private void handleString() {
         tokenLocation = makeTokenLocation();
         getNextChar();
-        while (currentChar != '\"') {
+        while (currentChar != currentStringToken) {
             if (currentChar == '\0') {
                 throw new XmlSyntaxException("错误位置:" + tokenLocation + "处字符串没有找到结束标识");
             }
@@ -240,7 +242,7 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return !isKeyWords(ch) && !Character.isWhitespace(ch) && ch != '\"';
+        return !isKeyWords(ch) && !Character.isWhitespace(ch) && ch != '\"' && ch != '\0';
     }
 
     private boolean isKeyWords(char ch) {

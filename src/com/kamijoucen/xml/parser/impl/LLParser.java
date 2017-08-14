@@ -45,9 +45,11 @@ public class LLParser implements Parser {
                     break;
                 case END_OF_FILE:
                     throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + " <"
-                            + blockStart.getTagName() + "> 标签(" + blockStart.getTokenLocation() + ")未找到匹配的结束标签就遇到文件结束");
+                            + blockStart.getTagName() + "> 标签(" + blockStart.getTokenLocation()
+                            + ")未找到匹配的结束标签就遇到文件结束");
                 default:
-                    throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + " 标签的子节点只能是文本或者其他标签");
+                    throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
+                            + " 标签的子节点只能是文本或者其他标签");
             }
         }
         TagEndAst blockEnd = parserTagEnd();
@@ -105,7 +107,8 @@ public class LLParser implements Parser {
         } else if (end == TokenType.SINGLE_TAG_END) {
             return new SingleTagStartAst(tag.getStrVal(), attrs, TagStartAst.TagStartType.SINGLE, location.getTokenLocation());
         } else {
-            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "处需要一个标签结束符 '>' | '/>'");
+            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
+                    + "处需要一个标签结束符 '>' | '/>'");
         }
     }
 
@@ -141,7 +144,8 @@ public class LLParser implements Parser {
     @Override
     public XmlHeaderResult parserXmlHeader() {
         if (scanner.getToken().getTokenType() != TokenType.XML_HEAD_START) {
-            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "标签头应该是 '<?' 开头并由 '?>' 结束");
+            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
+                    + "标签头应该是 '<?' 开头并由 '?>' 结束");
         }
         if (scanner.getNextToken().getTokenType() != TokenType.IDENTIFIER
                 && !scanner.getToken().getStrVal().toLowerCase().equals("xml")) {

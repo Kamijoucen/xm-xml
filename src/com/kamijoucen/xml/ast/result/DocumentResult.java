@@ -42,9 +42,8 @@ public class DocumentResult {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (scanner != null) {
-                scanner = null;
-            }
+            scanner = null;
+            parser = null;
         }
     }
 

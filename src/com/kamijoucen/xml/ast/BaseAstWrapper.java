@@ -14,7 +14,7 @@ import java.util.Map;
 
 public abstract class BaseAstWrapper implements BaseAst {
 
-    // TODO: 2017/8/12 低效的数据结构，需要该为查询树
+    // TODO: 2017/8/12 低效的数据结构，需要改为查询树
     protected List<BaseAst> body = CollecUtils.list();
     protected List<BaseResult> attrs = CollecUtils.list();
     protected List<TextResult> texts = CollecUtils.list();

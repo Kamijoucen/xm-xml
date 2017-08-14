@@ -18,5 +18,7 @@ public interface BaseAst {
 
     List<String> childText();
 
+    // TODO: 2017/8/13 TEXT
+
     TokenLocation getTokenLocation();
 }

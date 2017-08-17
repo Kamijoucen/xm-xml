@@ -1,5 +1,6 @@
 package com.kamijoucen.xml.ast;
 
+import com.kamijoucen.core.ConvertCallBack;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.utils.Utils;
@@ -9,6 +10,7 @@ import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.ast.result.TextResult;
 import com.kamijoucen.xml.token.TokenLocation;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +54,21 @@ public abstract class BaseAstWrapper implements BaseAst {
     }
 
     @Override
-    public List<String> childText() {
-        return null;
+    public List<String> childTexts() {
+        return CollecUtils.convertList(texts, new ConvertCallBack<TextResult, String>() {
+            @Override
+            public String convert(TextResult o) {
+                return o.val();
+            }
+        });
+    }
+
+    @Override
+    public String childText(int i) {
+        if (CollecUtils.isEmptyCollection(texts) || texts.size() < i + 1) {
+            return null;
+        }
+        return texts.get(i).val();
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.kamijoucen.xml.token.TokenType;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentResult {
@@ -46,6 +47,7 @@ public class DocumentResult {
             parser = null;
         }
     }
+
 
     public BaseAst child(String str) {
         BaseAst root = CollecUtils.find(roots, (o) -> StringUtils.equals(str, o.getTagName()));

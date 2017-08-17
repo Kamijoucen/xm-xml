@@ -36,7 +36,7 @@ public enum NoneAst implements BaseAst {
     }
 
     @Override
-    public List<String> childText() {
+    public List<String> childtexts() {
         return CollecUtils.readOnlyList();
     }
 

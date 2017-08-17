@@ -16,9 +16,9 @@ public interface BaseAst {
 
     String firstChildText();
 
-    List<String> childText();
+    List<String> childTexts();
 
-    // TODO: 2017/8/13 TEXT
+    String childText(int i);
 
     TokenLocation getTokenLocation();
 }

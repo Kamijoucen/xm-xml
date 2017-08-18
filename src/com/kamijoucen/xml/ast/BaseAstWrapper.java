@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.core.ConvertCallBack;
+import com.kamijoucen.core.QueryCallBack;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.utils.Utils;
@@ -23,25 +24,45 @@ public abstract class BaseAstWrapper implements BaseAst {
     protected TokenLocation tokenLocation;
 
     @Override
-    public BaseAst child(String s) {
-        BaseAst c = CollecUtils.find(body, (o) -> StringUtils.equals(Utils.cast(o, TagBlockAst.class).getTagName(), s));
+    public BaseAst child(final String s) {
+        BaseAst c = CollecUtils.find(body, new QueryCallBack<BaseAst>() {
+            @Override
+            public boolean query(BaseAst o) {
+                return StringUtils.equals(Utils.cast(o, TagBlockAst.class).getTagName(), s);
+            }
+        });
         return c == null ? NoneAst.INSTANCE : c;
     }
 
     @Override
-    public List<BaseAst> childs(String s) {
-        return CollecUtils.finds(body, (o) -> StringUtils.equals(Utils.cast(o, TagBlockAst.class).getTagName(), s));
+    public List<BaseAst> childs(final String s) {
+        return CollecUtils.finds(body, new QueryCallBack<BaseAst>() {
+            @Override
+            public boolean query(BaseAst o) {
+                return StringUtils.equals(Utils.cast(o, TagBlockAst.class).getTagName(), s);
+            }
+        });
     }
 
     @Override
-    public BaseResult attr(String s) {
-        BaseResult a = CollecUtils.find(attrs, (o) -> StringUtils.equals(s, Utils.cast(o, AttrResult.class).getKey()));
+    public BaseResult attr(final String s) {
+        BaseResult a = CollecUtils.find(attrs, new QueryCallBack<BaseResult>() {
+            @Override
+            public boolean query(BaseResult o) {
+                return StringUtils.equals(s, Utils.cast(o, AttrResult.class).getKey());
+            }
+        });
         return a == null ? NoneResult.INSTANCE : a;
     }
 
     @Override
-    public List<BaseAst> attrs(String s) {
-        return CollecUtils.finds(body, (o) -> StringUtils.equals(s, Utils.cast(o, AttrResult.class).getKey()));
+    public List<BaseAst> attrs(final String s) {
+        return CollecUtils.finds(body, new QueryCallBack<BaseAst>() {
+            @Override
+            public boolean query(BaseAst o) {
+                return StringUtils.equals(s, Utils.cast(o, AttrResult.class).getKey());
+            }
+        });
     }
 
     @Override

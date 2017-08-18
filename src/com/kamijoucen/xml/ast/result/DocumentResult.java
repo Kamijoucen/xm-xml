@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.ast.result;
 
 
+import com.kamijoucen.core.QueryCallBack;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.utils.Utils;
@@ -49,8 +50,13 @@ public class DocumentResult {
     }
 
 
-    public BaseAst child(String str) {
-        BaseAst root = CollecUtils.find(roots, (o) -> StringUtils.equals(str, o.getTagName()));
+    public BaseAst child(final String str) {
+        BaseAst root = CollecUtils.find(roots, new QueryCallBack<TagBlockAst>() {
+            @Override
+            public boolean query(TagBlockAst o) {
+                return StringUtils.equals(str, o.getTagName());
+            }
+        });
         return root == null ? NoneAst.INSTANCE : root;
     }
 
@@ -63,7 +69,7 @@ public class DocumentResult {
             this.xmlHeader = parser.parserXmlHeader();
         }
         while (scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
-            roots.add(Utils.cast(parser.parserTagBlock()));
+            roots.add(Utils.cast(parser.parserTagBlock(), TagBlockAst.class));
         }
     }
 

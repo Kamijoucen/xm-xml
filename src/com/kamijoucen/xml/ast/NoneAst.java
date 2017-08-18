@@ -36,12 +36,20 @@ public enum NoneAst implements BaseAst {
     }
 
     @Override
-    public List<String> childtexts() {
+    public List<String> childTexts() {
         return CollecUtils.readOnlyList();
     }
+
+    @Override
+    public String childText(int i) {
+        return null;
+    }
+
 
     @Override
     public TokenLocation getTokenLocation() {
         return tokenLocation;
     }
+
+
 }

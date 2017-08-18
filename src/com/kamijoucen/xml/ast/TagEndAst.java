@@ -53,7 +53,12 @@ public class TagEndAst implements BaseAst {
     }
 
     @Override
-    public List<String> childtexts() {
+    public List<String> childTexts() {
+        return null;
+    }
+
+    @Override
+    public String childText(int i) {
         return null;
     }
 }

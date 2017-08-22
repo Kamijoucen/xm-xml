@@ -7,7 +7,7 @@ import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
 
-public class TagBlockAst extends BaseAstWrapper {
+public class TagBlockAst extends BaseAstAdapter {
 
     private String tagName;
     private TagStartAst start;
@@ -34,9 +34,9 @@ public class TagBlockAst extends BaseAstWrapper {
     }
 
 
-    public List<BaseAst> getBody() {
-        return body;
-    }
+//    public List<BaseAst> getBody() {
+//        return body;
+//    }
 
     public void addText(TextResult text) {
         texts.add(text);

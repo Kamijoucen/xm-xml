@@ -6,7 +6,7 @@ import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
 
-public class TagStartAst extends BaseAstWrapper {
+public class TagStartAst extends BaseAstAdapter {
 
     private String tagName;
     private TagStartType type;

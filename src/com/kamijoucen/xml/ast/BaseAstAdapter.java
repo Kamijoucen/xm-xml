@@ -5,6 +5,7 @@ import com.kamijoucen.core.QueryCallBack;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.utils.Utils;
+import com.kamijoucen.validate.Validate;
 import com.kamijoucen.xml.ast.result.AttrResult;
 import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.ast.result.NoneResult;
@@ -15,13 +16,29 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseAstWrapper implements BaseAst {
+public abstract class BaseAstAdapter implements BaseAst {
 
     // TODO: 2017/8/12 低效的数据结构，需要改为查询树
+    Map<String, List<BaseAst>> body1 = CollecUtils.map();
+    Map<String, List<BaseResult>> attrs1 = CollecUtils.map();
+    Map<String, TextResult> texts1 = CollecUtils.map();
+
     protected List<BaseAst> body = CollecUtils.list();
     protected List<BaseResult> attrs = CollecUtils.list();
     protected List<TextResult> texts = CollecUtils.list();
     protected TokenLocation tokenLocation;
+
+    protected void addChild(String key, BaseAst ast) {
+        Validate.notBlankVal(key);
+        List<BaseAst> vals = body1.get(key);
+        if (vals == null) {
+            List<BaseAst> list = CollecUtils.list();
+            list.add(ast);
+            body1.put(key, list);
+        } else {
+            vals.add(ast);
+        }
+    }
 
     @Override
     public BaseAst child(final String s) {

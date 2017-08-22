@@ -41,7 +41,7 @@ public class LLParser implements Parser {
                     break;
                 case TAG_START:
                     BaseAst cb = parserTagBlock();
-                    blockAst.addChild(cb);
+                    blockAst.addChild( cb);
                     break;
                 case END_OF_FILE:
                     throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + " <"

@@ -2,7 +2,7 @@ package com.kamijoucen.xml.ast.result;
 
 import com.kamijoucen.xml.token.TokenLocation;
 
-public class TextResult extends BaseResultWrapper {
+public class TextResult extends BaseResultAdapter {
 
     private String str;
 

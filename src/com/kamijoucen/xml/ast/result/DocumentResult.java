@@ -28,12 +28,20 @@ public class DocumentResult {
     private final List<TagBlockAst> roots = CollecUtils.list();
 
     public static DocumentResult load(String fileName) {
-        return new DocumentResult(fileName);
+        return new DocumentResult(fileName, null);
     }
 
-    private DocumentResult(String fileName) {
+    public static DocumentResult load(String filename, String charset) {
+        return new DocumentResult(filename, charset);
+    }
+
+    private DocumentResult(String fileName, String charset) {
         try {
-            this.scanner = new DefaultScanner(fileName);
+            if (charset == null) {
+                this.scanner = new DefaultScanner(fileName);
+            } else {
+                this.scanner = new DefaultScanner(fileName, charset);
+            }
         } catch (FileNotFoundException e) {
             throw new FileAccessException(e);
         }

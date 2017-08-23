@@ -242,7 +242,13 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return !isKeyWords(ch) && !Character.isWhitespace(ch) && ch != '\"' && ch != '\0';
+        if (Character.isWhitespace(ch) || ch == '\0' || ch == '<' || ch == '>') {
+            return false;
+        } else if (ch == '=') {
+            return peekChar() != '"' && peekChar() != '\'';
+        } else {
+            return ch != '?' || peekChar() != '>';
+        }
     }
 
     private boolean isKeyWords(char ch) {

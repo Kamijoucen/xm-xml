@@ -12,7 +12,7 @@ public interface BaseAst {
 
     BaseResult attr(String str);
 
-    List<BaseAst> attrs(String str);
+    List<BaseResult> attrs(String str);
 
     String firstChildText();
 

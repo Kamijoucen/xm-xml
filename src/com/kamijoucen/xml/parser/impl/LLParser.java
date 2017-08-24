@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.parser.impl;
 
 import com.kamijoucen.utils.CollecUtils;
+import com.kamijoucen.utils.Utils;
 import com.kamijoucen.validate.Validate;
 import com.kamijoucen.xml.ast.*;
 import com.kamijoucen.xml.ast.result.*;
@@ -41,7 +42,7 @@ public class LLParser implements Parser {
                     break;
                 case TAG_START:
                     BaseAst cb = parserTagBlock();
-                    blockAst.addChild( cb);
+                    blockAst.addChild(Utils.cast(cb, TagBlockAst.class).getTagName(), cb);
                     break;
                 case END_OF_FILE:
                     throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + " <"
@@ -128,6 +129,7 @@ public class LLParser implements Parser {
                 || op.getTokenType() == TokenType.TAG_END
                 || op.getTokenType() == TokenType.SINGLE_TAG_END
                 || op.getTokenType() == TokenType.XML_HEAD_END) {
+            // TODO: 2017/8/23 这个不允许出现单独的属性名
             return new AttrResult(key.getStrVal(), "", key.getTokenLocation());
         } else {
             throw new XmlSyntaxException("错误位置:" + key.getTokenLocation() + "属性后存在未识别的标识符");

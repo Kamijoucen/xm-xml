@@ -25,18 +25,14 @@ public class TagBlockAst extends BaseAstAdapter {
         attrs.add(new AttrResult(key, val, tokenLocation));
     }
 
-    public void addChild(BaseAst b) {
-        body.add(b);
+
+    public void addChild(String tagName, BaseAst ast) {
+        super.addChild(tagName, ast);
     }
 
     public String getTagName() {
         return tagName;
     }
-
-
-//    public List<BaseAst> getBody() {
-//        return body;
-//    }
 
     public void addText(TextResult text) {
         texts.add(text);

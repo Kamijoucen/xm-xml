@@ -43,7 +43,7 @@ public class TagEndAst implements BaseAst {
     }
 
     @Override
-    public List<BaseAst> attrs(String s) {
+    public List<BaseResult> attrs(String s) {
         return null;
     }
 

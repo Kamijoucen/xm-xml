@@ -26,7 +26,7 @@ public enum NoneAst implements BaseAst {
     }
 
     @Override
-    public List<BaseAst> attrs(String s) {
+    public List<BaseResult> attrs(String s) {
         return CollecUtils.readOnlyList();
     }
 

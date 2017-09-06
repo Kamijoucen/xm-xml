@@ -73,7 +73,7 @@ public class DefaultScanner implements Scanner {
                     } else if (currentChar == '\"' || currentChar == '\'') {
                         currentStringToken = currentChar;
                         state = State.STRING;
-                    } else if (!isKeyWords(currentChar) && !Character.isWhitespace(currentChar)) {
+                    } else if (isIdentifierChar(currentChar)) {
                         state = State.IDENTIFIER;
                     } else {
                         System.out.println(currentChar + "--");
@@ -246,12 +246,22 @@ public class DefaultScanner implements Scanner {
             return false;
         } else if (ch == '=') {
             return peekChar() != '"' && peekChar() != '\'';
+        } else if (ch == '/') {
+            return peekChar() != '>';
         } else {
             return ch != '?' || peekChar() != '>';
         }
     }
 
     private boolean isKeyWords(char ch) {
-        return ch == '<' || ch == '>' || ch == '/' || ch == '=' || ch == '?';
+        if (ch == '<' || ch == '>' || ch == '?') {
+            return true;
+        } else if (ch == '=') {
+            return peekChar() == '"' || peekChar() == '\'';
+        } else if (ch == '/') {
+            return peekChar() == '>';
+        } else {
+            return false;
+        }
     }
 }

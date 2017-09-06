@@ -23,5 +23,4 @@ public class Token {
         return strVal;
     }
 
-
 }

@@ -36,9 +36,10 @@ public class LLParser implements Parser {
         blockAst.setAttrs(blockStart.getAttrs());
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             switch (scanner.getToken().getTokenType()) {
+                case OPERATE:
                 case IDENTIFIER:
-                    TextResult text = parserChildText();
-                    blockAst.addText(text);
+                case STRING:
+                    blockAst.addText(parserChildText());
                     break;
                 case TAG_START:
                     BaseAst cb = parserTagBlock();
@@ -50,7 +51,7 @@ public class LLParser implements Parser {
                             + ")未找到匹配的结束标签就遇到文件结束");
                 default:
                     throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
-                            + " 标签的子节点只能是文本或者其他标签");
+                            + " 标签的子节点只能是文本或者其他标签但是出现了" + scanner.getToken().getTokenType());
             }
         }
         TagEndAst blockEnd = parserTagEnd();

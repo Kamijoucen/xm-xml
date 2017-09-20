@@ -36,9 +36,7 @@ public class LLParser implements Parser {
         blockAst.setAttrs(blockStart.getAttrs());
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             switch (scanner.getToken().getTokenType()) {
-                case OPERATE:
-                case IDENTIFIER:
-                case STRING:
+                case TEXT:
                     blockAst.addText(parserChildText());
                     break;
                 case TAG_START:

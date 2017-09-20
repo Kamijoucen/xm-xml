@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.token;
 
 public enum TokenType {
+    TEXT,
     TAG_START,
     TAG_END,
     TAG_END_START,

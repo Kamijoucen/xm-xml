@@ -23,6 +23,7 @@ public class DefaultScanner implements Scanner {
     private SimpleBufferReader input;
     private State state = State.NONE;
     private char currentStringToken = 0;
+    private boolean textFlag = false;
 
     public DefaultScanner(String fileName, String charSet) throws FileNotFoundException {
         this.fileName = fileName;
@@ -59,6 +60,9 @@ public class DefaultScanner implements Scanner {
                 case STRING:
                     handleString();
                     break;
+                case TEXT:
+                    handleText();
+                    break;
                 case END_OF_FILE:
                     handleEndOfFile();
                     break;
@@ -70,6 +74,8 @@ public class DefaultScanner implements Scanner {
                 } else {
                     if (isKeyWords(currentChar)) {
                         state = State.KEYWORDS;
+                    } else if (textFlag && currentChar != '<') {
+                        state = State.TEXT;
                     } else if (currentChar == '\"' || currentChar == '\'') {
                         currentStringToken = currentChar;
                         state = State.STRING;
@@ -148,6 +154,24 @@ public class DefaultScanner implements Scanner {
         getNextChar();
     }
 
+    private void handleText() {
+        tokenLocation = makeTokenLocation();
+        while (true) {
+            if (currentChar == '<' || currentChar == '\0') {
+                textFlag = false;
+                break;
+            } else if (currentChar == '\r' || currentChar == '\n') {
+                preprocess();
+                textFlag = currentChar != '<';
+                break;
+            } else {
+                addCharToBuffer(currentChar);
+                getNextChar();
+            }
+        }
+        makeToken(TokenType.TEXT, buffer.toString(), tokenLocation);
+    }
+
     private void handleComment() {
         tokenLocation = makeTokenLocation();
         if (currentChar == '<' && peekChar() == '!') {
@@ -177,6 +201,7 @@ public class DefaultScanner implements Scanner {
         tokenLocation = makeTokenLocation();
         addCharToBuffer(currentChar);
         if (currentChar == '<') {
+            textFlag = false;
             char pch = (char) peekChar();
             if (pch == '/') {
                 getNextChar();
@@ -190,9 +215,11 @@ public class DefaultScanner implements Scanner {
                 makeToken(TokenType.TAG_START, "<", tokenLocation);
             }
         } else if (currentChar == '>') {
+            textFlag = true;
             makeToken(TokenType.TAG_END, ">", tokenLocation);
         } else if (currentChar == '/') {
             if ((char) peekChar() == '>') {
+                textFlag = true;
                 getNextChar();
                 addCharToBuffer(currentChar);
                 makeToken(TokenType.SINGLE_TAG_END, buffer.toString(), tokenLocation);
@@ -203,6 +230,7 @@ public class DefaultScanner implements Scanner {
             makeToken(TokenType.OPERATE, buffer.toString(), tokenLocation);
         } else {  // ?
             if (peekChar() == '>') {
+                textFlag = true;
                 getNextChar();
                 addCharToBuffer(currentChar);
                 makeToken(TokenType.XML_HEAD_END, buffer.toString(), tokenLocation);
@@ -242,10 +270,8 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        if (Character.isWhitespace(ch) || ch == '\0' || ch == '<' || ch == '>') {
+        if (ch == '<' || ch == '>' || Character.isWhitespace(ch) || ch == '\0') {
             return false;
-        } else if (ch == '=') {
-            return peekChar() != '"' && peekChar() != '\'';
         } else if (ch == '/') {
             return peekChar() != '>';
         } else {

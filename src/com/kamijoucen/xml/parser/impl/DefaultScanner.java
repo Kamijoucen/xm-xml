@@ -74,7 +74,7 @@ public class DefaultScanner implements Scanner {
                 } else {
                     if (isKeyWords(currentChar)) {
                         state = State.KEYWORDS;
-                    } else if (textFlag && currentChar != '<') {
+                    } else if (textFlag) {
                         state = State.TEXT;
                     } else if (currentChar == '\"' || currentChar == '\'') {
                         currentStringToken = currentChar;
@@ -270,13 +270,8 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        if (ch == '<' || ch == '>' || Character.isWhitespace(ch) || ch == '\0') {
-            return false;
-        } else if (ch == '/') {
-            return peekChar() != '>';
-        } else {
-            return ch != '?' || peekChar() != '>';
-        }
+        return ch != '<' && ch != '>' && ch != '/' && ch != '\''
+                && ch != '"' && ch != '=' && !Character.isWhitespace(ch) && ch != '\0' && ch != '?';
     }
 
     private boolean isKeyWords(char ch) {
@@ -284,10 +279,8 @@ public class DefaultScanner implements Scanner {
             return true;
         } else if (ch == '=') {
             return peekChar() == '"' || peekChar() == '\'';
-        } else if (ch == '/') {
-            return peekChar() == '>';
         } else {
-            return false;
+            return ch == '/' && peekChar() == '>';
         }
     }
 }

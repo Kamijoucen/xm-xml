@@ -82,8 +82,7 @@ public class DefaultScanner implements Scanner {
                     } else if (isIdentifierChar(currentChar)) {
                         state = State.IDENTIFIER;
                     } else {
-                        System.out.println(currentChar + "--");
-                        getNextChar();
+                        throw new XmlSyntaxException(tokenLocation + "处未知的字符 '" + currentChar + "'");
                     }
                 }
             }
@@ -169,7 +168,7 @@ public class DefaultScanner implements Scanner {
                 getNextChar();
             }
         }
-        makeToken(TokenType.TEXT, buffer.toString(), tokenLocation);
+        makeToken(TokenType.TEXT, buffer.toString().trim(), tokenLocation);
     }
 
     private void handleComment() {
@@ -197,46 +196,87 @@ public class DefaultScanner implements Scanner {
         }
     }
 
+    private void handleTagStart() {
+        textFlag = false;
+        char pch = (char) peekChar();
+        if (pch == '/') {
+            getNextChar();
+            addCharToBuffer(currentChar);
+            makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
+        } else if (pch == '!') {
+            // TODO: 2017/10/7
+        } else if (pch == '?') {
+            getNextChar();
+            addCharToBuffer(currentChar);
+            makeToken(TokenType.XML_HEAD_START, buffer.toString(), tokenLocation);
+        } else {
+            makeToken(TokenType.TAG_START, "<", tokenLocation);
+        }
+    }
+
+    private void handleTagEnd() {
+        textFlag = true;
+        makeToken(TokenType.TAG_END, ">", tokenLocation);
+    }
+
+    private void handleSingleTagEnd() {
+        if ((char) peekChar() == '>') {
+            textFlag = true;
+            getNextChar();
+            addCharToBuffer(currentChar);
+            makeToken(TokenType.SINGLE_TAG_END, buffer.toString(), tokenLocation);
+        } else {
+            throw new XmlSyntaxException("错误位置:" + tokenLocation + "词法错误:标识符'/'后面只能出现'>'");
+        }
+    }
+
+    private void handleOp() {
+        makeToken(TokenType.OPERATE, buffer.toString(), tokenLocation);
+    }
+
+    private void handleXmlHeadEnd() {
+        if (peekChar() == '>') {
+            textFlag = true;
+            getNextChar();
+            addCharToBuffer(currentChar);
+            makeToken(TokenType.XML_HEAD_END, buffer.toString(), tokenLocation);
+        } else {
+            throw new XmlSyntaxException("错误位置:" + tokenLocation + "处应该是 ?>");
+        }
+    }
+
     private void handleKeyWords() {
         tokenLocation = makeTokenLocation();
         addCharToBuffer(currentChar);
-        if (currentChar == '<') {
-            textFlag = false;
-            char pch = (char) peekChar();
-            if (pch == '/') {
-                getNextChar();
-                addCharToBuffer(currentChar);
-                makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
-            } else if (pch == '?') {
-                getNextChar();
-                addCharToBuffer(currentChar);
-                makeToken(TokenType.XML_HEAD_START, buffer.toString(), tokenLocation);
-            } else {
-                makeToken(TokenType.TAG_START, "<", tokenLocation);
-            }
-        } else if (currentChar == '>') {
-            textFlag = true;
-            makeToken(TokenType.TAG_END, ">", tokenLocation);
-        } else if (currentChar == '/') {
-            if ((char) peekChar() == '>') {
-                textFlag = true;
-                getNextChar();
-                addCharToBuffer(currentChar);
-                makeToken(TokenType.SINGLE_TAG_END, buffer.toString(), tokenLocation);
-            } else {
-                throw new XmlSyntaxException("错误位置:" + tokenLocation + "词法错误:标识符'/'后面只能出现'>'");
-            }
-        } else if (currentChar == '=') {
-            makeToken(TokenType.OPERATE, buffer.toString(), tokenLocation);
-        } else {  // ?
-            if (peekChar() == '>') {
-                textFlag = true;
-                getNextChar();
-                addCharToBuffer(currentChar);
-                makeToken(TokenType.XML_HEAD_END, buffer.toString(), tokenLocation);
-            } else {
-                throw new XmlSyntaxException("错误位置:" + tokenLocation + "处应该是 ?>");
-            }
+//        if (currentChar == '<') {
+//
+//        } else if (currentChar == '>') {
+//
+//        } else if (currentChar == '/') {
+//
+//        } else if (currentChar == '=') {
+//
+//        } else if (currentChar == '?') {
+//
+//        }
+        switch (currentChar) {
+            case '<':
+                handleTagStart();
+                break;
+            case '>':
+                handleTagEnd();
+                break;
+            case '/':
+                handleSingleTagEnd();
+                break;
+            case '=':
+                handleOp();
+                break;
+            case '?':
+                handleXmlHeadEnd();
+                break;
+            default:
+                throw new XmlSyntaxException(tokenLocation + "处出现未识别的标识符");
         }
         getNextChar();
     }
@@ -270,12 +310,12 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return ch != '<' && ch != '>' && ch != '/' && ch != '\''
-                && ch != '"' && ch != '=' && !Character.isWhitespace(ch) && ch != '\0' && ch != '?';
+        return !(ch == '<' || ch == '>' || Character.isWhitespace(ch) || ch == '/' || ch == '\''
+                || ch == '"' || ch == '=' || ch == '\0' || ch == '?');
     }
 
     private boolean isKeyWords(char ch) {
-        if (ch == '<' || ch == '>' || ch == '?') {
+        if (ch == '<' || ch == '>' || (ch == '?' && peekChar() == '>')) {
             return true;
         } else if (ch == '=') {
             return peekChar() == '"' || peekChar() == '\'';

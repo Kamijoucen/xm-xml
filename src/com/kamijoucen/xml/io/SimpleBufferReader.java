@@ -40,6 +40,7 @@ public class SimpleBufferReader extends Reader {
         }
     }
 
+    @Override
     public int read() throws IOException {
         if (charIndex + 1 >= catchSize) {
             fill();

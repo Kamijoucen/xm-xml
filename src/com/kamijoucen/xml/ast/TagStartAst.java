@@ -3,7 +3,6 @@ package com.kamijoucen.xml.ast;
 import com.kamijoucen.xml.ast.result.AttrResult;
 import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.token.TokenLocation;
-import jdk.nashorn.internal.ir.Block;
 
 import java.util.List;
 

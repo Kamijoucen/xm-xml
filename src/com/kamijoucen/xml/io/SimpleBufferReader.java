@@ -7,19 +7,21 @@ public class SimpleBufferReader extends Reader {
     private Reader in;
     private char[] cb;
     private int catchSize = 0;
-    private int charIndex = 0;
-    private int catchLength = 8888;
+    private int charIndex = -1;
+    private int catchLength = 9999;
 
-    public SimpleBufferReader(Reader in) {
+    public SimpleBufferReader(Reader in) throws IOException {
         super(in);
         this.in = in;
         cb = new char[catchLength];
+        fill();
     }
 
-    public SimpleBufferReader(Reader in, int bufferSize) {
+    public SimpleBufferReader(Reader in, int bufferSize) throws IOException {
         super(in);
         this.in = in;
         cb = new char[bufferSize];
+        fill();
     }
 
     @Override
@@ -56,9 +58,9 @@ public class SimpleBufferReader extends Reader {
     }
 
     public int peek() throws IOException {
-        if (charIndex + 1 >= catchSize) {
+        if (charIndex + 1 > catchSize) {
             fill();
-            if (charIndex >= catchSize) {
+            if (charIndex > catchSize) {
                 return -1;
             } else {
                 return cb[charIndex];
@@ -68,13 +70,36 @@ public class SimpleBufferReader extends Reader {
         }
     }
 
+    public int peek(int i) throws IOException {
+        if (i > catchLength) {
+            return -1;
+        }
+        if (catchSize != catchLength) {
+            if (charIndex + i > catchSize) {
+                return -1;
+            }
+            return cb[i];
+        }
+        if (charIndex + i > catchSize) {
+            fill();
+            if (charIndex > catchSize) {
+                return -1;
+            } else {
+                return cb[charIndex + i - 1];
+            }
+        } else {
+            return cb[charIndex + i - 1];
+        }
+    }
+
     private void fill() throws IOException {
         if (catchSize == 0) {
             catchSize = in.read(cb);
         } else {
-            cb[0] = cb[catchSize - 1];
-            catchSize = in.read(cb, 1, catchLength - 1) + 1;
-            charIndex = 0;
+            int size = catchSize - charIndex;
+            System.arraycopy(cb, charIndex, cb, 0, size);
+            catchSize = in.read(cb, size, catchLength - size) + size;
         }
+        charIndex = 0;
     }
 }

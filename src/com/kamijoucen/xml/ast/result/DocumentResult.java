@@ -42,7 +42,7 @@ public class DocumentResult {
             } else {
                 this.scanner = new DefaultScanner(fileName, charset);
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new FileAccessException(e);
         }
         parser = new LLParser(scanner);

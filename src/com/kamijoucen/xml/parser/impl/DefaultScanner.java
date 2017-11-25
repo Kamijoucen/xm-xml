@@ -26,12 +26,12 @@ public class DefaultScanner implements Scanner {
     private char currentStringToken = 0;
     private boolean textFlag = false;
 
-    public DefaultScanner(String fileName, String charSet) throws FileNotFoundException {
+    public DefaultScanner(String fileName, String charSet) throws IOException {
         this.fileName = fileName;
         input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(fileName), Charset.forName(charSet)));
     }
 
-    public DefaultScanner(String fileName) throws FileNotFoundException {
+    public DefaultScanner(String fileName) throws IOException {
         this.fileName = fileName;
         input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(fileName)));
     }
@@ -68,8 +68,7 @@ public class DefaultScanner implements Scanner {
                     handleEndOfFile();
                     break;
                 default:
-                    // TODO: 2017/10/15 ??
-                    System.out.println("123123");
+                    throw new XmlSyntaxException("ERROR");
             }
             if (state == State.NONE) {
                 preprocess();
@@ -114,9 +113,22 @@ public class DefaultScanner implements Scanner {
         }
     }
 
+    private void addStringToBuffer(String str) {
+        buffer.append(str);
+    }
+
     private void addCharToBuffer(char ch) {
         buffer.append(ch);
     }
+
+    private int peekChar(int i) {
+        try {
+            return input.peek(i);
+        } catch (IOException e) {
+            throw new FileAccessException(e);
+        }
+    }
+
 
     private int peekChar() {
         try {
@@ -128,7 +140,7 @@ public class DefaultScanner implements Scanner {
 
     private void preprocess() {
         do {
-            for (; Character.isWhitespace(currentChar) && currentChar != '\0'; ) {
+            for (; Character.isWhitespace(currentChar) && !isEndChar(currentChar); ) {
                 getNextChar();
             }
             handleComment();
@@ -160,7 +172,7 @@ public class DefaultScanner implements Scanner {
     private void handleText() {
         tokenLocation = makeTokenLocation();
         while (true) {
-            if (currentChar == '<' || currentChar == '\0') {
+            if (currentChar == '<' || isEndChar(currentChar)) {
                 textFlag = false;
                 break;
             } else if (currentChar == '\r' || currentChar == '\n') {
@@ -200,23 +212,70 @@ public class DefaultScanner implements Scanner {
         }
     }
 
+
     private void handleTagStart() {
         char pch = (char) peekChar();
         if (pch == '/') {
             getNextChar();
             addCharToBuffer(currentChar);
             makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
+            textFlag = false;
         } else if (pch == '!') {
-            // TODO: 2017/10/7 CDATA and DOCTYPE
-
+            getNextChar();
+            addCharToBuffer(currentChar);
+            if (peekChar() == '[') {
+                handleCData();
+            } else {
+                handleDocType();
+            }
+            textFlag = true;
         } else if (pch == '?') {
             getNextChar();
             addCharToBuffer(currentChar);
             makeToken(TokenType.XML_HEAD_START, buffer.toString(), tokenLocation);
+            textFlag = false;
         } else {
             makeToken(TokenType.TAG_START, "<", tokenLocation);
+            textFlag = false;
         }
-        textFlag = false;
+    }
+
+    private void handleCData() {
+        getNextChar();
+        addCharToBuffer(currentChar);
+        getNextChar();
+        while (Character.isUpperCase(currentChar) && !isEndChar(currentChar)) {
+            addCharToBuffer(currentChar);
+            getNextChar();
+        }
+        if (!StringUtils.equals("<![CDATA", buffer.toString())) {
+            throw new XmlSyntaxException("非法的 Unparsed Character Data 标识符:" + tokenLocation);
+        }
+        if (currentChar != '[') {
+            throw new XmlSyntaxException("非法的 Unparsed Character Data 起始结构: CDATA后缺少[:" + tokenLocation);
+        }
+        getNextChar();
+        clearBuffer();
+        boolean flag = true;
+        while (!isEndChar(currentChar) && flag) {
+            if (currentChar == ']' && peekChar() == ']') {
+                getNextChar(); // eat ]
+                getNextChar(); // eat ]
+                if (currentChar == '>') {
+                    getNextChar();
+                    flag = false;
+                } else {
+                    addStringToBuffer("]]");
+                }
+            }
+            addCharToBuffer(currentChar);
+            getNextChar();
+        }
+        makeToken(TokenType.TEXT, buffer.toString(), tokenLocation);
+    }
+
+    private void handleDocType() {
+        // TODO: 2017/11/25
     }
 
     private void handleTagEnd() {
@@ -316,4 +375,13 @@ public class DefaultScanner implements Scanner {
             return ch == '/' && peekChar() == '>';
         }
     }
+
+    private boolean isEndChar(char ch) {
+        return ch == '\0';
+    }
+
+    private void clearBuffer() {
+        buffer.delete(0, buffer.length());
+    }
+
 }

@@ -59,7 +59,6 @@ public class LLParser implements Parser {
                     + "处标签嵌套不正确，应该匹配 <"
                     + blockStart.getTagName() + "> (" + blockStart.getTokenLocation() + ") 的结束标签");
         }
-        blockAst.setEnd(blockEnd);
         return blockAst;
     }
 

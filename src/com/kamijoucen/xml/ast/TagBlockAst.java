@@ -25,7 +25,7 @@ public class TagBlockAst extends BaseAstAdapter {
         attrs.add(new AttrResult(key, val, tokenLocation));
     }
 
-
+    @Override
     public void addChild(String tagName, BaseAst ast) {
         super.addChild(tagName, ast);
     }

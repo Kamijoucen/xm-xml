@@ -30,8 +30,9 @@ public class SimpleBufferReader extends Reader {
 
     @Override
     public void close() throws IOException {
-        if (in == null)
+        if (in == null) {
             return;
+        }
         try {
             in.close();
         } finally {

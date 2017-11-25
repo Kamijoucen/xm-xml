@@ -6,6 +6,5 @@ public enum State {
     IDENTIFIER,
     KEYWORDS,
     STRING,
-    COMMENT,
     TEXT
 }

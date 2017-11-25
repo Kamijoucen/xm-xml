@@ -1,5 +1,6 @@
 package com.kamijoucen.xml.parser.impl;
 
+import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.xml.io.SimpleBufferReader;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.exception.FileAccessException;
@@ -66,6 +67,9 @@ public class DefaultScanner implements Scanner {
                 case END_OF_FILE:
                     handleEndOfFile();
                     break;
+                default:
+                    // TODO: 2017/10/15 ??
+                    System.out.println("123123");
             }
             if (state == State.NONE) {
                 preprocess();
@@ -79,7 +83,7 @@ public class DefaultScanner implements Scanner {
                     } else if (currentChar == '\"' || currentChar == '\'') {
                         currentStringToken = currentChar;
                         state = State.STRING;
-                    } else if (isIdentifierChar(currentChar)) {
+                    } else if (StringUtils.isAlpha(currentChar)) {
                         state = State.IDENTIFIER;
                     } else {
                         throw new XmlSyntaxException(tokenLocation + "处未知的字符 '" + currentChar + "'");
@@ -197,14 +201,14 @@ public class DefaultScanner implements Scanner {
     }
 
     private void handleTagStart() {
-        textFlag = false;
         char pch = (char) peekChar();
         if (pch == '/') {
             getNextChar();
             addCharToBuffer(currentChar);
             makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
         } else if (pch == '!') {
-            // TODO: 2017/10/7
+            // TODO: 2017/10/7 CDATA and DOCTYPE
+
         } else if (pch == '?') {
             getNextChar();
             addCharToBuffer(currentChar);
@@ -212,6 +216,7 @@ public class DefaultScanner implements Scanner {
         } else {
             makeToken(TokenType.TAG_START, "<", tokenLocation);
         }
+        textFlag = false;
     }
 
     private void handleTagEnd() {
@@ -236,29 +241,18 @@ public class DefaultScanner implements Scanner {
 
     private void handleXmlHeadEnd() {
         if (peekChar() == '>') {
-            textFlag = true;
             getNextChar();
             addCharToBuffer(currentChar);
             makeToken(TokenType.XML_HEAD_END, buffer.toString(), tokenLocation);
         } else {
             throw new XmlSyntaxException("错误位置:" + tokenLocation + "处应该是 ?>");
         }
+        textFlag = true;
     }
 
     private void handleKeyWords() {
         tokenLocation = makeTokenLocation();
         addCharToBuffer(currentChar);
-//        if (currentChar == '<') {
-//
-//        } else if (currentChar == '>') {
-//
-//        } else if (currentChar == '/') {
-//
-//        } else if (currentChar == '=') {
-//
-//        } else if (currentChar == '?') {
-//
-//        }
         switch (currentChar) {
             case '<':
                 handleTagStart();
@@ -310,8 +304,7 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return !(ch == '<' || ch == '>' || Character.isWhitespace(ch) || ch == '/' || ch == '\''
-                || ch == '"' || ch == '=' || ch == '\0' || ch == '?');
+        return StringUtils.isAlpha(ch) || Character.isDigit(ch) || ch == ':' || ch == '.';
     }
 
     private boolean isKeyWords(char ch) {

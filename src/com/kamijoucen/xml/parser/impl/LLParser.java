@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.parser.impl;
 
 import com.kamijoucen.utils.CollecUtils;
+import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.utils.Utils;
 import com.kamijoucen.validate.Validate;
 import com.kamijoucen.xml.ast.*;
@@ -29,7 +30,7 @@ public class LLParser implements Parser {
         TagStartAst blockStart = parserTagStart();
         TagBlockAst blockAst = new TagBlockAst(blockStart.getTagName());
         blockAst.setStart(blockStart);
-        if (blockStart instanceof SingleTagStartAst) {
+        if (blockStart.startType() == TagStartAst.TagStartType.SINGLE) {
             blockAst.setAttrs(blockStart.getAttrs());
             return blockAst;
         }
@@ -62,7 +63,7 @@ public class LLParser implements Parser {
         return blockAst;
     }
 
-
+    @Override
     public TagEndAst parserTagEnd() {
         if (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "处需要一个 '</'");
@@ -149,7 +150,7 @@ public class LLParser implements Parser {
                     + "标签头应该是 '<?' 开头并由 '?>' 结束");
         }
         if (scanner.getNextToken().getTokenType() != TokenType.IDENTIFIER
-                && !scanner.getToken().getStrVal().toLowerCase().equals("xml")) {
+                && !StringUtils.equals(scanner.getToken().getStrVal().toLowerCase(), "xml")) {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "应该声明文档类型是 xml");
         }
         scanner.getNextToken();

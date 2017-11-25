@@ -23,6 +23,7 @@ public class TagEndAst implements BaseAst {
         this.tagName = tagName;
     }
 
+    @Override
     public TokenLocation getTokenLocation() {
         return tokenLocation;
     }

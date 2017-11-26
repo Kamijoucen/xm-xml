@@ -189,17 +189,11 @@ public class DefaultScanner implements Scanner {
 
     private void handleComment() {
         tokenLocation = makeTokenLocation();
-        if (currentChar == '<' && peekChar() == '!') {
-            getNextChar();
-            getNextChar();
-            if (currentChar != '-') {
-                throw new XmlSyntaxException("错误位置:" + tokenLocation + "注释的起始标示有误");
-            }
-            getNextChar();
-            if (currentChar != '-') {
-                throw new XmlSyntaxException("错误位置:" + tokenLocation + "注释的起始标示有误");
-            }
-            getNextChar();
+        if (currentChar == '<' && peekChar() == '!' && peekChar(2) == '-' && peekChar(3) == '-') {
+            getNextChar(); // eat <
+            getNextChar(); // eat !
+            getNextChar(); // eat -
+            getNextChar(); // eat -
             while (currentChar != '-' || peekChar() != '-') {
                 getNextChar();
             }
@@ -262,14 +256,14 @@ public class DefaultScanner implements Scanner {
                 getNextChar(); // eat ]
                 getNextChar(); // eat ]
                 if (currentChar == '>') {
-                    getNextChar();
                     flag = false;
                 } else {
                     addStringToBuffer("]]");
                 }
+            } else {
+                addCharToBuffer(currentChar);
+                getNextChar();
             }
-            addCharToBuffer(currentChar);
-            getNextChar();
         }
         makeToken(TokenType.TEXT, buffer.toString(), tokenLocation);
     }

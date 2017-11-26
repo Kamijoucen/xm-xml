@@ -78,7 +78,7 @@ public class SimpleBufferReader extends Reader {
             if (charIndex + i > catchSize) {
                 return -1;
             }
-            return cb[i];
+            return cb[charIndex + i - 1];
         }
         if (charIndex + i > catchSize) {
             fill();

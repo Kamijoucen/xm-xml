@@ -15,6 +15,7 @@ import com.kamijoucen.xml.parser.impl.DefaultScanner;
 import com.kamijoucen.xml.parser.impl.LLParser;
 import com.kamijoucen.xml.token.TokenType;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,24 +28,67 @@ public class DocumentResult {
     private Parser parser;
     private final List<TagBlockAst> roots = CollecUtils.list();
 
-    public static DocumentResult load(String fileName) {
-        return new DocumentResult(fileName, null);
-    }
-
-    public static DocumentResult load(String filename, String charset) {
-        return new DocumentResult(filename, charset);
-    }
-
-    private DocumentResult(String fileName, String charset) {
+    public static DocumentResult loadFile(String fileName) {
+        DocumentResult result = new DocumentResult();
         try {
-            if (charset == null) {
-                this.scanner = new DefaultScanner(fileName);
-            } else {
-                this.scanner = new DefaultScanner(fileName, charset);
-            }
+            result.scanner = new DefaultScanner(new File(fileName));
         } catch (IOException e) {
             throw new FileAccessException(e);
         }
+        result.parse();
+        return result;
+    }
+
+    public static DocumentResult loadFile(String filename, String charset) {
+        DocumentResult result = new DocumentResult();
+        try {
+            result.scanner = new DefaultScanner(new File(filename, charset));
+        } catch (IOException e) {
+            throw new FileAccessException(e);
+        }
+        result.parse();
+        return result;
+    }
+
+    public static DocumentResult loadString(String xml) {
+        DocumentResult result = new DocumentResult();
+        try {
+            result.scanner = new DefaultScanner(xml);
+        } catch (IOException e) {
+            throw new FileAccessException(e);
+        }
+        result.parse();
+        return result;
+    }
+
+    public static DocumentResult loadString(String xml, String charset) {
+        DocumentResult result = new DocumentResult();
+        try {
+            result.scanner = new DefaultScanner(xml, charset);
+        } catch (IOException e) {
+            throw new FileAccessException(e);
+        }
+        result.parse();
+        return result;
+    }
+
+    private DocumentResult() {}
+
+
+
+//    private DocumentResult(String fileName, String charset) {
+//        try {
+//            if (charset == null) {
+//                this.scanner = new DefaultScanner(new File(fileName));
+//            } else {
+//                this.scanner = new DefaultScanner(new File(fileName), charset);
+//            }
+//        } catch (IOException e) {
+//            throw new FileAccessException(e);
+//        }
+//    }
+
+    private void parse() {
         parser = new LLParser(scanner);
         parserAll();
         try {

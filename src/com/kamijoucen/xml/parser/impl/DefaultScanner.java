@@ -26,14 +26,26 @@ public class DefaultScanner implements Scanner {
     private char currentStringToken = 0;
     private boolean textFlag = false;
 
-    public DefaultScanner(String fileName, String charSet) throws IOException {
-        this.fileName = fileName;
-        input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(fileName), Charset.forName(charSet)));
+
+
+    public DefaultScanner(File file, String charSet) throws IOException {
+        this.fileName = file.getName();
+        input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(file), Charset.forName(charSet)));
     }
 
-    public DefaultScanner(String fileName) throws IOException {
-        this.fileName = fileName;
-        input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(fileName)));
+    public DefaultScanner(File file) throws IOException {
+        this.fileName = file.getName();
+        input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(file)));
+    }
+
+    public DefaultScanner(String xml) throws IOException {
+        this.fileName = "local string";
+        input = new SimpleBufferReader(new InputStreamReader(new ByteArrayInputStream(xml.getBytes())));
+    }
+
+    public DefaultScanner(String xml, String charSet) throws IOException {
+        this.fileName = "local string";
+        input = new SimpleBufferReader(new InputStreamReader(new ByteArrayInputStream(xml.getBytes(Charset.forName(charSet)))));
     }
 
     @Override

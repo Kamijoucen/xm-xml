@@ -54,9 +54,4 @@ public class TagBlockAst extends BaseAstAdapter {
         this.end = end;
     }
 
-    @Override
-    public TokenLocation getTokenLocation() {
-        return null;
-    }
-
 }

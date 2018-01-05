@@ -12,6 +12,7 @@ import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.ast.result.TextResult;
 import com.kamijoucen.xml.token.TokenLocation;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +20,15 @@ public abstract class BaseAstAdapter implements BaseAst {
 
     // TODO: 2017/8/12 低效的数据结构，需要改为查询树
     protected Map<String, List<BaseAst>> body = CollecUtils.map();
+    protected List<BaseAst> allBody = CollecUtils.list();
     protected List<BaseResult> attrs = CollecUtils.list();
     protected List<TextResult> texts = CollecUtils.list();
     protected TokenLocation tokenLocation;
 
     protected void addChild(String key, BaseAst ast) {
+        Validate.notBlankVal(key);
+        Validate.notNull(ast);
+        allBody.add(ast);
         List<BaseAst> vals = body.get(key);
         if (vals == null) {
             List<BaseAst> list = CollecUtils.list();
@@ -45,6 +50,11 @@ public abstract class BaseAstAdapter implements BaseAst {
     public List<BaseAst> childs(final String s) {
         Validate.notBlankVal(s);
         return body.get(s);
+    }
+
+    @Override
+    public List<BaseAst> childs() {
+        return allBody;
     }
 
     @Override

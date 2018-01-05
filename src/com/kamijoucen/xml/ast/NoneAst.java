@@ -5,10 +5,17 @@ import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.token.TokenLocation;
 
+import java.util.Collections;
 import java.util.List;
 
 public enum NoneAst implements BaseAst {
     INSTANCE;
+
+    @Override
+    public List<BaseAst> childs() {
+        return CollecUtils.readOnlyList();
+    }
+
     private static TokenLocation tokenLocation = new TokenLocation(-1, -1, null);
     @Override
     public BaseAst child(String s) {

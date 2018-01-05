@@ -39,6 +39,11 @@ public class TagEndAst implements BaseAst {
     }
 
     @Override
+    public List<BaseAst> childs() {
+        return null;
+    }
+
+    @Override
     public BaseResult attr(String s) {
         return null;
     }

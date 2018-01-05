@@ -10,6 +10,8 @@ public interface BaseAst {
 
     List<BaseAst> childs(String str);
 
+    List<BaseAst> childs();
+
     BaseResult attr(String str);
 
     List<BaseResult> attrs(String str);

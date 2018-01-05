@@ -20,7 +20,4 @@ public class FileAccessException extends RuntimeException {
         super(cause);
     }
 
-    public FileAccessException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

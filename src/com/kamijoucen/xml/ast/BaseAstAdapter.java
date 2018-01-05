@@ -1,7 +1,7 @@
 package com.kamijoucen.xml.ast;
 
-import com.kamijoucen.core.ConvertCallBack;
-import com.kamijoucen.core.QueryCallBack;
+import com.kamijoucen.callback.Convert;
+import com.kamijoucen.callback.Query;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.utils.Utils;
@@ -49,7 +49,7 @@ public abstract class BaseAstAdapter implements BaseAst {
 
     @Override
     public BaseResult attr(final String s) {
-        BaseResult a = CollecUtils.find(attrs, new QueryCallBack<BaseResult>() {
+        BaseResult a = CollecUtils.find(attrs, new Query<BaseResult>() {
             @Override
             public boolean query(BaseResult o) {
                 return StringUtils.equals(s, Utils.cast(o, AttrResult.class).getKey());
@@ -60,7 +60,7 @@ public abstract class BaseAstAdapter implements BaseAst {
 
     @Override
     public List<BaseResult> attrs(final String s) {
-        return CollecUtils.finds(attrs, new QueryCallBack<BaseResult>() {
+        return CollecUtils.finds(attrs, new Query<BaseResult>() {
             @Override
             public boolean query(BaseResult o) {
                 return StringUtils.equals(s, Utils.cast(o, AttrResult.class).getKey());
@@ -79,7 +79,7 @@ public abstract class BaseAstAdapter implements BaseAst {
 
     @Override
     public List<String> childTexts() {
-        return CollecUtils.convertList(texts, new ConvertCallBack<TextResult, String>() {
+        return CollecUtils.convertList(texts, new Convert<TextResult, String>() {
             @Override
             public String convert(TextResult o) {
                 return o.val();

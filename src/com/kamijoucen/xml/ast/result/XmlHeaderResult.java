@@ -1,6 +1,6 @@
 package com.kamijoucen.xml.ast.result;
 
-import com.kamijoucen.core.QueryCallBack;
+import com.kamijoucen.callback.Query;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.utils.StringUtils;
 
@@ -10,7 +10,7 @@ public class XmlHeaderResult {
     private final List<AttrResult> attrs = CollecUtils.list();
 
     public String getVersion() {
-        AttrResult version = CollecUtils.find(attrs, new QueryCallBack<AttrResult>() {
+        AttrResult version = CollecUtils.find(attrs, new Query<AttrResult>() {
             @Override
             public boolean query(AttrResult o) {
                 return StringUtils.equals("version", o.getKey());
@@ -20,7 +20,7 @@ public class XmlHeaderResult {
     }
 
     public String getEncoding() {
-        AttrResult encoding = CollecUtils.find(attrs, new QueryCallBack<AttrResult>() {
+        AttrResult encoding = CollecUtils.find(attrs, new Query<AttrResult>() {
             @Override
             public boolean query(AttrResult o) {
                 return StringUtils.equals("encoding", o.getKey());

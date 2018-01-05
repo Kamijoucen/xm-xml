@@ -16,7 +16,4 @@ public class XmlSyntaxException extends RuntimeException {
         super(cause);
     }
 
-    public XmlSyntaxException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

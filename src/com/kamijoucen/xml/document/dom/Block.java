@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.document.dom;
 
 import com.kamijoucen.utils.CollecUtils;
+import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.validate.Validate;
 import com.kamijoucen.xml.document.DOM;
 
@@ -46,19 +47,28 @@ public class Block extends BaseBlock {
         return this;
     }
 
-    @Override
-    public String gen() {
-        StringBuilder builder = new StringBuilder()
+    private String genBlockStart() {
+        StringBuilder builder = new StringBuilder(32)
                 .append(BUILT.TAG_START).append(nodeName);
         if (attrs.size() != 0) {
             builder.append(BUILT.SPACE);
+            genAttrs(builder);
         }
-        genAttrs(builder);
         builder.append(BUILT.TAG_END);
+        return builder.toString();
+    }
+
+    private String genBlockEnd() {
+        return StringUtils.joinString(BUILT.TAG_END_START, nodeName, BUILT.TAG_END);
+    }
+
+    @Override
+    public String gen() {
+        StringBuilder builder = new StringBuilder(genBlockStart());
         for (DomElement c : childs) {
             builder.append(c.gen());
         }
-        builder.append(BUILT.TAG_END_START).append(nodeName).append(BUILT.TAG_END);
+        builder.append(genBlockEnd());
         return builder.toString();
     }
 

@@ -94,7 +94,7 @@ public class DefaultScanner implements Scanner {
                     } else if (currentChar == '\"' || currentChar == '\'') {
                         currentStringToken = currentChar;
                         state = State.STRING;
-                    } else if (StringUtils.isAlpha(currentChar)) {
+                    } else if (StringUtils.isAlpha(currentChar) || currentChar == '_' || currentChar == ':') {
                         state = State.IDENTIFIER;
                     } else {
                         throw new XmlSyntaxException(tokenLocation + "处未知的字符 '" + currentChar + "'");
@@ -369,7 +369,7 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return StringUtils.isAlpha(ch) || Character.isDigit(ch) || ch == ':' || ch == '.';
+        return StringUtils.isAlpha(ch) || Character.isDigit(ch) || ch == '-' || ch == '_' || ch == '.' || ch == ':';
     }
 
     private boolean isKeyWords(char ch) {

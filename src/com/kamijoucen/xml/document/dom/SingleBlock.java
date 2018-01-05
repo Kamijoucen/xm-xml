@@ -40,9 +40,19 @@ public class SingleBlock extends BaseBlock {
                 .append(BUILT.TAG_START).append(nodeName);
         if (attrs.size() != 0) {
             builder.append(BUILT.SPACE);
+            genAttrs(builder);
         }
-        genAttrs(builder);
         builder.append(BUILT.TAG_SINGLE_END);
         return builder.toString();
+    }
+
+//    @Override
+    protected String formatGen(int i) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int a = 0; a < i; ++a) {
+            stringBuilder.append("  ");
+        }
+        stringBuilder.append(gen());
+        return stringBuilder.toString();
     }
 }

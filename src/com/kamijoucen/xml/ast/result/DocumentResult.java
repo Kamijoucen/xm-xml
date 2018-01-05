@@ -1,7 +1,7 @@
 package com.kamijoucen.xml.ast.result;
 
 
-import com.kamijoucen.core.QueryCallBack;
+import com.kamijoucen.callback.Query;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.utils.Utils;
@@ -101,7 +101,7 @@ public class DocumentResult {
 
 
     public BaseAst child(final String str) {
-        BaseAst root = CollecUtils.find(roots, new QueryCallBack<TagBlockAst>() {
+        BaseAst root = CollecUtils.find(roots, new Query<TagBlockAst>() {
             @Override
             public boolean query(TagBlockAst o) {
                 return StringUtils.equals(str, o.getTagName());

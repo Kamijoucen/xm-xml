@@ -12,6 +12,7 @@ import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.ast.result.TextResult;
 import com.kamijoucen.xml.token.TokenLocation;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -99,10 +100,8 @@ public abstract class BaseAstAdapter implements BaseAst {
 
     @Override
     public String childText(int i) {
-        if (CollecUtils.isEmptyCollection(texts) || texts.size() < i + 1) {
-            return null;
-        }
-        return texts.get(i).val();
+        TextResult text = CollecUtils.getListObj(texts, i);
+        return text == null ? null : text.val();
     }
 
     @Override

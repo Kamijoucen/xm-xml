@@ -27,7 +27,6 @@ public class DefaultScanner implements Scanner {
     private boolean textFlag = false;
 
 
-
     public DefaultScanner(File file, String charSet) throws IOException {
         this.fileName = file.getName();
         input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(file), Charset.forName(charSet)));
@@ -54,7 +53,7 @@ public class DefaultScanner implements Scanner {
     }
 
     @Override
-    public Token getNextToken() {
+    public Token nextToken() {
         boolean matched = false;
         do {
             if (state != State.NONE) {
@@ -281,7 +280,15 @@ public class DefaultScanner implements Scanner {
     }
 
     private void handleDocType() {
-        // TODO: 2017/11/25
+        getNextChar();
+        StringBuilder builder = new StringBuilder();
+        while (Character.isUpperCase(currentChar)) {
+            builder.append(currentChar);
+            getNextChar();
+        }
+
+
+        // TODO: 2018/3/22
     }
 
     private void handleTagEnd() {

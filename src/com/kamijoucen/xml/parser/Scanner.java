@@ -6,5 +6,5 @@ import java.io.Closeable;
 
 public interface Scanner extends Closeable {
     Token getToken();
-    Token getNextToken();
+    Token nextToken();
 }

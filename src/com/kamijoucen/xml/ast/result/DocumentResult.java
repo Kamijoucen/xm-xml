@@ -99,6 +99,10 @@ public class DocumentResult {
         }
     }
 
+    public List<TagBlockAst> childs() {
+        return roots;
+    }
+
 
     public BaseAst child(final String str) {
         BaseAst root = CollecUtils.find(roots, new Query<TagBlockAst>() {

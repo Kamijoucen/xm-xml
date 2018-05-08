@@ -17,6 +17,7 @@ import com.kamijoucen.xml.token.TokenType;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class DocumentResult {
@@ -25,6 +26,29 @@ public class DocumentResult {
     private Scanner scanner;
     private Parser parser;
     private final List<TagBlockAst> roots = CollecUtils.list();
+
+    public static DocumentResult loadStream(InputStream stream, String charset) {
+        DocumentResult result = new DocumentResult();
+        try {
+            result.scanner = new DefaultScanner(stream, charset);
+        } catch (IOException e) {
+            throw new FileAccessException(e);
+        }
+        result.parse();
+        return result;
+    }
+
+
+    public static DocumentResult loadStream(InputStream stream) {
+        DocumentResult result = new DocumentResult();
+        try {
+            result.scanner = new DefaultScanner(stream);
+        } catch (IOException e) {
+            throw new FileAccessException(e);
+        }
+        result.parse();
+        return result;
+    }
 
     public static DocumentResult loadFile(String fileName) {
         DocumentResult result = new DocumentResult();

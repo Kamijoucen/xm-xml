@@ -27,6 +27,17 @@ public class DefaultScanner implements Scanner {
     private boolean textFlag = false;
 
 
+    public DefaultScanner(InputStream stream) throws IOException {
+        this.fileName = "local stream";
+        input = new SimpleBufferReader(new InputStreamReader(stream));
+    }
+
+
+    public DefaultScanner(InputStream stream, String charSet) throws IOException {
+        this.fileName = "local stream";
+        input = new SimpleBufferReader(new InputStreamReader(stream, Charset.forName(charSet)));
+    }
+
     public DefaultScanner(File file, String charSet) throws IOException {
         this.fileName = file.getName();
         input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(file), Charset.forName(charSet)));

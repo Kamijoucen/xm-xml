@@ -5,7 +5,6 @@ import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.token.TokenLocation;
 
-import java.util.Collections;
 import java.util.List;
 
 public enum NoneAst implements BaseAst {

@@ -12,8 +12,6 @@ import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.ast.result.TextResult;
 import com.kamijoucen.xml.token.TokenLocation;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 

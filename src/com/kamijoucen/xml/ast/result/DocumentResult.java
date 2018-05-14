@@ -5,6 +5,7 @@ import com.kamijoucen.callback.Query;
 import com.kamijoucen.utils.CollecUtils;
 import com.kamijoucen.utils.StringUtils;
 import com.kamijoucen.utils.Utils;
+import com.kamijoucen.validate.Validate;
 import com.kamijoucen.xml.ast.BaseAst;
 import com.kamijoucen.xml.ast.NoneAst;
 import com.kamijoucen.xml.ast.TagBlockAst;
@@ -28,6 +29,8 @@ public class DocumentResult {
     private final List<TagBlockAst> roots = CollecUtils.list();
 
     public static DocumentResult loadStream(InputStream stream, String charset) {
+        Validate.notNull(stream);
+        Validate.notBlankVal(charset);
         DocumentResult result = new DocumentResult();
         try {
             result.scanner = new DefaultScanner(stream, charset);
@@ -40,6 +43,7 @@ public class DocumentResult {
 
 
     public static DocumentResult loadStream(InputStream stream) {
+        Validate.notNull(stream);
         DocumentResult result = new DocumentResult();
         try {
             result.scanner = new DefaultScanner(stream);
@@ -51,6 +55,7 @@ public class DocumentResult {
     }
 
     public static DocumentResult loadFile(String fileName) {
+        Validate.notBlankVal(fileName);
         DocumentResult result = new DocumentResult();
         try {
             result.scanner = new DefaultScanner(new File(fileName));
@@ -62,6 +67,8 @@ public class DocumentResult {
     }
 
     public static DocumentResult loadFile(String filename, String charset) {
+        Validate.notBlankVal(filename);
+        Validate.notBlankVal(charset);
         DocumentResult result = new DocumentResult();
         try {
             result.scanner = new DefaultScanner(new File(filename, charset));
@@ -73,6 +80,7 @@ public class DocumentResult {
     }
 
     public static DocumentResult loadString(String xml) {
+        Validate.notBlankVal(xml);
         DocumentResult result = new DocumentResult();
         try {
             result.scanner = new DefaultScanner(xml);
@@ -84,6 +92,8 @@ public class DocumentResult {
     }
 
     public static DocumentResult loadString(String xml, String charset) {
+        Validate.notBlankVal(xml);
+        Validate.notBlankVal(charset);
         DocumentResult result = new DocumentResult();
         try {
             result.scanner = new DefaultScanner(xml, charset);

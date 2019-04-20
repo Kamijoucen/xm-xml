@@ -1,6 +1,6 @@
 package com.kamijoucen.xml.document;
 
-import com.kamijoucen.utils.CollecUtils;
+import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.xml.document.dom.Attr;
 import com.kamijoucen.xml.document.dom.Block;
 import com.kamijoucen.xml.document.dom.SingleBlock;

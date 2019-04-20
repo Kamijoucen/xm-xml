@@ -1,6 +1,6 @@
 package com.kamijoucen.xml.document.dom;
 
-import com.kamijoucen.validate.Validate;
+import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.document.DOM;
 
 import java.util.List;

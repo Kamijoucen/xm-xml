@@ -1,7 +1,7 @@
 package com.kamijoucen.xml.document.dom;
 
-import com.kamijoucen.utils.StringUtils;
-import com.kamijoucen.utils.Utils;
+import com.kamijoucen.common.utils.StringUtils;
+import com.kamijoucen.common.utils.Utils;
 
 public class Text extends DomElement {
 

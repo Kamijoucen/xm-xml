@@ -1,6 +1,6 @@
 package com.kamijoucen.xml.parser.impl;
 
-import com.kamijoucen.utils.StringUtils;
+import com.kamijoucen.common.utils.StringUtils;
 import com.kamijoucen.xml.io.SimpleBufferReader;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.exception.FileAccessException;

@@ -1,11 +1,11 @@
 package com.kamijoucen.xml.ast;
 
-import com.kamijoucen.callback.Convert;
-import com.kamijoucen.callback.Query;
-import com.kamijoucen.utils.CollecUtils;
-import com.kamijoucen.utils.StringUtils;
-import com.kamijoucen.utils.Utils;
-import com.kamijoucen.validate.Validate;
+import com.kamijoucen.common.callback.Convert;
+import com.kamijoucen.common.callback.Query;
+import com.kamijoucen.common.utils.CollecUtils;
+import com.kamijoucen.common.utils.StringUtils;
+import com.kamijoucen.common.utils.Utils;
+import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.ast.result.AttrResult;
 import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.ast.result.NoneResult;
@@ -98,7 +98,7 @@ public abstract class BaseAstAdapter implements BaseAst {
 
     @Override
     public String childText(int i) {
-        TextResult text = CollecUtils.getListObj(texts, i);
+        TextResult text = CollecUtils.get(texts, i);
         return text == null ? null : text.val();
     }
 

@@ -1,8 +1,8 @@
 package com.kamijoucen.xml.document.dom;
 
-import com.kamijoucen.utils.CollecUtils;
-import com.kamijoucen.utils.StringUtils;
-import com.kamijoucen.validate.Validate;
+import com.kamijoucen.common.utils.CollecUtils;
+import com.kamijoucen.common.utils.StringUtils;
+import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.document.DOM;
 
 import java.util.List;

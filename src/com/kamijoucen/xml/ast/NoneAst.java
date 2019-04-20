@@ -1,6 +1,6 @@
 package com.kamijoucen.xml.ast;
 
-import com.kamijoucen.utils.CollecUtils;
+import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.token.TokenLocation;

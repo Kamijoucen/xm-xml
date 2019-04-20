@@ -1,11 +1,11 @@
 package com.kamijoucen.xml.ast.result;
 
 
-import com.kamijoucen.callback.Query;
-import com.kamijoucen.utils.CollecUtils;
-import com.kamijoucen.utils.StringUtils;
-import com.kamijoucen.utils.Utils;
-import com.kamijoucen.validate.Validate;
+import com.kamijoucen.common.callback.Query;
+import com.kamijoucen.common.utils.CollecUtils;
+import com.kamijoucen.common.utils.StringUtils;
+import com.kamijoucen.common.utils.Utils;
+import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.ast.BaseAst;
 import com.kamijoucen.xml.ast.NoneAst;
 import com.kamijoucen.xml.ast.TagBlockAst;

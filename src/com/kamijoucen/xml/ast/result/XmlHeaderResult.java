@@ -1,8 +1,8 @@
 package com.kamijoucen.xml.ast.result;
 
-import com.kamijoucen.callback.Query;
-import com.kamijoucen.utils.CollecUtils;
-import com.kamijoucen.utils.StringUtils;
+import com.kamijoucen.common.callback.Query;
+import com.kamijoucen.common.utils.CollecUtils;
+import com.kamijoucen.common.utils.StringUtils;
 
 import java.util.List;
 

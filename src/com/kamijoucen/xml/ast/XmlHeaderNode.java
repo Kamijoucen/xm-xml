@@ -6,14 +6,14 @@ import com.kamijoucen.common.utils.StringUtils;
 
 import java.util.List;
 
-public class XmlHeaderAst {
+public class XmlHeaderNode {
 
-    private final List<AttrAst> attrs = CollecUtils.list();
+    private final List<AttrNode> attrs = CollecUtils.list();
 
     public String getVersion() {
-        AttrAst version = CollecUtils.find(attrs, new Query<AttrAst>() {
+        AttrNode version = CollecUtils.find(attrs, new Query<AttrNode>() {
             @Override
-            public boolean query(AttrAst o) {
+            public boolean query(AttrNode o) {
                 return StringUtils.equals("version", o.getKey());
             }
         });
@@ -21,20 +21,20 @@ public class XmlHeaderAst {
     }
 
     public String getEncoding() {
-        AttrAst encoding = CollecUtils.find(attrs, new Query<AttrAst>() {
+        AttrNode encoding = CollecUtils.find(attrs, new Query<AttrNode>() {
             @Override
-            public boolean query(AttrAst o) {
+            public boolean query(AttrNode o) {
                 return StringUtils.equals("encoding", o.getKey());
             }
         });
         return encoding == null ? "" : encoding.getVal();
     }
 
-    public void addAttr(AttrAst attr) {
+    public void addAttr(AttrNode attr) {
         attrs.add(attr);
     }
 
-    public List<AttrAst> getAttrs() {
+    public List<AttrNode> getAttrs() {
         return attrs;
     }
 

@@ -4,21 +4,18 @@ import com.kamijoucen.common.callback.Query;
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
 import com.kamijoucen.common.utils.Utils;
-import com.kamijoucen.xml.ast.result.AttrResult;
-import com.kamijoucen.xml.ast.result.BaseResult;
-import com.kamijoucen.xml.ast.result.NoneResult;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class TagStartAst extends BaseNormalAstAdapter {
+public class TagStartNode extends BaseNormalNodeAdapter {
 
     private String tagName;
     private TagStartType type;
-    protected List<AttrAst> attrs = CollecUtils.list();
+    protected List<AttrNode> attrs = CollecUtils.list();
 
-    public TagStartAst(String tagName, List<AttrAst> attrs, TagStartType type, TokenLocation tokenLocation) {
+    public TagStartNode(String tagName, List<AttrNode> attrs, TagStartType type, TokenLocation tokenLocation) {
         this.tokenLocation = tokenLocation;
         this.type = type;
         this.tagName = tagName;
@@ -33,7 +30,7 @@ public class TagStartAst extends BaseNormalAstAdapter {
         this.tagName = tagName;
     }
 
-    public List<AttrAst> getAttrs() {
+    public List<AttrNode> getAttrs() {
         return attrs;
     }
 
@@ -66,22 +63,22 @@ public class TagStartAst extends BaseNormalAstAdapter {
 
 
     @Override
-    public AttrAst attr(final String s) {
-        AttrAst a = CollecUtils.find(attrs, new Query<AttrAst>() {
+    public AttrNode attr(final String s) {
+        AttrNode a = CollecUtils.find(attrs, new Query<AttrNode>() {
             @Override
-            public boolean query(AttrAst o) {
-                return StringUtils.equals(s, Utils.cast(o, AttrAst.class).getKey());
+            public boolean query(AttrNode o) {
+                return StringUtils.equals(s, Utils.cast(o, AttrNode.class).getKey());
             }
         });
-        return a == null ? NoneAttrAst.INSTANCE() : a;
+        return a == null ? NoneAttrNode.INSTANCE() : a;
     }
 
     @Override
-    public List<AttrAst> attrs(final String s) {
-        return CollecUtils.finds(attrs, new Query<AttrAst>() {
+    public List<AttrNode> attrs(final String s) {
+        return CollecUtils.finds(attrs, new Query<AttrNode>() {
             @Override
-            public boolean query(AttrAst o) {
-                return StringUtils.equals(s, Utils.cast(o, AttrAst.class).getKey());
+            public boolean query(AttrNode o) {
+                return StringUtils.equals(s, Utils.cast(o, AttrNode.class).getKey());
             }
         });
     }

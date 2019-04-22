@@ -3,13 +3,13 @@ package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.xml.token.TokenLocation;
 
-public class NoneAttrAst extends AttrAst {
+public class NoneAttrNode extends AttrNode {
 
-    private static final NoneAttrAst noneAst = new NoneAttrAst();
+    private static final NoneAttrNode noneAst = new NoneAttrNode();
 
     private static TokenLocation tokenLocation = new TokenLocation(-1, -1, null);
 
-    private NoneAttrAst() {
+    private NoneAttrNode() {
         super(null, null, tokenLocation);
     }
 
@@ -23,7 +23,7 @@ public class NoneAttrAst extends AttrAst {
         return null;
     }
 
-    public static NoneAttrAst INSTANCE() {
+    public static NoneAttrNode INSTANCE() {
         return noneAst;
     }
 

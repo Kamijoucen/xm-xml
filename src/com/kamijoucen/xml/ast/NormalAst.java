@@ -1,7 +1,5 @@
 package com.kamijoucen.xml.ast;
 
-import com.kamijoucen.xml.ast.result.BaseResult;
-
 import java.util.List;
 
 public interface NormalAst {
@@ -12,9 +10,9 @@ public interface NormalAst {
 
     List<NormalAst> childs();
 
-    AttrAst attr(String str);
+    AttrNode attr(String str);
 
-    List<AttrAst> attrs(String str);
+    List<AttrNode> attrs(String str);
 
     String firstChildText();
 

@@ -6,22 +6,22 @@ import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class TagBlockAst extends BaseNormalAstAdapter {
+public class TagBlockNode extends BaseNormalNodeAdapter {
 
     private String tagName;
-    private TagStartAst start;
-    private TagEndAst end;
+    private TagStartNode start;
+    private TagEndNode end;
 
-    public TagBlockAst(String tagName) {
+    public TagBlockNode(String tagName) {
         this.tagName = tagName;
     }
 
-    public void setAttrs(List<AttrAst> attrs) {
+    public void setAttrs(List<AttrNode> attrs) {
         this.start.attrs.addAll(attrs);
     }
 
     public void putAttr(String key, String val, TokenLocation tokenLocation) {
-        this.start.attrs.add(new AttrAst(key, val, tokenLocation));
+        this.start.attrs.add(new AttrNode(key, val, tokenLocation));
     }
 
     public void addChild(String tagName, NormalAst ast) {
@@ -32,33 +32,33 @@ public class TagBlockAst extends BaseNormalAstAdapter {
         return tagName;
     }
 
-    public void addText(TextAst text) {
+    public void addText(TextNode text) {
         texts.add(text);
     }
 
-    public TagStartAst getStart() {
+    public TagStartNode getStart() {
         return start;
     }
 
-    public void setStart(TagStartAst start) {
+    public void setStart(TagStartNode start) {
         this.start = start;
     }
 
-    public TagEndAst getEnd() {
+    public TagEndNode getEnd() {
         return end;
     }
 
-    public void setEnd(TagEndAst end) {
+    public void setEnd(TagEndNode end) {
         this.end = end;
     }
 
     @Override
-    public AttrAst attr(String str) {
+    public AttrNode attr(String str) {
         return this.start.attr(str);
     }
 
     @Override
-    public List<AttrAst> attrs(String str) {
+    public List<AttrNode> attrs(String str) {
         return this.start.attrs;
     }
 

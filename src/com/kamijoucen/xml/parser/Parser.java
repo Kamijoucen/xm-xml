@@ -1,22 +1,19 @@
 package com.kamijoucen.xml.parser;
 
 import com.kamijoucen.xml.ast.*;
-import com.kamijoucen.xml.ast.result.AttrResult;
-import com.kamijoucen.xml.ast.result.TextResult;
-import com.kamijoucen.xml.ast.result.XmlHeaderResult;
 
 public interface Parser {
 
     NormalAst parserTagBlock();
 
-    TagEndAst parserTagEnd();
+    TagEndNode parserTagEnd();
 
-    TagStartAst parserTagStart();
+    TagStartNode parserTagStart();
 
-    AttrAst parserAttr();
+    AttrNode parserAttr();
 
-    TextAst parserChildText();
+    TextNode parserChildText();
 
-    XmlHeaderAst parserXmlHeader();
+    XmlHeaderNode parserXmlHeader();
 
 }

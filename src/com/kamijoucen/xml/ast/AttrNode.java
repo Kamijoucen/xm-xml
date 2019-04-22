@@ -4,13 +4,13 @@ import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
-public class AttrAst extends BaseAst {
+public class AttrNode extends BaseNode {
 
     private String key;
     private String val;
     protected TokenLocation tokenLocation;
 
-    public AttrAst(String key, String val, TokenLocation tokenLocation) {
+    public AttrNode(String key, String val, TokenLocation tokenLocation) {
         Validate.notBlankVal(key);
         Validate.notBlankVal(val);
         Validate.notNull(tokenLocation);

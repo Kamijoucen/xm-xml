@@ -8,12 +8,12 @@ import com.kamijoucen.xml.token.TokenLocation;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseNormalAstAdapter extends BaseAst implements NormalAst {
+public abstract class BaseNormalNodeAdapter extends BaseNode implements NormalAst {
 
     // TODO: 2017/8/12 低效的数据结构，需要改为查询树
     protected Map<String, List<NormalAst>> body = CollecUtils.map();
     protected List<NormalAst> allBody = CollecUtils.list();
-    protected List<TextAst> texts = CollecUtils.list();
+    protected List<TextNode> texts = CollecUtils.list();
     protected TokenLocation tokenLocation;
 
     protected void addChild(String key, NormalAst ast) {
@@ -34,7 +34,7 @@ public abstract class BaseNormalAstAdapter extends BaseAst implements NormalAst 
     public NormalAst child(final String s) {
         Validate.notBlankVal(s);
         NormalAst c = CollecUtils.firstObj(body.get(s));
-        return c == null ? NoneNormalAst.INSTANCE() : c;
+        return c == null ? NoneNormalNode.INSTANCE() : c;
     }
 
     @Override
@@ -59,9 +59,9 @@ public abstract class BaseNormalAstAdapter extends BaseAst implements NormalAst 
 
     @Override
     public List<String> childTexts() {
-        return CollecUtils.convertList(texts, new Convert<TextAst, String>() {
+        return CollecUtils.convertList(texts, new Convert<TextNode, String>() {
             @Override
-            public String convert(TextAst o) {
+            public String convert(TextNode o) {
                 return o.val();
             }
         });
@@ -69,7 +69,7 @@ public abstract class BaseNormalAstAdapter extends BaseAst implements NormalAst 
 
     @Override
     public String childText(int i) {
-        TextAst text = CollecUtils.get(texts, i);
+        TextNode text = CollecUtils.get(texts, i);
         return text == null ? null : text.val();
     }
 

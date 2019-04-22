@@ -1,17 +1,16 @@
 package com.kamijoucen.xml.ast;
 
-import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class TagEndAst extends BaseNormalAstAdapter {
+public class TagEndNode extends BaseNormalNodeAdapter {
 
     private String tagName;
     private TokenLocation tokenLocation;
 
-    public TagEndAst(String tagName, TokenLocation tokenLocation) {
+    public TagEndNode(String tagName, TokenLocation tokenLocation) {
         this.tokenLocation = tokenLocation;
         this.tagName = tagName;
     }
@@ -45,12 +44,12 @@ public class TagEndAst extends BaseNormalAstAdapter {
     }
 
     @Override
-    public AttrAst attr(String s) {
+    public AttrNode attr(String s) {
         return null;
     }
 
     @Override
-    public List<AttrAst> attrs(String s) {
+    public List<AttrNode> attrs(String s) {
         return null;
     }
 

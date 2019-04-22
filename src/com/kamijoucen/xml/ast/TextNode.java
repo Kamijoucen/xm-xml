@@ -3,12 +3,12 @@ package com.kamijoucen.xml.ast;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
-public class TextAst extends BaseAst {
+public class TextNode extends BaseNode {
 
     protected String text;
     protected TokenLocation tokenLocation;
 
-    public TextAst(String text, TokenLocation tokenLocation) {
+    public TextNode(String text, TokenLocation tokenLocation) {
         this.text = text;
         this.tokenLocation = tokenLocation;
     }

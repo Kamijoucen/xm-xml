@@ -5,27 +5,27 @@ import com.kamijoucen.xml.ast.*;
 
 public class TemplateBuilderVisitor {
 
-    public String visit(AttrAst ast) {
+    public String visit(AttrNode ast) {
         return StringUtils.joinString(ast.getKey(), BUILT.ASSIGN, BUILT.STRING_DOUBLE, ast.getVal(), BUILT.STRING_DOUBLE);
     }
 
-    public String visit(SingleTagStartAst ast) {
+    public String visit(SingleTagStartNode ast) {
         return null;
     }
 
-    public String visit(TagBlockAst ast) {
+    public String visit(TagBlockNode ast) {
         return null;
     }
 
-    public String visit(TagEndAst ast) {
+    public String visit(TagEndNode ast) {
         return null;
     }
 
-    public String visit(TagStartAst ast) {
+    public String visit(TagStartNode ast) {
         return null;
     }
 
-    public String visit(TextAst ast) {
+    public String visit(TextNode ast) {
         return null;
     }
 

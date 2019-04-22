@@ -1,13 +1,12 @@
 package com.kamijoucen.xml.ast;
 
-import com.kamijoucen.xml.ast.result.AttrResult;
-import com.kamijoucen.xml.ast.result.BaseResult;
-import com.kamijoucen.xml.ast.result.TextResult;
+
 import com.kamijoucen.xml.token.TokenLocation;
+import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class TagBlockAst extends BaseAstAdapter {
+public class TagBlockAst extends BaseNormalAstAdapter {
 
     private String tagName;
     private TagStartAst start;
@@ -17,16 +16,15 @@ public class TagBlockAst extends BaseAstAdapter {
         this.tagName = tagName;
     }
 
-    public void setAttrs(List<BaseResult> attrs) {
-        this.attrs.addAll(attrs);
+    public void setAttrs(List<AttrAst> attrs) {
+        this.start.attrs.addAll(attrs);
     }
 
     public void putAttr(String key, String val, TokenLocation tokenLocation) {
-        attrs.add(new AttrResult(key, val, tokenLocation));
+        this.start.attrs.add(new AttrAst(key, val, tokenLocation));
     }
 
-    @Override
-    public void addChild(String tagName, BaseAst ast) {
+    public void addChild(String tagName, NormalAst ast) {
         super.addChild(tagName, ast);
     }
 
@@ -34,7 +32,7 @@ public class TagBlockAst extends BaseAstAdapter {
         return tagName;
     }
 
-    public void addText(TextResult text) {
+    public void addText(TextAst text) {
         texts.add(text);
     }
 
@@ -52,6 +50,26 @@ public class TagBlockAst extends BaseAstAdapter {
 
     public void setEnd(TagEndAst end) {
         this.end = end;
+    }
+
+    @Override
+    public AttrAst attr(String str) {
+        return this.start.attr(str);
+    }
+
+    @Override
+    public List<AttrAst> attrs(String str) {
+        return this.start.attrs;
+    }
+
+    @Override
+    public String toFormatString() {
+        return null;
+    }
+
+    @Override
+    public String builder(TemplateBuilderVisitor visitor) {
+        return null;
     }
 
 }

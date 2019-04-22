@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.document;
+package com.kamijoucen.xml.ast.result;
 
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.xml.document.dom.Attr;

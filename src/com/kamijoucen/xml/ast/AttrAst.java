@@ -1,0 +1,45 @@
+package com.kamijoucen.xml.ast;
+
+import com.kamijoucen.common.validate.Validate;
+import com.kamijoucen.xml.token.TokenLocation;
+import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
+
+public class AttrAst extends BaseAst {
+
+    private String key;
+    private String val;
+    protected TokenLocation tokenLocation;
+
+    public AttrAst(String key, String val, TokenLocation tokenLocation) {
+        Validate.notBlankVal(key);
+        Validate.notBlankVal(val);
+        Validate.notNull(tokenLocation);
+        this.key = key;
+        this.val = val;
+        this.tokenLocation = tokenLocation;
+    }
+
+    @Override
+    TokenLocation getTokenLocation() {
+        return tokenLocation;
+    }
+
+    @Override
+    String toFormatString() {
+        return null;
+    }
+
+    @Override
+    String builder(TemplateBuilderVisitor visitor) {
+        return visitor.visit(this);
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getVal() {
+        return val;
+    }
+
+}

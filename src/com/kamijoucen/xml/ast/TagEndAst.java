@@ -2,10 +2,11 @@ package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.xml.ast.result.BaseResult;
 import com.kamijoucen.xml.token.TokenLocation;
+import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class TagEndAst implements BaseAst {
+public class TagEndAst extends BaseNormalAstAdapter {
 
     private String tagName;
     private TokenLocation tokenLocation;
@@ -29,27 +30,27 @@ public class TagEndAst implements BaseAst {
     }
 
     @Override
-    public BaseAst child(String s) {
+    public NormalAst child(String s) {
         return null;
     }
 
     @Override
-    public List<BaseAst> childs(String s) {
+    public List<NormalAst> childs(String s) {
         return null;
     }
 
     @Override
-    public List<BaseAst> childs() {
+    public List<NormalAst> childs() {
         return null;
     }
 
     @Override
-    public BaseResult attr(String s) {
+    public AttrAst attr(String s) {
         return null;
     }
 
     @Override
-    public List<BaseResult> attrs(String s) {
+    public List<AttrAst> attrs(String s) {
         return null;
     }
 
@@ -65,6 +66,16 @@ public class TagEndAst implements BaseAst {
 
     @Override
     public String childText(int i) {
+        return null;
+    }
+
+    @Override
+    public String toFormatString() {
+        return null;
+    }
+
+    @Override
+    public String builder(TemplateBuilderVisitor visitor) {
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.document;
+package com.kamijoucen.xml.ast.result;
 
 import com.kamijoucen.xml.document.dom.Attr;
 import com.kamijoucen.xml.document.dom.Block;
@@ -7,43 +7,43 @@ import com.kamijoucen.xml.document.dom.DomElement;
 import java.util.List;
 import java.util.Map;
 
-public class DocumentTemplete {
+public class DocumentTemplate {
 
     private Block root;
-    private DocumentTemplete() {}
+    private DocumentTemplate() {}
 
-    public static DocumentTemplete create(String root) {
-        DocumentTemplete templete = new DocumentTemplete();
+    public static DocumentTemplate create(String root) {
+        DocumentTemplate templete = new DocumentTemplate();
         templete.root = DOM.node(root);
         return templete;
     }
 
-    public DocumentTemplete attr(String key, String val) {
+    public DocumentTemplate attr(String key, String val) {
         root.attr(DOM.attr(key, val));
         return this;
     }
 
-    public DocumentTemplete attr(Attr attr) {
+    public DocumentTemplate attr(Attr attr) {
         root.attr(attr);
         return this;
     }
 
-    public DocumentTemplete attrs(List<Attr> attrs) {
+    public DocumentTemplate attrs(List<Attr> attrs) {
         root.attrs(attrs);
         return this;
     }
 
-    public DocumentTemplete attrs(Map<String, String> attrs) {
+    public DocumentTemplate attrs(Map<String, String> attrs) {
         root.attrs(DOM.attrs(attrs));
         return this;
     }
 
-    public DocumentTemplete child(String childName) {
+    public DocumentTemplate child(String childName) {
         root.child(DOM.node(childName));
         return this;
     }
 
-    public DocumentTemplete child(DomElement element) {
+    public DocumentTemplate child(DomElement element) {
         root.child(element);
         return this;
     }

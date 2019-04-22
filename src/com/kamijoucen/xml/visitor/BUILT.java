@@ -1,6 +1,6 @@
-package com.kamijoucen.xml.document.dom;
+package com.kamijoucen.xml.visitor;
 
-final class BUILT {
+class BUILT {
     public static final String TAG_START      = "<";
     public static final String TAG_END        = ">";
     public static final String TAG_SINGLE_END = "/>";

@@ -26,7 +26,7 @@ public class LLParser implements Parser {
     }
 
     @Override
-    public BaseAst parserTagBlock() {
+    public NormalAst parserTagBlock() {
         TagStartAst blockStart = parserTagStart();
         TagBlockAst blockAst = new TagBlockAst(blockStart.getTagName());
         blockAst.setStart(blockStart);
@@ -41,7 +41,7 @@ public class LLParser implements Parser {
                     blockAst.addText(parserChildText());
                     break;
                 case TAG_START:
-                    BaseAst cb = parserTagBlock();
+                    NormalAst cb = parserTagBlock();
                     blockAst.addChild(Utils.cast(cb, TagBlockAst.class).getTagName(), cb);
                     break;
                 case END_OF_FILE:
@@ -90,7 +90,7 @@ public class LLParser implements Parser {
             throw new XmlSyntaxException("错误位置:" + tag.getTokenLocation() + "处需要一个标签名字");
         }
         scanner.nextToken();
-        List<AttrResult> attrs = CollecUtils.list();
+        List<AttrAst> attrs = CollecUtils.list();
         if (!isTagEndToken(scanner.getToken().getTokenType())
                 && scanner.getToken().getTokenType() != TokenType.IDENTIFIER) {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
@@ -113,14 +113,14 @@ public class LLParser implements Parser {
     }
 
     @Override
-    public AttrResult parserAttr() {
+    public AttrAst parserAttr() {
         Token key = scanner.getToken();
         Token op = scanner.nextToken();
         if (op.getTokenType() == TokenType.OPERATE) {
             Token val = scanner.nextToken();
             if (val.getTokenType() == TokenType.STRING) {
                 scanner.nextToken();
-                return new AttrResult(key.getStrVal(), val.getStrVal(), key.getTokenLocation());
+                return new AttrAst(key.getStrVal(), val.getStrVal(), key.getTokenLocation());
             } else {
                 throw new XmlSyntaxException("错误位置:" + key.getTokenLocation() + "属性没有找到属性值");
             }
@@ -129,21 +129,21 @@ public class LLParser implements Parser {
                 || op.getTokenType() == TokenType.SINGLE_TAG_END
                 || op.getTokenType() == TokenType.XML_HEAD_END) {
             // TODO: 2017/8/23 这个不允许出现单独的属性名
-            return new AttrResult(key.getStrVal(), "", key.getTokenLocation());
+            return new AttrAst(key.getStrVal(), "", key.getTokenLocation());
         } else {
             throw new XmlSyntaxException("错误位置:" + key.getTokenLocation() + "属性后存在未识别的标识符");
         }
     }
 
     @Override
-    public TextResult parserChildText() {
+    public TextAst parserChildText() {
         Token token = scanner.getToken();
         scanner.nextToken();
-        return new TextResult(token.getStrVal(), token.getTokenLocation());
+        return new TextAst(token.getStrVal(), token.getTokenLocation());
     }
 
     @Override
-    public XmlHeaderResult parserXmlHeader() {
+    public XmlHeaderAst parserXmlHeader() {
         if (scanner.getToken().getTokenType() != TokenType.XML_HEAD_START) {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
                     + "标签头应该是 '<?' 开头并由 '?>' 结束");
@@ -153,7 +153,7 @@ public class LLParser implements Parser {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "应该声明文档类型是 xml");
         }
         scanner.nextToken();
-        XmlHeaderResult result = new XmlHeaderResult();
+        XmlHeaderAst result = new XmlHeaderAst();
         while (scanner.getToken().getTokenType() != TokenType.XML_HEAD_END
                 && scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
             result.addAttr(parserAttr());

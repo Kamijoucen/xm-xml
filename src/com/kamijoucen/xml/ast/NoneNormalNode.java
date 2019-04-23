@@ -15,17 +15,17 @@ public class NoneNormalNode extends BaseNormalNodeAdapter {
     private NoneNormalNode() {}
 
     @Override
-    public List<NormalAst> childs() {
+    public List<NormalNode> childs() {
         return CollecUtils.readOnlyList();
     }
 
     @Override
-    public NormalAst child(String s) {
+    public NormalNode child(String s) {
         return NONENORMALAST;
     }
 
     @Override
-    public List<NormalAst> childs(String s) {
+    public List<NormalNode> childs(String s) {
         return CollecUtils.readOnlyList();
     }
 

@@ -3,21 +3,21 @@ package com.kamijoucen.xml.io;
 import java.io.IOException;
 import java.io.Reader;
 
-public class SimpleBufferReader extends Reader {
+public class SimplePeekBufferReader extends Reader {
     private Reader in;
     private char[] cb;
     private int catchSize = 0;
     private int charIndex = -1;
     private int catchLength = 9999;
 
-    public SimpleBufferReader(Reader in) throws IOException {
+    public SimplePeekBufferReader(Reader in) throws IOException {
         super(in);
         this.in = in;
         cb = new char[catchLength];
         fill();
     }
 
-    public SimpleBufferReader(Reader in, int bufferSize) throws IOException {
+    public SimplePeekBufferReader(Reader in, int bufferSize) throws IOException {
         super(in);
         this.in = in;
         cb = new char[bufferSize];
@@ -45,7 +45,7 @@ public class SimpleBufferReader extends Reader {
 
     @Override
     public int read() throws IOException {
-        if (charIndex + 1 >= catchSize) {
+        if (charIndex + 1 > catchSize) {
             fill();
             if (catchSize == -1) {
                 return catchSize;

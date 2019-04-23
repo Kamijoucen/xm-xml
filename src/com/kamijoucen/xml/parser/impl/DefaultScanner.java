@@ -1,7 +1,7 @@
 package com.kamijoucen.xml.parser.impl;
 
 import com.kamijoucen.common.utils.StringUtils;
-import com.kamijoucen.xml.io.SimpleBufferReader;
+import com.kamijoucen.xml.io.SimplePeekBufferReader;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.exception.FileAccessException;
 import com.kamijoucen.xml.exception.XmlSyntaxException;
@@ -21,7 +21,7 @@ public class DefaultScanner implements Scanner {
     private Token token;
     private TokenLocation tokenLocation;
     private StringBuilder buffer = new StringBuilder();
-    private SimpleBufferReader input;
+    private SimplePeekBufferReader input;
     private State state = State.NONE;
     private char currentStringToken = 0;
     private boolean textFlag = false;
@@ -29,33 +29,33 @@ public class DefaultScanner implements Scanner {
 
     public DefaultScanner(InputStream stream) throws IOException {
         this.fileName = "local stream";
-        input = new SimpleBufferReader(new InputStreamReader(stream));
+        input = new SimplePeekBufferReader(new InputStreamReader(stream));
     }
 
 
     public DefaultScanner(InputStream stream, String charSet) throws IOException {
         this.fileName = "local stream";
-        input = new SimpleBufferReader(new InputStreamReader(stream, Charset.forName(charSet)));
+        input = new SimplePeekBufferReader(new InputStreamReader(stream, Charset.forName(charSet)));
     }
 
     public DefaultScanner(File file, String charSet) throws IOException {
         this.fileName = file.getName();
-        input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(file), Charset.forName(charSet)));
+        input = new SimplePeekBufferReader(new InputStreamReader(new FileInputStream(file), Charset.forName(charSet)));
     }
 
     public DefaultScanner(File file) throws IOException {
         this.fileName = file.getName();
-        input = new SimpleBufferReader(new InputStreamReader(new FileInputStream(file)));
+        input = new SimplePeekBufferReader(new InputStreamReader(new FileInputStream(file)));
     }
 
     public DefaultScanner(String xml) throws IOException {
         this.fileName = "local string";
-        input = new SimpleBufferReader(new InputStreamReader(new ByteArrayInputStream(xml.getBytes())));
+        input = new SimplePeekBufferReader(new InputStreamReader(new ByteArrayInputStream(xml.getBytes())));
     }
 
     public DefaultScanner(String xml, String charSet) throws IOException {
         this.fileName = "local string";
-        input = new SimpleBufferReader(new InputStreamReader(new ByteArrayInputStream(xml.getBytes(Charset.forName(charSet)))));
+        input = new SimplePeekBufferReader(new InputStreamReader(new ByteArrayInputStream(xml.getBytes(Charset.forName(charSet)))));
     }
 
     @Override

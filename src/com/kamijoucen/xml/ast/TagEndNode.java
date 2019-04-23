@@ -29,17 +29,17 @@ public class TagEndNode extends BaseNormalNodeAdapter {
     }
 
     @Override
-    public NormalAst child(String s) {
+    public NormalNode child(String s) {
         return null;
     }
 
     @Override
-    public List<NormalAst> childs(String s) {
+    public List<NormalNode> childs(String s) {
         return null;
     }
 
     @Override
-    public List<NormalAst> childs() {
+    public List<NormalNode> childs() {
         return null;
     }
 

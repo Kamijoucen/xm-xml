@@ -2,13 +2,13 @@ package com.kamijoucen.xml.ast;
 
 import java.util.List;
 
-public interface NormalAst {
+public interface NormalNode {
 
-    NormalAst child(String str);
+    NormalNode child(String str);
 
-    List<NormalAst> childs(String str);
+    List<NormalNode> childs(String str);
 
-    List<NormalAst> childs();
+    List<NormalNode> childs();
 
     AttrNode attr(String str);
 

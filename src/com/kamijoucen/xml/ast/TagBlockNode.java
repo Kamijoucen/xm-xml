@@ -24,7 +24,8 @@ public class TagBlockNode extends BaseNormalNodeAdapter {
         this.start.attrs.add(new AttrNode(key, val, tokenLocation));
     }
 
-    public void addChild(String tagName, NormalAst ast) {
+    @Override
+    public void addChild(String tagName, NormalNode ast) {
         super.addChild(tagName, ast);
     }
 

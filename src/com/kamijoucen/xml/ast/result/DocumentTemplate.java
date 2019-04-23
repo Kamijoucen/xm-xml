@@ -1,15 +1,14 @@
 package com.kamijoucen.xml.ast.result;
 
-import com.kamijoucen.xml.document.dom.Attr;
-import com.kamijoucen.xml.document.dom.Block;
-import com.kamijoucen.xml.document.dom.DomElement;
+import com.kamijoucen.xml.ast.AttrNode;
+import com.kamijoucen.xml.ast.TagBlockNode;
 
 import java.util.List;
 import java.util.Map;
 
 public class DocumentTemplate {
 
-    private Block root;
+    private TagBlockNode root;
     private DocumentTemplate() {}
 
     public static DocumentTemplate create(String root) {
@@ -19,27 +18,27 @@ public class DocumentTemplate {
     }
 
     public DocumentTemplate attr(String key, String val) {
-        root.attr(DOM.attr(key, val));
+        root.putAttr(DOM.attr(key, val));
         return this;
     }
 
-    public DocumentTemplate attr(Attr attr) {
-        root.attr(attr);
+    public DocumentTemplate attr(AttrNode attr) {
+        root.putAttr(attr);
         return this;
     }
 
-    public DocumentTemplate attrs(List<Attr> attrs) {
-        root.attrs(attrs);
+    public DocumentTemplate attrs(List<AttrNode> attrs) {
+        root.putAttrs(attrs);
         return this;
     }
 
     public DocumentTemplate attrs(Map<String, String> attrs) {
-        root.attrs(DOM.attrs(attrs));
+        root.putAttrs(DOM.attrs(attrs));
         return this;
     }
 
     public DocumentTemplate child(String childName) {
-        root.child(DOM.node(childName));
+        root.addChild(DOM.node(childName));
         return this;
     }
 

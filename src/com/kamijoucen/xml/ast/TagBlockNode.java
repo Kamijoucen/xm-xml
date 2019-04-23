@@ -16,7 +16,7 @@ public class TagBlockNode extends BaseTagNodeAdapter {
         this.tagName = tagName;
     }
 
-    public void setAttrs(List<AttrNode> attrs) {
+    public void putAttrs(List<AttrNode> attrs) {
         this.start.attrs.addAll(attrs);
     }
 
@@ -24,11 +24,21 @@ public class TagBlockNode extends BaseTagNodeAdapter {
         this.start.attrs.add(new AttrNode(key, val, tokenLocation));
     }
 
-    @Override
-    public void addChild(String tagName, TagNode ast) {
-        super.addChild(tagName, ast);
+    public void putAttr(AttrNode node) {
+        this.start.attrs.add(node);
     }
 
+    @Override
+    public void addChild(String tagName, TagNode node) {
+        super.addChild(tagName, node);
+    }
+
+    @Override
+    public void addChild(TagNode node) {
+        super.addChild(node);
+    }
+
+    @Override
     public String getTagName() {
         return tagName;
     }
@@ -51,6 +61,14 @@ public class TagBlockNode extends BaseTagNodeAdapter {
 
     public void setEnd(TagEndNode end) {
         this.end = end;
+    }
+
+    public void setTagStartType(TagStartNode.TagStartType type) {
+        this.start.setType(type);
+    }
+
+    public TagStartNode.TagStartType getTagStartType() {
+        return this.start.getType();
     }
 
     @Override

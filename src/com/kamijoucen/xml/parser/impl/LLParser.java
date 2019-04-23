@@ -30,10 +30,10 @@ public class LLParser implements Parser {
         TagBlockNode blockAst = new TagBlockNode(blockStart.getTagName());
         blockAst.setStart(blockStart);
         if (blockStart.startType() == TagStartNode.TagStartType.SINGLE) {
-            blockAst.setAttrs(blockStart.getAttrs());
+            blockAst.putAttrs(blockStart.getAttrs());
             return blockAst;
         }
-        blockAst.setAttrs(blockStart.getAttrs());
+        blockAst.putAttrs(blockStart.getAttrs());
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             switch (scanner.getToken().getTokenType()) {
                 case TEXT:

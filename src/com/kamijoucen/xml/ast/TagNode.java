@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface TagNode {
 
+    String getTagName();
+
     TagNode child(String str);
 
     List<TagNode> childs(String str);

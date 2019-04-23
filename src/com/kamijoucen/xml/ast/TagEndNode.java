@@ -15,6 +15,7 @@ public class TagEndNode extends BaseTagNodeAdapter {
         this.tagName = tagName;
     }
 
+    @Override
     public String getTagName() {
         return tagName;
     }

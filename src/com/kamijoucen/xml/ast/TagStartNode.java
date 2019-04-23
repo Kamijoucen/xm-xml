@@ -22,6 +22,7 @@ public class TagStartNode extends BaseTagNodeAdapter {
         this.attrs.addAll(attrs);
     }
 
+    @Override
     public String getTagName() {
         return tagName;
     }

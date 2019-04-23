@@ -24,7 +24,7 @@ public class TextNode extends BaseNode {
 
     @Override
     public String builder(TemplateBuilderVisitor visitor) {
-        return null;
+        return visitor.visit(this);
     }
 
     @Override

@@ -6,10 +6,7 @@ import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
 import com.kamijoucen.common.utils.Utils;
 import com.kamijoucen.common.validate.Validate;
-import com.kamijoucen.xml.ast.BaseNode;
-import com.kamijoucen.xml.ast.NoneNormalNode;
-import com.kamijoucen.xml.ast.TagBlockNode;
-import com.kamijoucen.xml.ast.XmlHeaderNode;
+import com.kamijoucen.xml.ast.*;
 import com.kamijoucen.xml.exception.FileAccessException;
 import com.kamijoucen.xml.parser.Parser;
 import com.kamijoucen.xml.parser.Scanner;
@@ -27,7 +24,7 @@ public class DocumentResult {
     private XmlHeaderNode xmlHeader;
     private Scanner scanner;
     private Parser parser;
-    private final List<TagBlockNode> roots = CollecUtils.list();
+    private final List<TagNode> roots = CollecUtils.list();
 
     public static DocumentResult loadStream(InputStream stream, String charset) {
         Validate.notNull(stream);
@@ -134,19 +131,19 @@ public class DocumentResult {
         }
     }
 
-    public List<TagBlockNode> childs() {
+    public List<TagNode> childs() {
         return roots;
     }
 
 
-    public BaseNode child(final String str) {
-        BaseNode root = CollecUtils.find(roots, new Query<TagBlockNode>() {
+    public TagNode child(final String str) {
+        TagNode root = CollecUtils.find(roots, new Query<TagNode>() {
             @Override
-            public boolean query(TagBlockNode o) {
-                return StringUtils.equals(str, o.getTagName());
+            public boolean query(TagNode o) {
+                return StringUtils.equals(str, Utils.cast(o, TagBlockNode.class).getTagName());
             }
         });
-        return root == null ? NoneNormalNode.INSTANCE() : root;
+        return root == null ? NoneTagNode.INSTANCE() : root;
     }
 
     public void format() {

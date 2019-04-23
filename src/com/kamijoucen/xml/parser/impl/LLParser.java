@@ -25,7 +25,7 @@ public class LLParser implements Parser {
     }
 
     @Override
-    public NormalNode parserTagBlock() {
+    public TagNode parserTagBlock() {
         TagStartNode blockStart = parserTagStart();
         TagBlockNode blockAst = new TagBlockNode(blockStart.getTagName());
         blockAst.setStart(blockStart);
@@ -40,7 +40,7 @@ public class LLParser implements Parser {
                     blockAst.addText(parserChildText());
                     break;
                 case TAG_START:
-                    NormalNode cb = parserTagBlock();
+                    TagNode cb = parserTagBlock();
                     blockAst.addChild(Utils.cast(cb, TagBlockNode.class).getTagName(), cb);
                     break;
                 case END_OF_FILE:

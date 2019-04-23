@@ -5,7 +5,7 @@ import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class TagEndNode extends BaseNormalNodeAdapter {
+public class TagEndNode extends BaseTagNodeAdapter {
 
     private String tagName;
     private TokenLocation tokenLocation;
@@ -29,17 +29,17 @@ public class TagEndNode extends BaseNormalNodeAdapter {
     }
 
     @Override
-    public NormalNode child(String s) {
+    public TagNode child(String s) {
         return null;
     }
 
     @Override
-    public List<NormalNode> childs(String s) {
+    public List<TagNode> childs(String s) {
         return null;
     }
 
     @Override
-    public List<NormalNode> childs() {
+    public List<TagNode> childs() {
         return null;
     }
 

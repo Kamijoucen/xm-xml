@@ -6,7 +6,7 @@ import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class TagBlockNode extends BaseNormalNodeAdapter {
+public class TagBlockNode extends BaseTagNodeAdapter {
 
     private String tagName;
     private TagStartNode start;
@@ -25,7 +25,7 @@ public class TagBlockNode extends BaseNormalNodeAdapter {
     }
 
     @Override
-    public void addChild(String tagName, NormalNode ast) {
+    public void addChild(String tagName, TagNode ast) {
         super.addChild(tagName, ast);
     }
 

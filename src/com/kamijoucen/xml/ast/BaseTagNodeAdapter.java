@@ -8,21 +8,21 @@ import com.kamijoucen.xml.token.TokenLocation;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseNormalNodeAdapter extends BaseNode implements NormalNode {
+public abstract class BaseTagNodeAdapter extends BaseNode implements TagNode {
 
     // TODO: 2017/8/12 低效的数据结构，需要改为查询树
-    protected Map<String, List<NormalNode>> body = CollecUtils.map();
-    protected List<NormalNode> allBody = CollecUtils.list();
+    protected Map<String, List<TagNode>> body = CollecUtils.map();
+    protected List<TagNode> allBody = CollecUtils.list();
     protected List<TextNode> texts = CollecUtils.list();
     protected TokenLocation tokenLocation;
 
-    protected void addChild(String key, NormalNode ast) {
+    protected void addChild(String key, TagNode ast) {
         Validate.notBlankVal(key);
         Validate.notNull(ast);
         allBody.add(ast);
-        List<NormalNode> vals = body.get(key);
+        List<TagNode> vals = body.get(key);
         if (vals == null) {
-            List<NormalNode> list = CollecUtils.list();
+            List<TagNode> list = CollecUtils.list();
             list.add(ast);
             body.put(key, list);
         } else {
@@ -31,20 +31,20 @@ public abstract class BaseNormalNodeAdapter extends BaseNode implements NormalNo
     }
 
     @Override
-    public NormalNode child(final String s) {
+    public TagNode child(final String s) {
         Validate.notBlankVal(s);
-        NormalNode c = CollecUtils.firstObj(body.get(s));
-        return c == null ? NoneNormalNode.INSTANCE() : c;
+        TagNode c = CollecUtils.firstObj(body.get(s));
+        return c == null ? NoneTagNode.INSTANCE() : c;
     }
 
     @Override
-    public List<NormalNode> childs(final String s) {
+    public List<TagNode> childs(final String s) {
         Validate.notBlankVal(s);
         return body.get(s);
     }
 
     @Override
-    public List<NormalNode> childs() {
+    public List<TagNode> childs() {
         return allBody;
     }
 

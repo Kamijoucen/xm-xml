@@ -6,26 +6,26 @@ import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class NoneNormalNode extends BaseNormalNodeAdapter {
+public class NoneTagNode extends BaseTagNodeAdapter {
 
-    private static final NoneNormalNode NONENORMALAST = new NoneNormalNode();
+    private static final NoneTagNode NONENORMALAST = new NoneTagNode();
 
     private static TokenLocation tokenLocation = new TokenLocation(-1, -1, null);
 
-    private NoneNormalNode() {}
+    private NoneTagNode() {}
 
     @Override
-    public List<NormalNode> childs() {
+    public List<TagNode> childs() {
         return CollecUtils.readOnlyList();
     }
 
     @Override
-    public NormalNode child(String s) {
+    public TagNode child(String s) {
         return NONENORMALAST;
     }
 
     @Override
-    public List<NormalNode> childs(String s) {
+    public List<TagNode> childs(String s) {
         return CollecUtils.readOnlyList();
     }
 
@@ -55,7 +55,7 @@ public class NoneNormalNode extends BaseNormalNodeAdapter {
     }
 
 
-    public static NoneNormalNode INSTANCE() {
+    public static NoneTagNode INSTANCE() {
         return NONENORMALAST;
     }
 

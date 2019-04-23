@@ -9,7 +9,7 @@ import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
 import java.util.List;
 
-public class TagStartNode extends BaseNormalNodeAdapter {
+public class TagStartNode extends BaseTagNodeAdapter {
 
     private String tagName;
     private TagStartType type;

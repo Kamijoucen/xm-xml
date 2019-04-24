@@ -20,6 +20,11 @@ public class NoneTagNode extends BaseTagNodeAdapter {
     }
 
     @Override
+    public String getTagName() {
+        return null;
+    }
+
+    @Override
     public TagNode child(String s) {
         return NONENORMALAST;
     }
@@ -54,11 +59,6 @@ public class NoneTagNode extends BaseTagNodeAdapter {
         return null;
     }
 
-
-    public static NoneTagNode INSTANCE() {
-        return NONENORMALAST;
-    }
-
     @Override
     String toFormatString() {
         return null;
@@ -74,5 +74,8 @@ public class NoneTagNode extends BaseTagNodeAdapter {
         return tokenLocation;
     }
 
+    public static NoneTagNode INSTANCE() {
+        return NONENORMALAST;
+    }
 
 }

@@ -12,10 +12,19 @@ public class AttrNode extends BaseNode {
 
     public AttrNode(String key, String val, TokenLocation tokenLocation) {
         Validate.notBlankVal(key);
-        Validate.notBlankVal(val);
         Validate.notNull(tokenLocation);
         this.key = key;
         this.val = val;
+        this.tokenLocation = tokenLocation;
+    }
+
+    protected AttrNode(String key, String val) {
+        Validate.notBlankVal(key);
+        this.key = key;
+        this.val = val;
+    }
+
+    protected AttrNode(TokenLocation tokenLocation) {
         this.tokenLocation = tokenLocation;
     }
 

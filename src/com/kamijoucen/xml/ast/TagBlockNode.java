@@ -16,26 +16,23 @@ public class TagBlockNode extends BaseTagNodeAdapter {
         this.tagName = tagName;
     }
 
-    public void putAttrs(List<AttrNode> attrs) {
+    public TagBlockNode putAttrs(List<AttrNode> attrs) {
         this.start.attrs.addAll(attrs);
+        return this;
     }
 
     public void putAttr(String key, String val, TokenLocation tokenLocation) {
         this.start.attrs.add(new AttrNode(key, val, tokenLocation));
     }
 
-    public void putAttr(AttrNode node) {
+    public TagBlockNode putAttr(String key, String val) {
+        this.putAttr(key, val, null);
+        return this;
+    }
+
+    public TagBlockNode putAttr(AttrNode node) {
         this.start.attrs.add(node);
-    }
-
-    @Override
-    public void addChild(String tagName, TagNode node) {
-        super.addChild(tagName, node);
-    }
-
-    @Override
-    public void addChild(TagNode node) {
-        super.addChild(node);
+        return this;
     }
 
     @Override
@@ -88,7 +85,6 @@ public class TagBlockNode extends BaseTagNodeAdapter {
 
     @Override
     public String builder(TemplateBuilderVisitor visitor) {
-        return null;
+        return visitor.visit(this);
     }
-
 }

@@ -2,7 +2,6 @@ package com.kamijoucen.xml.parser.impl;
 
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
-import com.kamijoucen.common.utils.Utils;
 import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.ast.*;
 import com.kamijoucen.xml.exception.XmlSyntaxException;
@@ -25,7 +24,7 @@ public class LLParser implements Parser {
     }
 
     @Override
-    public TagNode parserTagBlock() {
+    public TagBlockNode parserTagBlock() {
         TagStartNode blockStart = parserTagStart();
         TagBlockNode blockAst = new TagBlockNode(blockStart.getTagName());
         blockAst.setStart(blockStart);
@@ -40,8 +39,8 @@ public class LLParser implements Parser {
                     blockAst.addText(parserChildText());
                     break;
                 case TAG_START:
-                    TagNode cb = parserTagBlock();
-                    blockAst.addChild(Utils.cast(cb, TagBlockNode.class).getTagName(), cb);
+                    TagBlockNode cb = parserTagBlock();
+                    NodesProxy.addChild(cb.getTagName(), cb);
                     break;
                 case END_OF_FILE:
                     throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + " <"

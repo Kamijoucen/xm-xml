@@ -5,12 +5,12 @@ import com.kamijoucen.xml.token.TokenLocation;
 
 public class NoneAttrNode extends AttrNode {
 
-    private static final NoneAttrNode noneAst = new NoneAttrNode();
+    private static final NoneAttrNode NONENODE = new NoneAttrNode();
 
     private static TokenLocation tokenLocation = new TokenLocation(-1, -1, null);
 
     private NoneAttrNode() {
-        super(null, null, tokenLocation);
+        super(tokenLocation);
     }
 
     @Override
@@ -23,8 +23,8 @@ public class NoneAttrNode extends AttrNode {
         return null;
     }
 
-    public static NoneAttrNode INSTANCE() {
-        return noneAst;
+    static NoneAttrNode INSTANCE() {
+        return NONENODE;
     }
 
 }

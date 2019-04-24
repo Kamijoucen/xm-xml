@@ -7,18 +7,18 @@ import com.kamijoucen.xml.ast.*;
 import java.util.List;
 import java.util.Map;
 
-final public class DOM {
+public class DOM {
 
     private DOM() {}
 
-    public static TagNode node(String name) {
+    public static TagBlockNode node(String name) {
         Validate.notBlankVal(name);
         TagBlockNode node = new TagBlockNode(name);
         node.setTagStartType(TagStartNode.TagStartType.BLOCK);
         return node;
     }
 
-    public static TagNode single(String name) {
+    public static TagBlockNode single(String name) {
         Validate.notBlankVal(name);
         TagBlockNode node = new TagBlockNode(name);
         node.setTagStartType(TagStartNode.TagStartType.SINGLE);

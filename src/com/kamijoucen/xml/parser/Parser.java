@@ -4,7 +4,7 @@ import com.kamijoucen.xml.ast.*;
 
 public interface Parser {
 
-    TagNode parserTagBlock();
+    TagBlockNode parserTagBlock();
 
     TagEndNode parserTagEnd();
 

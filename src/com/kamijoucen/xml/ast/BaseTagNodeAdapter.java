@@ -10,38 +10,10 @@ import java.util.Map;
 
 public abstract class BaseTagNodeAdapter extends BaseNode implements TagNode {
 
-    // TODO: 2017/8/12 低效的数据结构，需要改为查询树
     protected Map<String, List<TagNode>> body = CollecUtils.map();
     protected List<TagNode> allBody = CollecUtils.list();
     protected List<TextNode> texts = CollecUtils.list();
     protected TokenLocation tokenLocation;
-
-    protected void addChild(String key, TagNode node) {
-        Validate.notBlankVal(key);
-        Validate.notNull(node);
-        allBody.add(node);
-        List<TagNode> vals = body.get(key);
-        if (vals == null) {
-            List<TagNode> list = CollecUtils.list();
-            list.add(node);
-            body.put(key, list);
-        } else {
-            vals.add(node);
-        }
-    }
-
-    protected void addChild(TagNode node) {
-        Validate.notNull(node);
-        allBody.add(node);
-        List<TagNode> vals = body.get(node.getTagName());
-        if (vals == null) {
-            List<TagNode> list = CollecUtils.list();
-            list.add(node);
-            body.put(node.getTagName(), list);
-        } else {
-            vals.add(node);
-        }
-    }
 
     @Override
     public TagNode child(String s) {
@@ -89,5 +61,37 @@ public abstract class BaseTagNodeAdapter extends BaseNode implements TagNode {
     @Override
     public TokenLocation getTokenLocation() {
         return tokenLocation;
+    }
+
+    void addChildNode(String key, TagNode node) {
+        Validate.notBlankVal(key);
+        Validate.notNull(node);
+        allBody.add(node);
+        List<TagNode> vals = body.get(key);
+        if (vals == null) {
+            List<TagNode> list = CollecUtils.list();
+            list.add(node);
+            body.put(key, list);
+        } else {
+            vals.add(node);
+        }
+    }
+
+    void addChildNode(TagNode node) {
+        Validate.notNull(node);
+        allBody.add(node);
+        List<TagNode> vals = body.get(node.getTagName());
+        if (vals == null) {
+            List<TagNode> list = CollecUtils.list();
+            list.add(node);
+            body.put(node.getTagName(), list);
+        } else {
+            vals.add(node);
+        }
+    }
+
+    void addTextNode(TextNode node) {
+        Validate.notNull(node);
+        texts.add(node);
     }
 }

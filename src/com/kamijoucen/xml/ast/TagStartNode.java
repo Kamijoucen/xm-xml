@@ -4,6 +4,7 @@ import com.kamijoucen.common.callback.Query;
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
 import com.kamijoucen.common.utils.Utils;
+import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
@@ -25,10 +26,6 @@ public class TagStartNode extends BaseTagNodeAdapter {
     @Override
     public String getTagName() {
         return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
     }
 
     public List<AttrNode> getAttrs() {
@@ -82,6 +79,15 @@ public class TagStartNode extends BaseTagNodeAdapter {
                 return StringUtils.equals(s, Utils.cast(o, AttrNode.class).getKey());
             }
         });
+    }
+
+    void addAttr(String key, String val) {
+        AttrNode node = new AttrNode(key, val);
+        this.attrs.add(node);
+    }
+
+    void addAttr(AttrNode node) {
+        this.attrs.add(node);
     }
 
 

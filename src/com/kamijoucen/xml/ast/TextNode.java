@@ -13,6 +13,10 @@ public class TextNode extends BaseNode {
         this.tokenLocation = tokenLocation;
     }
 
+    TextNode(String text) {
+        this.text = text;
+    }
+
     public String val() {
         return text;
     }

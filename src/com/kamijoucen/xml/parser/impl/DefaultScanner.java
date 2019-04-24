@@ -161,12 +161,14 @@ public class DefaultScanner implements Scanner {
     }
 
     private void preprocess() {
+        boolean isHasComment = false;
         do {
             for (; Character.isWhitespace(currentChar) && !isEndChar(currentChar); ) {
                 getNextChar();
             }
             handleComment();
-        } while (Character.isWhitespace(currentChar));
+            isHasComment = (currentChar == '<' && peekChar() == '!' && peekChar(2) == '-' && peekChar(3) == '-');
+        } while (Character.isWhitespace(currentChar) || isHasComment);
     }
 
     @Override
@@ -297,9 +299,8 @@ public class DefaultScanner implements Scanner {
             builder.append(currentChar);
             getNextChar();
         }
-
-
         // TODO: 2018/3/22
+        throw new IllegalStateException("不支持的调用");
     }
 
     private void handleTagEnd() {

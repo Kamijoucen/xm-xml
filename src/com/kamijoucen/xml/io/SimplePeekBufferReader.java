@@ -27,7 +27,7 @@ public class SimplePeekBufferReader extends Reader {
     @Override
     public int read(char[] cbuf, int off, int len) throws IOException {
         // TODO: 2017/8/8
-        return -1;
+        throw new IllegalStateException();
     }
 
     @Override

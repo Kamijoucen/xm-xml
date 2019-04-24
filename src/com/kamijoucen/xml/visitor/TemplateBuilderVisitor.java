@@ -9,10 +9,6 @@ public class TemplateBuilderVisitor {
         return StringUtils.joinString(ast.getKey(), BUILT.ASSIGN, BUILT.STRING_DOUBLE, ast.getVal(), BUILT.STRING_DOUBLE);
     }
 
-    public String visit(SingleTagStartNode ast) {
-        return null;
-    }
-
     public String visit(TagBlockNode ast) {
         return null;
     }
@@ -21,9 +17,6 @@ public class TemplateBuilderVisitor {
         return null;
     }
 
-    public String visit(TagStartNode ast) {
-        return null;
-    }
 
     public String visit(TextNode ast) {
         return null;

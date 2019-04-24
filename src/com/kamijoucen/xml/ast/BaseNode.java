@@ -3,11 +3,11 @@ package com.kamijoucen.xml.ast;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
-abstract class BaseNode {
+interface BaseNode {
 
-    abstract String toFormatString();
+    String toFormatString();
 
-    abstract String builder(TemplateBuilderVisitor visitor);
+    String builder(TemplateBuilderVisitor visitor);
 
-    abstract TokenLocation getTokenLocation();
+    TokenLocation getTokenLocation();
 }

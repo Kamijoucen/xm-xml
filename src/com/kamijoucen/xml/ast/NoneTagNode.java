@@ -60,12 +60,12 @@ public class NoneTagNode extends BaseTagNodeAdapter {
     }
 
     @Override
-    String toFormatString() {
+    public String toFormatString() {
         return null;
     }
 
     @Override
-    String builder(TemplateBuilderVisitor visitor) {
+    public String builder(TemplateBuilderVisitor visitor) {
         return null;
     }
 

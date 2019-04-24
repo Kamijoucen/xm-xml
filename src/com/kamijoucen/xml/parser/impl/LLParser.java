@@ -25,26 +25,21 @@ public class LLParser implements Parser {
 
     @Override
     public TagBlockNode parserTagBlock() {
-        TagStartNode blockStart = parserTagStart();
-        TagBlockNode blockAst = new TagBlockNode(blockStart.getTagName());
-        blockAst.setStart(blockStart);
-        if (blockStart.startType() == TagStartNode.TagStartType.SINGLE) {
-            blockAst.putAttrs(blockStart.getAttrs());
-            return blockAst;
+        TagBlockNode block = parserBlockTagStart();
+        if (block.getType() == TagBlockNode.TagStartType.SINGLE) {
+            return block;
         }
-        blockAst.putAttrs(blockStart.getAttrs());
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             switch (scanner.getToken().getTokenType()) {
                 case TEXT:
-                    blockAst.addText(parserChildText());
+                    block.addChildText(parserChildText());
                     break;
                 case TAG_START:
-                    TagBlockNode cb = parserTagBlock();
-                    NodesProxy.addChild(cb.getTagName(), cb);
+                    block.addChild(parserTagBlock());
                     break;
                 case END_OF_FILE:
                     throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + " <"
-                            + blockStart.getTagName() + "> 标签(" + blockStart.getTokenLocation()
+                            + block.getTagName() + "> 标签(" + block.getTokenLocation()
                             + ")未找到匹配的结束标签就遇到文件结束");
                 default:
                     throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
@@ -52,12 +47,12 @@ public class LLParser implements Parser {
             }
         }
         TagEndNode blockEnd = parserTagEnd();
-        if (!blockEnd.getTagName().equals(blockStart.getTagName())) {
+        if (!blockEnd.getTagName().equals(block.getTagName())) {
             throw new XmlSyntaxException("错误位置:" + blockEnd.getTokenLocation()
                     + "处标签嵌套不正确，应该匹配 <"
-                    + blockStart.getTagName() + "> (" + blockStart.getTokenLocation() + ") 的结束标签");
+                    + block.getTagName() + "> (" + block.getTokenLocation() + ") 的结束标签");
         }
-        return blockAst;
+        return block;
     }
 
     @Override
@@ -78,7 +73,7 @@ public class LLParser implements Parser {
     }
 
     @Override
-    public TagStartNode parserTagStart() {
+    public TagBlockNode parserBlockTagStart() {
         if (scanner.getToken().getTokenType() != TokenType.TAG_START) {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "应该是一个标签起始符 '<'");
         }
@@ -101,9 +96,9 @@ public class LLParser implements Parser {
         TokenType end = scanner.getToken().getTokenType();
         scanner.nextToken();
         if (end == TokenType.TAG_END) {
-            return new TagStartNode(tag.getStrVal(), attrs, TagStartNode.TagStartType.BLOCK, location.getTokenLocation());
+            return new TagBlockNode(tag.getStrVal(), attrs, TagBlockNode.TagStartType.BLOCK, location.getTokenLocation());
         } else if (end == TokenType.SINGLE_TAG_END) {
-            return new SingleTagStartNode(tag.getStrVal(), attrs, TagStartNode.TagStartType.SINGLE, location.getTokenLocation());
+            return new TagBlockNode(tag.getStrVal(), attrs, TagBlockNode.TagStartType.SINGLE, location.getTokenLocation());
         } else {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
                     + "处需要一个标签结束符 '>' | '/>'");

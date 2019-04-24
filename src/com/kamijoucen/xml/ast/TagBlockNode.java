@@ -8,21 +8,28 @@ import java.util.List;
 
 public class TagBlockNode extends BaseTagNodeAdapter {
 
-    private String tagName;
-    private TagStartNode start;
-    private TagEndNode end;
+    private TagStartType type;
+
+//    private TagEndNode end;
+
+    public TagBlockNode(String tagName, List<AttrNode> attrs, TagBlockNode.TagStartType type, TokenLocation tokenLocation) {
+        this.type = type;
+        super.tagName = tagName;
+        super.attrs.addAll(attrs);
+        super.tokenLocation = tokenLocation;
+    }
 
     public TagBlockNode(String tagName) {
         this.tagName = tagName;
     }
 
     public TagBlockNode putAttrs(List<AttrNode> attrs) {
-        this.start.attrs.addAll(attrs);
+        super.attrs.addAll(attrs);
         return this;
     }
 
     public void putAttr(String key, String val, TokenLocation tokenLocation) {
-        this.start.attrs.add(new AttrNode(key, val, tokenLocation));
+        super.attrs.add(new AttrNode(key, val, tokenLocation));
     }
 
     public TagBlockNode putAttr(String key, String val) {
@@ -31,51 +38,23 @@ public class TagBlockNode extends BaseTagNodeAdapter {
     }
 
     public TagBlockNode putAttr(AttrNode node) {
-        this.start.attrs.add(node);
+        super.attrs.add(node);
         return this;
     }
 
     @Override
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void addText(TextNode text) {
+    public void addChildText(TextNode text) {
         texts.add(text);
-    }
-
-    public TagStartNode getStart() {
-        return start;
-    }
-
-    public void setStart(TagStartNode start) {
-        this.start = start;
-    }
-
-    public TagEndNode getEnd() {
-        return end;
-    }
-
-    public void setEnd(TagEndNode end) {
-        this.end = end;
-    }
-
-    public void setTagStartType(TagStartNode.TagStartType type) {
-        this.start.setType(type);
-    }
-
-    public TagStartNode.TagStartType getTagStartType() {
-        return this.start.getType();
     }
 
     @Override
     public AttrNode attr(String str) {
-        return this.start.attr(str);
+        return super.attr(str);
     }
 
     @Override
     public List<AttrNode> attrs(String str) {
-        return this.start.attrs;
+        return super.attrs;
     }
 
     @Override
@@ -86,5 +65,18 @@ public class TagBlockNode extends BaseTagNodeAdapter {
     @Override
     public String builder(TemplateBuilderVisitor visitor) {
         return visitor.visit(this);
+    }
+
+    public TagStartType getType() {
+        return type;
+    }
+
+    public void setType(TagStartType type) {
+        this.type = type;
+    }
+
+    public enum TagStartType {
+        BLOCK,
+        SINGLE
     }
 }

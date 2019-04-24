@@ -3,7 +3,7 @@ package com.kamijoucen.xml.ast;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
-public class TextNode extends BaseNode {
+public class TextNode implements BaseNode {
 
     protected String text;
     protected TokenLocation tokenLocation;

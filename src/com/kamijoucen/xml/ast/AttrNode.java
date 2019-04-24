@@ -4,7 +4,7 @@ import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
 
-public class AttrNode extends BaseNode {
+public class AttrNode implements BaseNode {
 
     private String key;
     private String val;
@@ -29,17 +29,17 @@ public class AttrNode extends BaseNode {
     }
 
     @Override
-    TokenLocation getTokenLocation() {
+    public TokenLocation getTokenLocation() {
         return tokenLocation;
     }
 
     @Override
-    String toFormatString() {
+    public String toFormatString() {
         return null;
     }
 
     @Override
-    String builder(TemplateBuilderVisitor visitor) {
+    public String builder(TemplateBuilderVisitor visitor) {
         return visitor.visit(this);
     }
 
@@ -51,4 +51,11 @@ public class AttrNode extends BaseNode {
         return val;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setVal(String val) {
+        this.val = val;
+    }
 }

@@ -8,7 +8,7 @@ public interface Parser {
 
     TagEndNode parserTagEnd();
 
-    TagStartNode parserTagStart();
+    TagBlockNode parserBlockTagStart();
 
     AttrNode parserAttr();
 

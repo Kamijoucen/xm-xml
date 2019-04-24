@@ -23,6 +23,14 @@ public class NoneAttrNode extends AttrNode {
         return null;
     }
 
+    @Override
+    public void setKey(String key) {
+    }
+
+    @Override
+    public void setVal(String val) {
+    }
+
     static NoneAttrNode INSTANCE() {
         return NONENODE;
     }

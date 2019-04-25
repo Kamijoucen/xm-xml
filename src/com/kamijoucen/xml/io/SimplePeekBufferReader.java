@@ -21,6 +21,7 @@ public class SimplePeekBufferReader extends Reader {
         super(in);
         this.in = in;
         cb = new char[bufferSize];
+        catchLength = bufferSize;
         fill();
     }
 

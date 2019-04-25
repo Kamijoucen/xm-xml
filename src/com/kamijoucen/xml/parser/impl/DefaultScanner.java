@@ -72,7 +72,7 @@ public class DefaultScanner implements Scanner {
             }
             switch (state) {
                 case NONE:
-                    getNextChar();
+                    nextChar();
                     break;
                 case KEYWORDS:
                     handleKeyWords();
@@ -115,7 +115,7 @@ public class DefaultScanner implements Scanner {
         return token;
     }
 
-    private void getNextChar() {
+    private void nextChar() {
         int ch = 0;
         try {
             ch = input.read();
@@ -164,7 +164,7 @@ public class DefaultScanner implements Scanner {
         boolean isHasComment = false;
         do {
             for (; Character.isWhitespace(currentChar) && !isEndChar(currentChar); ) {
-                getNextChar();
+                nextChar();
             }
             handleComment();
             isHasComment = (currentChar == '<' && peekChar() == '!' && peekChar(2) == '-' && peekChar(3) == '-');
@@ -181,16 +181,16 @@ public class DefaultScanner implements Scanner {
     // handle
     private void handleString() {
         tokenLocation = makeTokenLocation();
-        getNextChar();
+        nextChar();
         while (currentChar != currentStringToken) {
             if (currentChar == '\0') {
                 throw new XmlSyntaxException("错误位置:" + tokenLocation + "处字符串没有找到结束标识");
             }
             addCharToBuffer(currentChar);
-            getNextChar();
+            nextChar();
         }
         makeToken(TokenType.STRING, buffer.toString(), tokenLocation);
-        getNextChar();
+        nextChar();
     }
 
     private void handleText() {
@@ -205,7 +205,7 @@ public class DefaultScanner implements Scanner {
                 break;
             } else {
                 addCharToBuffer(currentChar);
-                getNextChar();
+                nextChar();
             }
         }
         makeToken(TokenType.TEXT, buffer.toString().trim(), tokenLocation);
@@ -214,19 +214,19 @@ public class DefaultScanner implements Scanner {
     private void handleComment() {
         tokenLocation = makeTokenLocation();
         if (currentChar == '<' && peekChar() == '!' && peekChar(2) == '-' && peekChar(3) == '-') {
-            getNextChar(); // eat <
-            getNextChar(); // eat !
-            getNextChar(); // eat -
-            getNextChar(); // eat -
+            nextChar(); // eat <
+            nextChar(); // eat !
+            nextChar(); // eat -
+            nextChar(); // eat -
             while (currentChar != '-' || peekChar() != '-') {
-                getNextChar();
+                nextChar();
             }
-            getNextChar();
-            getNextChar();
+            nextChar();
+            nextChar();
             if (currentChar != '>') {
                 throw new XmlSyntaxException("错误位置:" + tokenLocation + "注释没有找到结束标志");
             }
-            getNextChar();
+            nextChar();
         }
     }
 
@@ -234,12 +234,12 @@ public class DefaultScanner implements Scanner {
     private void handleTagStart() {
         char pch = (char) peekChar();
         if (pch == '/') {
-            getNextChar();
+            nextChar();
             addCharToBuffer(currentChar);
             makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
             textFlag = false;
         } else if (pch == '!') {
-            getNextChar();
+            nextChar();
             addCharToBuffer(currentChar);
             if (peekChar() == '[') {
                 handleCData();
@@ -248,7 +248,7 @@ public class DefaultScanner implements Scanner {
             }
             textFlag = true;
         } else if (pch == '?') {
-            getNextChar();
+            nextChar();
             addCharToBuffer(currentChar);
             makeToken(TokenType.XML_HEAD_START, buffer.toString(), tokenLocation);
             textFlag = false;
@@ -259,12 +259,12 @@ public class DefaultScanner implements Scanner {
     }
 
     private void handleCData() {
-        getNextChar();
+        nextChar();
         addCharToBuffer(currentChar);
-        getNextChar();
+        nextChar();
         while (Character.isUpperCase(currentChar) && !isEndChar(currentChar)) {
             addCharToBuffer(currentChar);
-            getNextChar();
+            nextChar();
         }
         if (!StringUtils.equals("<![CDATA", buffer.toString())) {
             throw new XmlSyntaxException("非法的 Unparsed Character Data 标识符:" + tokenLocation);
@@ -272,13 +272,13 @@ public class DefaultScanner implements Scanner {
         if (currentChar != '[') {
             throw new XmlSyntaxException("非法的 Unparsed Character Data 起始结构: CDATA后缺少[:" + tokenLocation);
         }
-        getNextChar();
+        nextChar();
         clearBuffer();
         boolean flag = true;
         while (!isEndChar(currentChar) && flag) {
             if (currentChar == ']' && peekChar() == ']') {
-                getNextChar(); // eat ]
-                getNextChar(); // eat ]
+                nextChar(); // eat ]
+                nextChar(); // eat ]
                 if (currentChar == '>') {
                     flag = false;
                 } else {
@@ -286,18 +286,18 @@ public class DefaultScanner implements Scanner {
                 }
             } else {
                 addCharToBuffer(currentChar);
-                getNextChar();
+                nextChar();
             }
         }
         makeToken(TokenType.TEXT, buffer.toString(), tokenLocation);
     }
 
     private void handleDocType() {
-        getNextChar();
+        nextChar();
         StringBuilder builder = new StringBuilder();
         while (Character.isUpperCase(currentChar)) {
             builder.append(currentChar);
-            getNextChar();
+            nextChar();
         }
         // TODO: 2018/3/22
         throw new IllegalStateException("不支持的调用");
@@ -311,7 +311,7 @@ public class DefaultScanner implements Scanner {
     private void handleSingleTagEnd() {
         if ((char) peekChar() == '>') {
             textFlag = true;
-            getNextChar();
+            nextChar();
             addCharToBuffer(currentChar);
             makeToken(TokenType.SINGLE_TAG_END, buffer.toString(), tokenLocation);
         } else {
@@ -325,7 +325,7 @@ public class DefaultScanner implements Scanner {
 
     private void handleXmlHeadEnd() {
         if (peekChar() == '>') {
-            getNextChar();
+            nextChar();
             addCharToBuffer(currentChar);
             makeToken(TokenType.XML_HEAD_END, buffer.toString(), tokenLocation);
         } else {
@@ -356,16 +356,16 @@ public class DefaultScanner implements Scanner {
             default:
                 throw new XmlSyntaxException(tokenLocation + "处出现未识别的标识符");
         }
-        getNextChar();
+        nextChar();
     }
 
     private void handleIdentifier() {
         tokenLocation = makeTokenLocation();
         addCharToBuffer(currentChar);
-        getNextChar();
+        nextChar();
         while (isIdentifierChar(currentChar)) {
             addCharToBuffer(currentChar);
-            getNextChar();
+            nextChar();
         }
         makeToken(TokenType.IDENTIFIER, buffer.toString().trim(), tokenLocation);
     }

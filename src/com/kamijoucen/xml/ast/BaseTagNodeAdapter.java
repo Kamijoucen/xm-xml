@@ -8,16 +8,18 @@ import com.kamijoucen.common.utils.Utils;
 import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.token.TokenLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public abstract class BaseTagNodeAdapter implements BaseNode, TagNode {
 
     protected String tagName;
-    protected Map<String, List<TagNode>> body = CollecUtils.map();
-    protected List<TagNode> allBody = CollecUtils.list();
+    protected Map<String, List<TagNode>> groupTags = CollecUtils.map();
+    protected List<TagNode> tags = CollecUtils.list();
     protected List<TextNode> texts = CollecUtils.list();
     protected List<AttrNode> attrs = CollecUtils.list();
+    protected List<BaseNode> allNodes = CollecUtils.list();
     protected TokenLocation tokenLocation;
 
     @Override
@@ -30,22 +32,29 @@ public abstract class BaseTagNodeAdapter implements BaseNode, TagNode {
         this.tagName = tagName;
     }
 
+    //-----------------------------------
+
     @Override
     public TagNode child(String s) {
         Validate.notBlankVal(s);
-        TagNode c = CollecUtils.firstObj(body.get(s));
+        TagNode c = CollecUtils.firstObj(groupTags.get(s));
         return c == null ? NoneTagNode.INSTANCE() : c;
     }
 
     @Override
     public List<TagNode> childs(String s) {
         Validate.notBlankVal(s);
-        return body.get(s);
+        return groupTags.get(s);
     }
 
     @Override
     public List<TagNode> childs() {
-        return allBody;
+        return new ArrayList<TagNode>(tags);
+    }
+
+    @Override
+    public List<BaseNode> allNodes() {
+        return new ArrayList<BaseNode>(allNodes);
     }
 
     @Override
@@ -74,47 +83,6 @@ public abstract class BaseTagNodeAdapter implements BaseNode, TagNode {
     }
 
     @Override
-    public TokenLocation getTokenLocation() {
-        return tokenLocation;
-    }
-
-    @Override
-    public void addChild(TagNode node) {
-        String name = node.getTagName();
-        Validate.notBlankVal(name);
-        Validate.notNull(node);
-        allBody.add(node);
-        List<TagNode> vals = body.get(name);
-        if (vals == null) {
-            List<TagNode> list = CollecUtils.list();
-            list.add(node);
-            body.put(name, list);
-        } else {
-            vals.add(node);
-        }
-    }
-
-    @Override
-    public void addAttr(AttrNode node) {
-        this.attrs.add(node);
-    }
-
-    @Override
-    public void addAttrs(List<AttrNode> list) {
-        this.attrs.addAll(list);
-    }
-
-    @Override
-    public void addChildText(TextNode node) {
-        this.texts.add(node);
-    }
-
-    @Override
-    public void addChildTexts(List<TextNode> nodes) {
-        this.texts.addAll(nodes);
-    }
-
-    @Override
     public AttrNode attr(final String s) {
         AttrNode a = CollecUtils.find(attrs, new Query<AttrNode>() {
             @Override
@@ -133,6 +101,72 @@ public abstract class BaseTagNodeAdapter implements BaseNode, TagNode {
                 return StringUtils.equals(s, Utils.cast(o, AttrNode.class).getKey());
             }
         });
+    }
+
+    @Override
+    public List<AttrNode> attrs() {
+        return new ArrayList<AttrNode>(attrs);
+    }
+
+    @Override
+    public TokenLocation getTokenLocation() {
+        return tokenLocation;
+    }
+
+    //-----------------------------------
+
+    @Override
+    public void remove(TagNode node) {
+    }
+
+    @Override
+    public void remove(TextNode node) {
+    }
+
+    @Override
+    public void removeAttr(AttrNode node) {
+    }
+
+
+    //-----------------------------------
+
+    @Override
+    public void addChild(TagNode node) {
+        String name = node.getTagName();
+        Validate.notBlankVal(name);
+        Validate.notNull(node);
+        tags.add(node);
+        allNodes.add((BaseNode) node);
+        List<TagNode> vals = groupTags.get(name);
+        if (vals == null) {
+            List<TagNode> list = CollecUtils.list();
+            list.add(node);
+            groupTags.put(name, list);
+        } else {
+            vals.add(node);
+        }
+    }
+
+    @Override
+    public void addAttr(AttrNode node) {
+        this.attrs.add(node);
+    }
+
+    @Override
+    public void addAttrs(List<AttrNode> list) {
+        this.attrs.addAll(list);
+    }
+
+    @Override
+    public void addChild(TextNode node) {
+        this.allNodes.add(node);
+        this.texts.add(node);
+    }
+
+    @Override
+    public void addChilds(List<TextNode> nodes) {
+        this.allNodes.addAll(nodes);
+        this.texts.addAll(nodes);
     }
 
 }

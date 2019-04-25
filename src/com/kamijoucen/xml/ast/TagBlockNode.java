@@ -2,7 +2,7 @@ package com.kamijoucen.xml.ast;
 
 
 import com.kamijoucen.xml.token.TokenLocation;
-import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
+import com.kamijoucen.xml.build.TemplateBuilderVisitor;
 
 import java.util.List;
 
@@ -23,6 +23,11 @@ public class TagBlockNode extends BaseTagNodeAdapter {
         this.tagName = tagName;
     }
 
+    public TagBlockNode(String tagName, TagStartType type) {
+        this.type = type;
+        this.tagName = tagName;
+    }
+
     public TagBlockNode putAttrs(List<AttrNode> attrs) {
         super.attrs.addAll(attrs);
         return this;
@@ -40,21 +45,6 @@ public class TagBlockNode extends BaseTagNodeAdapter {
     public TagBlockNode putAttr(AttrNode node) {
         super.attrs.add(node);
         return this;
-    }
-
-    @Override
-    public void addChildText(TextNode text) {
-        texts.add(text);
-    }
-
-    @Override
-    public AttrNode attr(String str) {
-        return super.attr(str);
-    }
-
-    @Override
-    public List<AttrNode> attrs(String str) {
-        return super.attrs;
     }
 
     @Override

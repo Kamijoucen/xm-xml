@@ -1,7 +1,7 @@
 package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.xml.token.TokenLocation;
-import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
+import com.kamijoucen.xml.build.TemplateBuilderVisitor;
 
 public class TextNode implements BaseNode {
 
@@ -13,7 +13,7 @@ public class TextNode implements BaseNode {
         this.tokenLocation = tokenLocation;
     }
 
-    TextNode(String text) {
+    public TextNode(String text) {
         this.text = text;
     }
 

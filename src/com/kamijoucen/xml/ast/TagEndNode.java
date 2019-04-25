@@ -1,9 +1,7 @@
 package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.xml.token.TokenLocation;
-import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
-
-import java.util.List;
+import com.kamijoucen.xml.build.TemplateBuilderVisitor;
 
 public class TagEndNode extends BaseTagNodeAdapter {
 

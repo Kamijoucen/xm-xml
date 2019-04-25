@@ -2,7 +2,7 @@ package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.token.TokenLocation;
-import com.kamijoucen.xml.visitor.TemplateBuilderVisitor;
+import com.kamijoucen.xml.build.TemplateBuilderVisitor;
 
 public class AttrNode implements BaseNode {
 
@@ -18,7 +18,7 @@ public class AttrNode implements BaseNode {
         this.tokenLocation = tokenLocation;
     }
 
-    protected AttrNode(String key, String val) {
+    public AttrNode(String key, String val) {
         Validate.notBlankVal(key);
         this.key = key;
         this.val = val;

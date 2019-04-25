@@ -8,34 +8,51 @@ public interface TagNode {
 
     void setTagName(String name);
 
-    TagNode child(String str);
 
-    void addChild(TagNode node);
+    //--------------------------------
+
+    TagNode child(String str);
 
     List<TagNode> childs(String str);
 
-//    void addChilds(String name, List<TagNode> list);
-
     List<TagNode> childs();
 
-//    void addChilds(List<TagNode> list);
+    List<BaseNode> allNodes();
 
     AttrNode attr(String str);
 
-    void addAttr(AttrNode node);
-
     List<AttrNode> attrs(String str);
 
-    void addAttrs(List<AttrNode> list);
+    List<AttrNode> attrs();
 
     String firstChildText();
 
-    void addChildText(TextNode node);
-
     List<String> childTexts();
 
-    void addChildTexts(List<TextNode> nodes);
-
     String childText(int i);
+
+    //--------------------------------
+
+    void remove(TagNode node);
+
+    void remove(TextNode node);
+
+    void removeAttr(AttrNode node);
+
+    //--------------------------------
+
+    void addChild(TagNode node);
+
+    //    void addChilds(String name, List<TagNode> list);
+
+    //    void addChilds(List<TagNode> list);
+
+    void addAttr(AttrNode node);
+
+    void addAttrs(List<AttrNode> list);
+
+    void addChild(TextNode node);
+
+    void addChilds(List<TextNode> nodes);
 
 }

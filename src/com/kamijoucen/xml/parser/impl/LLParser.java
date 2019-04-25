@@ -32,7 +32,7 @@ public class LLParser implements Parser {
         while (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
             switch (scanner.getToken().getTokenType()) {
                 case TEXT:
-                    block.addChildText(parserChildText());
+                    block.addChild(parserChildText());
                     break;
                 case TAG_START:
                     block.addChild(parserTagBlock());

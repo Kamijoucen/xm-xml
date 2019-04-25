@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.visitor;
+package com.kamijoucen.xml.build;
 
 class BUILT {
     public static final String TAG_START      = "<";

@@ -2,7 +2,7 @@ package com.kamijoucen.xml.ast;
 
 import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.token.TokenLocation;
-import com.kamijoucen.xml.build.TemplateBuilderVisitor;
+import com.kamijoucen.xml.build.BuilderVisitor;
 
 public class AttrNode implements BaseNode {
 
@@ -40,7 +40,7 @@ public class AttrNode implements BaseNode {
 
     @Override
     public String builder() {
-        return TemplateBuilderVisitor.visit(this);
+        return BuilderVisitor.visit(this);
     }
 
     public String getKey() {

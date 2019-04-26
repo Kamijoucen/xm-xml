@@ -2,7 +2,7 @@ package com.kamijoucen.xml.ast;
 
 
 import com.kamijoucen.xml.token.TokenLocation;
-import com.kamijoucen.xml.build.TemplateBuilderVisitor;
+import com.kamijoucen.xml.build.BuilderVisitor;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class TagBlockNode extends BaseTagNodeAdapter {
 
     @Override
     public String builder() {
-        return TemplateBuilderVisitor.visit(this);
+        return BuilderVisitor.visit(this);
     }
 
     public TagStartType getType() {

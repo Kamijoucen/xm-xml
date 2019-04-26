@@ -53,8 +53,8 @@ public class TagBlockNode extends BaseTagNodeAdapter {
     }
 
     @Override
-    public String builder(TemplateBuilderVisitor visitor) {
-        return visitor.visit(this);
+    public String builder() {
+        return TemplateBuilderVisitor.visit(this);
     }
 
     public TagStartType getType() {

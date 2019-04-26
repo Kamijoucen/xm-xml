@@ -17,6 +17,7 @@ import com.kamijoucen.xml.token.TokenType;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentResult {
@@ -132,7 +133,7 @@ public class DocumentResult {
     }
 
     public List<TagNode> childs() {
-        return roots;
+        return new ArrayList<TagNode>(roots);
     }
 
 

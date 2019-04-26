@@ -2,12 +2,11 @@ package com.kamijoucen.xml.ast;
 
 import java.util.List;
 
-public interface TagNode {
+public interface TagNode extends BaseNode {
 
     String getTagName();
 
     void setTagName(String name);
-
 
     //--------------------------------
 

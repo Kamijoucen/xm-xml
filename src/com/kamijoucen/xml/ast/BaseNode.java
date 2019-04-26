@@ -7,7 +7,7 @@ public interface BaseNode {
 
     String toFormatString();
 
-    String builder(TemplateBuilderVisitor visitor);
+    String builder();
 
     TokenLocation getTokenLocation();
 }

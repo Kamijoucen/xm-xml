@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseTagNodeAdapter implements BaseNode, TagNode {
+public abstract class BaseTagNodeAdapter implements TagNode {
 
     protected String tagName;
     protected Map<String, List<TagNode>> groupTags = CollecUtils.map();

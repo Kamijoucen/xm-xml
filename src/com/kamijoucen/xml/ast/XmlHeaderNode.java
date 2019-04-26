@@ -3,10 +3,11 @@ package com.kamijoucen.xml.ast;
 import com.kamijoucen.common.callback.Query;
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
+import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
 
-public class XmlHeaderNode {
+public class XmlHeaderNode implements BaseNode {
 
     private final List<AttrNode> attrs = CollecUtils.list();
 
@@ -38,4 +39,18 @@ public class XmlHeaderNode {
         return attrs;
     }
 
+    @Override
+    public String toFormatString() {
+        return null;
+    }
+
+    @Override
+    public String builder() {
+        return null;
+    }
+
+    @Override
+    public TokenLocation getTokenLocation() {
+        return null;
+    }
 }

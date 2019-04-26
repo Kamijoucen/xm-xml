@@ -17,7 +17,7 @@ public class TagEndNode extends BaseTagNodeAdapter {
     }
 
     @Override
-    public String builder(TemplateBuilderVisitor visitor) {
+    public String builder() {
         return null;
     }
 }

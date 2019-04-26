@@ -39,8 +39,8 @@ public class AttrNode implements BaseNode {
     }
 
     @Override
-    public String builder(TemplateBuilderVisitor visitor) {
-        return visitor.visit(this);
+    public String builder() {
+        return TemplateBuilderVisitor.visit(this);
     }
 
     public String getKey() {

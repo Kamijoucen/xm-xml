@@ -49,7 +49,7 @@ public class SimplePeekBufferReader extends Reader {
         if (charIndex + 1 > catchSize) {
             fill();
             if (catchSize == -1) {
-                return catchSize;
+                return -1;
             } else {
                 return cb[charIndex++];
             }
@@ -59,6 +59,9 @@ public class SimplePeekBufferReader extends Reader {
     }
 
     public int peek() throws IOException {
+        if (cb[charIndex] == '\0') {
+            return -1;
+        }
         if (charIndex + 1 > catchSize) {
             fill();
             if (charIndex > catchSize) {

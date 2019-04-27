@@ -84,7 +84,8 @@ public class LLParser implements Parser {
         Token location = scanner.getToken();
         Token tag = scanner.nextToken();
         if (tag.getTokenType() != TokenType.IDENTIFIER) {
-            throw new XmlSyntaxException("错误位置:" + tag.getTokenLocation() + "处需要一个标签名字");
+            throw new XmlSyntaxException("错误位置:" + tag.getTokenLocation() + "处需要一个标签名, 但是现在出现了 '"
+                    + scanner.getToken().getStrVal() + "'");
         }
         scanner.nextToken();
         List<AttrNode> attrs = CollecUtils.list();

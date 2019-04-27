@@ -12,7 +12,7 @@ public class TagEndNode extends BaseTagNodeAdapter {
 
 
     @Override
-    public String toFormatString() {
+    public String formatBuilder() {
         return null;
     }
 

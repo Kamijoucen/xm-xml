@@ -58,15 +58,18 @@ public class LLParser implements Parser {
     @Override
     public TagEndNode parserTagEnd() {
         if (scanner.getToken().getTokenType() != TokenType.TAG_END_START) {
-            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "处需要一个 '</'");
+            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "处需要一个 '</', "
+                    + "但是现在出现了 '" + scanner.getToken().getStrVal() + "'");
         }
         TokenLocation endLocation = scanner.getToken().getTokenLocation();
         Token tag = scanner.nextToken();
         if (tag.getTokenType() != TokenType.IDENTIFIER) {
-            throw new XmlSyntaxException("错误位置:" + tag.getTokenLocation() + "处需要一个标签名字");
+            throw new XmlSyntaxException("错误位置:" + tag.getTokenLocation() + "处需要一个标签名, 但是现在出现了 '"
+                    + scanner.getToken().getStrVal() + "'");
         }
         if (scanner.nextToken().getTokenType() != TokenType.TAG_END) {
-            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "处需要一个标签结束符 '>'");
+            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "处需要一个标签结束符 '>', "
+                    + "但是现在出现了 '" + scanner.getToken().getStrVal() + "'");
         }
         scanner.nextToken();
         return new TagEndNode(tag.getStrVal(), endLocation);
@@ -75,7 +78,8 @@ public class LLParser implements Parser {
     @Override
     public TagBlockNode parserBlockTagStart() {
         if (scanner.getToken().getTokenType() != TokenType.TAG_START) {
-            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "应该是一个标签起始符 '<'");
+            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation() + "应该是一个标签起始符 '<', "
+                    + "但是现在出现了 '" + scanner.getToken().getStrVal() + "'");
         }
         Token location = scanner.getToken();
         Token tag = scanner.nextToken();
@@ -84,12 +88,12 @@ public class LLParser implements Parser {
         }
         scanner.nextToken();
         List<AttrNode> attrs = CollecUtils.list();
-        if (!isTagEndToken(scanner.getToken().getTokenType())
+        if (isTagEndToken(scanner.getToken().getTokenType())
                 && scanner.getToken().getTokenType() != TokenType.IDENTIFIER) {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
-                    + "标签内部只允许出现属性,但出现了 '" + scanner.getToken().getStrVal() + "'");
+                    + "标签内部只允许出现属性, 但出现了 '" + scanner.getToken().getStrVal() + "'");
         }
-        while (!isTagEndToken(scanner.getToken().getTokenType())) {
+        while (isTagEndToken(scanner.getToken().getTokenType())) {
             attrs.add(parserAttr());
         }
 
@@ -101,7 +105,7 @@ public class LLParser implements Parser {
             return new TagBlockNode(tag.getStrVal(), attrs, TagBlockNode.TagStartType.SINGLE, location.getTokenLocation());
         } else {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
-                    + "处需要一个标签结束符 '>' | '/>'");
+                    + "处需要一个标签结束符 '>' | '/>', 但是现在出现了 '" + scanner.getToken().getStrVal() + "'");
         }
     }
 
@@ -156,7 +160,7 @@ public class LLParser implements Parser {
     }
 
     private boolean isTagEndToken(TokenType type) {
-        return type == TokenType.TAG_END || type == TokenType.SINGLE_TAG_END || type == TokenType.XML_HEAD_END;
+        return type != TokenType.TAG_END && type != TokenType.SINGLE_TAG_END && type != TokenType.XML_HEAD_END;
     }
 
 }

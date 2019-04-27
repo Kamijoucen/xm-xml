@@ -1,5 +1,6 @@
 package com.kamijoucen.xml.element;
 
+import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.build.BuilderVisitor;
 
@@ -8,6 +9,7 @@ import java.util.List;
 public class DocumentTemplate {
 
     private TagBlockNode root = null;
+    private List<TagBlockNode> list = CollecUtils.list();
 
     private DocumentTemplate() {
     }
@@ -15,13 +17,38 @@ public class DocumentTemplate {
     public static DocumentTemplate createDocument(String rootTagName) {
         Validate.notBlankVal(rootTagName);
         DocumentTemplate document = new DocumentTemplate();
-        document.root = new TagBlockNode(rootTagName);
+        TagBlockNode node = new TagBlockNode(rootTagName);
+        document.root = node;
+        document.list.add(node);
         return document;
     }
+
+    public static DocumentTemplate createDocument(DocumentResult result) {
+        Validate.notNull(result);
+        DocumentTemplate document = new DocumentTemplate();
+        List<TagBlockNode> resultList = result.childs();
+        document.root = CollecUtils.firstObj(resultList);
+        document.list = resultList;
+        return document;
+    }
+
+    public static DocumentTemplate createDocument(TagBlockNode node) {
+        Validate.notNull(node);
+        DocumentTemplate document = new DocumentTemplate();
+        document.root = node;
+        document.list.add(node);
+        return document;
+    }
+
 
     public String builder() {
         BuilderVisitor visitor = new BuilderVisitor();
         return root.builder(visitor);
+    }
+
+    public String formatBuilder() {
+        BuilderVisitor visitor = new BuilderVisitor();
+        return null;
     }
 
 

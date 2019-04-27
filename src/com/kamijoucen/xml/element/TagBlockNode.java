@@ -48,7 +48,7 @@ public class TagBlockNode extends BaseTagNodeAdapter {
     }
 
     @Override
-    public String toFormatString() {
+    public String formatBuilder() {
         return null;
     }
 

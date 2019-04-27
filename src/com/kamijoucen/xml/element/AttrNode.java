@@ -34,7 +34,7 @@ public class AttrNode implements BaseNode {
     }
 
     @Override
-    public String toFormatString() {
+    public String formatBuilder() {
         return null;
     }
 

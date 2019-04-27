@@ -24,7 +24,7 @@ public class DocumentResult {
     private XmlHeaderNode xmlHeader;
     private Scanner scanner;
     private Parser parser;
-    private final List<TagNode> roots = CollecUtils.list();
+    private final List<TagBlockNode> roots = CollecUtils.list();
 
     public static DocumentResult loadStream(InputStream stream, String charset) {
         Validate.notNull(stream);
@@ -131,16 +131,16 @@ public class DocumentResult {
         }
     }
 
-    public List<TagNode> childs() {
-        return new ArrayList<TagNode>(roots);
+    public List<TagBlockNode> childs() {
+        return new ArrayList<TagBlockNode>(roots);
     }
 
 
     public TagNode child(final String str) {
-        TagNode root = CollecUtils.find(roots, new Query<TagNode>() {
+        TagNode root = CollecUtils.find(roots, new Query<TagBlockNode>() {
             @Override
-            public boolean query(TagNode o) {
-                return StringUtils.equals(str, Utils.cast(o, TagBlockNode.class).getTagName());
+            public boolean query(TagBlockNode o) {
+                return StringUtils.equals(str, o.getTagName());
             }
         });
         return root == null ? NoneTagNode.INSTANCE() : root;

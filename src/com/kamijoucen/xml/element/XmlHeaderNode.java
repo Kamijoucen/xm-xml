@@ -41,7 +41,7 @@ public class XmlHeaderNode implements BaseNode {
     }
 
     @Override
-    public String toFormatString() {
+    public String formatBuilder() {
         return null;
     }
 

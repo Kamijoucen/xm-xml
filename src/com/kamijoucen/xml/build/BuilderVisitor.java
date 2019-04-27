@@ -15,7 +15,7 @@ public class BuilderVisitor {
     }
 
     public String visit(TagBlockNode node) {
-        String attrsStr = StringUtils.joinSepString(" ",
+        String attrsStr = StringUtils.joinSepString(BUILT.SPACE,
                 CollecUtils.convertList(node.attrs(), new Convert<AttrNode, String>() {
             @Override
             public String convert(AttrNode o) {
@@ -26,13 +26,13 @@ public class BuilderVisitor {
         if (TagBlockNode.TagStartType.SINGLE.equals(node.getType())) {
             blockNodeStr.append(BUILT.TAG_START).append(node.getTagName());
             if (Utils.isNotBlankVal(attrsStr)) {
-                blockNodeStr.append(" ").append(attrsStr);
+                blockNodeStr.append(BUILT.SPACE).append(attrsStr);
             }
             blockNodeStr.append(BUILT.TAG_SINGLE_END);
         } else {
             blockNodeStr.append(BUILT.TAG_START).append(node.getTagName());
             if (Utils.isNotBlankVal(attrsStr)) {
-                blockNodeStr.append(" ").append(attrsStr);
+                blockNodeStr.append(BUILT.SPACE).append(attrsStr);
             }
             blockNodeStr.append(BUILT.TAG_END);
             List<BaseNode> childs = node.allNodes();

@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.ast;
+package com.kamijoucen.xml.element;
 
 import com.kamijoucen.common.callback.Convert;
 import com.kamijoucen.common.callback.Query;

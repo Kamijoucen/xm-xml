@@ -1,6 +1,6 @@
 package com.kamijoucen.xml.parser;
 
-import com.kamijoucen.xml.ast.*;
+import com.kamijoucen.xml.element.*;
 
 public interface Parser {
 

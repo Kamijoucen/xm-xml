@@ -1,8 +1,9 @@
-package com.kamijoucen.xml.ast;
+package com.kamijoucen.xml.element;
 
 import com.kamijoucen.common.callback.Query;
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
+import com.kamijoucen.xml.build.BuilderVisitor;
 import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class XmlHeaderNode implements BaseNode {
     }
 
     @Override
-    public String builder() {
+    public String builder(BuilderVisitor visitor) {
         return null;
     }
 

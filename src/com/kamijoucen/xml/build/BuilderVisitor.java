@@ -4,17 +4,17 @@ import com.kamijoucen.common.callback.Convert;
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
 import com.kamijoucen.common.utils.Utils;
-import com.kamijoucen.xml.ast.*;
+import com.kamijoucen.xml.element.*;
 
 import java.util.List;
 
 public class BuilderVisitor {
 
-    public static String visit(AttrNode node) {
+    public String visit(AttrNode node) {
         return StringUtils.joinString(node.getKey(), BUILT.ASSIGN, BUILT.STRING_DOUBLE, node.getVal(), BUILT.STRING_DOUBLE);
     }
 
-    public static String visit(TagBlockNode node) {
+    public String visit(TagBlockNode node) {
         String attrsStr = StringUtils.joinSepString(" ",
                 CollecUtils.convertList(node.attrs(), new Convert<AttrNode, String>() {
             @Override
@@ -37,14 +37,14 @@ public class BuilderVisitor {
             blockNodeStr.append(BUILT.TAG_END);
             List<BaseNode> childs = node.allNodes();
             for (BaseNode child : childs) {
-                blockNodeStr.append(child.builder());
+                blockNodeStr.append(child.builder(this));
             }
             blockNodeStr.append(BUILT.TAG_END_START).append(node.getTagName()).append(BUILT.TAG_END);
         }
         return blockNodeStr.toString();
     }
 
-    public static String visit(TextNode node) {
+    public String visit(TextNode node) {
         return StringUtils.joinString(BUILT.CDATA_START, node.getText(), BUILT.CDATA_END);
     }
 

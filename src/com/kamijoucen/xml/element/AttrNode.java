@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.ast;
+package com.kamijoucen.xml.element;
 
 import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.token.TokenLocation;
@@ -39,8 +39,8 @@ public class AttrNode implements BaseNode {
     }
 
     @Override
-    public String builder() {
-        return BuilderVisitor.visit(this);
+    public String builder(BuilderVisitor visitor) {
+        return visitor.visit(this);
     }
 
     public String getKey() {

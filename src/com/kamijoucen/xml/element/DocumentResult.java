@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.ast.result;
+package com.kamijoucen.xml.element;
 
 
 import com.kamijoucen.common.callback.Query;
@@ -6,7 +6,6 @@ import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
 import com.kamijoucen.common.utils.Utils;
 import com.kamijoucen.common.validate.Validate;
-import com.kamijoucen.xml.ast.*;
 import com.kamijoucen.xml.exception.FileAccessException;
 import com.kamijoucen.xml.parser.Parser;
 import com.kamijoucen.xml.parser.Scanner;

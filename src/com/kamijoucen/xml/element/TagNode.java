@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.ast;
+package com.kamijoucen.xml.element;
 
 import java.util.List;
 

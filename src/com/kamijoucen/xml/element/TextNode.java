@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.ast;
+package com.kamijoucen.xml.element;
 
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.build.BuilderVisitor;
@@ -27,8 +27,8 @@ public class TextNode implements BaseNode {
     }
 
     @Override
-    public String builder() {
-        return BuilderVisitor.visit(this);
+    public String builder(BuilderVisitor visitor) {
+        return visitor.visit(this);
     }
 
     @Override

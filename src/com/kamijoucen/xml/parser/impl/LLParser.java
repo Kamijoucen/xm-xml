@@ -3,7 +3,7 @@ package com.kamijoucen.xml.parser.impl;
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
 import com.kamijoucen.common.validate.Validate;
-import com.kamijoucen.xml.ast.*;
+import com.kamijoucen.xml.element.*;
 import com.kamijoucen.xml.exception.XmlSyntaxException;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.parser.Parser;

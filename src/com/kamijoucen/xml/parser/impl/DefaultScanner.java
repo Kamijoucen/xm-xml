@@ -274,13 +274,13 @@ public class DefaultScanner implements Scanner {
         }
         nextChar();
         clearBuffer();
-        boolean flag = true;
-        while (!isEndChar(currentChar) && flag) {
+        boolean isFindEndFlag = false;
+        while (!isEndChar(currentChar) && !isFindEndFlag) {
             if (currentChar == ']' && peekChar() == ']') {
                 nextChar(); // eat ]
                 nextChar(); // eat ]
                 if (currentChar == '>') {
-                    flag = false;
+                    isFindEndFlag = true;
                 } else {
                     addStringToBuffer("]]");
                 }
@@ -288,6 +288,9 @@ public class DefaultScanner implements Scanner {
                 addCharToBuffer(currentChar);
                 nextChar();
             }
+        }
+        if (!isFindEndFlag) {
+            throw new XmlSyntaxException("未找到 Unparsed Character Data 的结束标识符:" + tokenLocation);
         }
         makeToken(TokenType.TEXT, buffer.toString(), tokenLocation);
     }
@@ -395,7 +398,8 @@ public class DefaultScanner implements Scanner {
         if (ch == '<' || ch == '>' || (ch == '?' && peekChar() == '>')) {
             return true;
         } else if (ch == '=') {
-            return peekChar() == '"' || peekChar() == '\'';
+//            return peekChar() == '"' || peekChar() == '\'';
+            return true;
         } else {
             return ch == '/' && peekChar() == '>';
         }

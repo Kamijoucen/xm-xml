@@ -46,6 +46,9 @@ public class SimplePeekBufferReader extends Reader {
 
     @Override
     public int read() throws IOException {
+        if (cb[charIndex] == '\0') {
+            return -1;
+        }
         if (charIndex + 1 > catchSize) {
             fill();
             if (catchSize == -1) {

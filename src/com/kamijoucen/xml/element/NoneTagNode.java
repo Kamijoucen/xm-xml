@@ -2,6 +2,7 @@ package com.kamijoucen.xml.element;
 
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.xml.build.BuilderVisitor;
+import com.kamijoucen.xml.build.FormatBuilderVisitor;
 import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class NoneTagNode extends BaseTagNodeAdapter {
     }
 
     @Override
-    public String formatBuilder() {
+    public String formatBuilder(FormatBuilderVisitor visitor) {
         return null;
     }
 

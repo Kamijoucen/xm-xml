@@ -66,7 +66,7 @@ public class FormatBuilderVisitor {
     }
 
 
-    public void appendFmtSpace(StringBuilder builder) {
+    private void appendFmtSpace(StringBuilder builder) {
         for (int i = 0; i < curDepth; ++i) {
             builder.append(BUILT.SPACE).append(BUILT.SPACE);
         }
@@ -76,12 +76,12 @@ public class FormatBuilderVisitor {
         return curDepth;
     }
 
-    public int addDepth() {
+    private int addDepth() {
         this.curDepth += 1;
         return this.curDepth;
     }
 
-    public int subDepth() {
+    private int subDepth() {
         this.curDepth -= 1;
         return this.curDepth;
     }

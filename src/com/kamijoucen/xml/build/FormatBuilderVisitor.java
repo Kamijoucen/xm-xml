@@ -53,6 +53,7 @@ public class FormatBuilderVisitor {
             for (BaseNode child : childs) {
                 blockNodeStr.append(child.formatBuilder(this));
             }
+            appendFmtSpace(blockNodeStr);
             blockNodeStr.append(BUILT.TAG_END_START).append(node.getTagName()).append(BUILT.TAG_END).append(BUILT.LINE_SEPARATOR);
         }
         return blockNodeStr.toString();
@@ -68,7 +69,7 @@ public class FormatBuilderVisitor {
 
     private void appendFmtSpace(StringBuilder builder) {
         for (int i = 0; i < curDepth; ++i) {
-            builder.append(BUILT.SPACE).append(BUILT.SPACE);
+            builder.append(BUILT.FMT_SPACE);
         }
     }
 

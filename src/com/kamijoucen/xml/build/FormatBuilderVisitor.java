@@ -76,12 +76,12 @@ public class FormatBuilderVisitor {
         return curDepth;
     }
 
-    private int addDepth() {
+    public int addDepth() {
         this.curDepth += 1;
         return this.curDepth;
     }
 
-    private int subDepth() {
+    public int subDepth() {
         this.curDepth -= 1;
         return this.curDepth;
     }

@@ -17,11 +17,11 @@ public class BuilderVisitor {
     public String visit(TagBlockNode node) {
         String attrsStr = StringUtils.joinSepString(BUILT.SPACE,
                 CollecUtils.convertList(node.attrs(), new Convert<AttrNode, String>() {
-            @Override
-            public String convert(AttrNode o) {
-                return visit(o);
-            }
-        }));
+                    @Override
+                    public String convert(AttrNode o) {
+                        return visit(o);
+                    }
+                }));
         StringBuilder blockNodeStr = new StringBuilder();
         if (TagBlockNode.TagStartType.SINGLE.equals(node.getType())) {
             blockNodeStr.append(BUILT.TAG_START).append(node.getTagName());

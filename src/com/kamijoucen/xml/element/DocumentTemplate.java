@@ -3,6 +3,7 @@ package com.kamijoucen.xml.element;
 import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.validate.Validate;
 import com.kamijoucen.xml.build.BuilderVisitor;
+import com.kamijoucen.xml.build.FormatBuilderVisitor;
 
 import java.util.List;
 
@@ -46,9 +47,10 @@ public class DocumentTemplate {
         return root.builder(visitor);
     }
 
+
     public String formatBuilder() {
-        BuilderVisitor visitor = new BuilderVisitor();
-        return null;
+        FormatBuilderVisitor visitor = new FormatBuilderVisitor(-1);
+        return root.formatBuilder(visitor);
     }
 
 

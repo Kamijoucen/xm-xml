@@ -24,7 +24,10 @@ public class TextNode implements BaseNode {
 
     @Override
     public String formatBuilder(FormatBuilderVisitor visitor) {
-        return null;
+        visitor.addDepth();
+        String str = visitor.visit(this);
+        visitor.subDepth();
+        return str;
     }
 
     @Override

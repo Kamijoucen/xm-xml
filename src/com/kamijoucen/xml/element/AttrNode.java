@@ -36,7 +36,7 @@ public class AttrNode implements BaseNode {
 
     @Override
     public String formatBuilder(FormatBuilderVisitor visitor) {
-        return null;
+        return visitor.visit(this);
     }
 
     @Override

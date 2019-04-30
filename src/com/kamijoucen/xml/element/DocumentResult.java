@@ -104,20 +104,6 @@ public class DocumentResult {
 
     private DocumentResult() {}
 
-
-
-//    private DocumentResult(String fileName, String charset) {
-//        try {
-//            if (charset == null) {
-//                this.scanner = new DefaultScanner(new File(fileName));
-//            } else {
-//                this.scanner = new DefaultScanner(new File(fileName), charset);
-//            }
-//        } catch (IOException e) {
-//            throw new FileAccessException(e);
-//        }
-//    }
-
     private void parse() {
         parser = new LLParser(scanner);
         parserAll();
@@ -146,9 +132,6 @@ public class DocumentResult {
         return root == null ? NoneTagNode.INSTANCE() : root;
     }
 
-    public void format() {
-        // TODO: 2017/8/10
-    }
 
     private void parserAll() {
         if (scanner.getToken().getTokenType() == TokenType.XML_HEAD_START) {
@@ -157,11 +140,6 @@ public class DocumentResult {
         while (scanner.getToken().getTokenType() != TokenType.END_OF_FILE) {
             roots.add(Utils.cast(parser.parserTagBlock(), TagBlockNode.class));
         }
-    }
-
-    private Object executeXPath(String str) {
-        // TODO: 2017/8/11
-        return null;
     }
 
 }

@@ -119,6 +119,9 @@ public class DefaultScanner implements Scanner {
         int ch = 0;
         try {
             ch = input.read();
+            if (ch == 65279) {
+                ch = input.read();
+            }
         } catch (IOException e) {
             throw new FileAccessException(e);
         }

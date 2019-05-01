@@ -72,10 +72,10 @@ public class SimplePeekBufferReader2 extends Reader {
         if (bufferLength == -1) {
             return EOF;
         }
-        index = bufIndex + 1;
         if (i >= bufferLength) {
             return EOF;
         }
+        index = bufIndex + 1;
         return buffer[index + i - 1];
     }
 

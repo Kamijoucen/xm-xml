@@ -48,12 +48,15 @@ public class FormatBuilderVisitor {
             if (Utils.isNotBlankVal(attrsStr)) {
                 blockNodeStr.append(BUILT.SPACE).append(attrsStr);
             }
-            blockNodeStr.append(BUILT.TAG_END).append(BUILT.LINE_SEPARATOR);
-            List<BaseNode> childs = node.allNodes();
-            for (BaseNode child : childs) {
-                blockNodeStr.append(child.formatBuilder(this));
+            blockNodeStr.append(BUILT.TAG_END);
+            if (!CollecUtils.isEmptyCollection(node.allNodes())) {
+                blockNodeStr.append(BUILT.LINE_SEPARATOR);
+                List<BaseNode> childs = node.allNodes();
+                for (BaseNode child : childs) {
+                    blockNodeStr.append(child.formatBuilder(this));
+                }
+                appendFmtSpace(blockNodeStr);
             }
-            appendFmtSpace(blockNodeStr);
             blockNodeStr.append(BUILT.TAG_END_START).append(node.getTagName()).append(BUILT.TAG_END).append(BUILT.LINE_SEPARATOR);
         }
         return blockNodeStr.toString();

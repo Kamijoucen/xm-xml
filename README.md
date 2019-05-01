@@ -9,11 +9,11 @@
 ```
 ```JAVA
 DocumentResult result = DocumentResult.loadFile("D:\\xx.xml");
-String name = resule.child("a").attr("name").val();
+String name = resule.child("a").attr("name").getVal();
 // test
-String test = resule.child("a").child("b").attr("test").val();
+String test = resule.child("a").child("b").attr("test").getVal();
 // demaxiya
-String test1 = resule.child("a").childs("b").get(1).attr("test").val();
+String test1 = resule.child("a").childs("b").get(1).attr("test").getVal();
 // hehehehe
 String test2 = resule.child("a").firstChildText();
 // <name>lalala</name>
@@ -22,7 +22,7 @@ String test2 = resule.child("a").firstChildText();
 ```JAVA
 String xml = "<a><b name=\"wow\"/></a>";
 DocumentResult result = DocumentResult.loadString(xml);
-String val = result.child("a").child("b").attr("name").val();
+String val = result.child("a").child("b").attr("name").getVal();
 // wow
 ```
 文档创建
@@ -36,16 +36,13 @@ String val = result.child("a").child("b").attr("name").val();
 </a>
 ```
 ```JAVA
-// 创建根节a点并添加属性name
-DocumentTemplete templete = DocumentTemplete.create("a").attr("name", "test");
-// 创建一个文本节点
-DomElement text = DOM.text("<name>lalala</name>");
-// 创建一个单标签节点，并为其添加属性 test
-DomElement b = DOM.single("b").attr("test", "123456");
-// 向根节点添加三个元素(一个文本节点和两个相同的单标签节点)
-templete.child(text).child(b).child(b);
-// 创建xml文本
-String xml = templete.buildString();
-// 打印
-System.out.println(xml);
+DocumentTemplate template = DocumentTemplate.createDocument("a");
+template.addAttr(new AttrNode("name", "test"));
+template.addChild(new TextNode("<name>lalala</name>"));
+TagBlockNode tag = new TagBlockNode("b");
+tag.addAttr(new AttrNode("test", "12345"));
+template.addChild(tag);
+template.addChild(tag);
+System.out.println(template.builder()); // 输出
+System.out.println(template.formatBuilder()); // 格式化输出
 ```

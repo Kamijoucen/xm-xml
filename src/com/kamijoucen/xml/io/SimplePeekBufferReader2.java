@@ -2,6 +2,7 @@ package com.kamijoucen.xml.io;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Arrays;
 
 public class SimplePeekBufferReader2 extends Reader {
     private static final char EOF = '\0';
@@ -72,7 +73,7 @@ public class SimplePeekBufferReader2 extends Reader {
         if (bufferLength == -1) {
             return EOF;
         }
-        if (i >= bufferLength) {
+        if (i - 1 >= bufferLength) {
             return EOF;
         }
         index = bufIndex + 1;

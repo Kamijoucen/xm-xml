@@ -110,7 +110,7 @@ public class DefaultScanner implements Scanner {
                         final boolean[] firstIdent = IOUtil.firstIdentifierFlags;
                         boolean isFirst = currentChar >= firstIdent.length || firstIdent[currentChar];
                         if (!isFirst) {
-                            throw new XmlSyntaxException("illegal identifier :" + currentChar);
+                            throw new XmlSyntaxException(tokenLocation + "错误的标识起始符:" + currentChar);
                         }
                         state = State.IDENTIFIER;
                     }

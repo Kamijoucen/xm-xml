@@ -1,6 +1,7 @@
 package com.kamijoucen.xml.parser.impl;
 
 import com.kamijoucen.common.utils.StringUtils;
+import com.kamijoucen.xml.io.IOUtil;
 import com.kamijoucen.xml.io.SimplePeekBufferReader2;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.exception.FileAccessException;
@@ -104,10 +105,14 @@ public class DefaultScanner implements Scanner {
                     } else if (currentChar == '\"' || currentChar == '\'') {
                         currentStringToken = currentChar;
                         state = State.STRING;
-                    } else if (StringUtils.isAlpha(currentChar) || currentChar == '_' || currentChar == ':') {
-                        state = State.IDENTIFIER;
+//                    } else if (StringUtils.isAlpha(currentChar) || currentChar == '_' || currentChar == ':') {
                     } else {
-                        throw new XmlSyntaxException(tokenLocation + "处未知的字符 '" + currentChar + "'");
+                        final boolean[] firstIdent = IOUtil.firstIdentifierFlags;
+                        boolean isFirst = currentChar >= firstIdent.length || firstIdent[currentChar];
+                        if (!isFirst) {
+                            throw new XmlSyntaxException("illegal identifier :" + currentChar);
+                        }
+                        state = State.IDENTIFIER;
                     }
                 }
             }
@@ -394,7 +399,7 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isIdentifierChar(char ch) {
-        return StringUtils.isAlpha(ch) || Character.isDigit(ch) || ch == '-' || ch == '_' || ch == '.' || ch == ':';
+        return ch >= IOUtil.identifierFlags.length || IOUtil.identifierFlags[ch];
     }
 
     private boolean isKeyWords(char ch) {

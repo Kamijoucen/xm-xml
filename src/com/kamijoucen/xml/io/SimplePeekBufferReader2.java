@@ -66,7 +66,7 @@ public class SimplePeekBufferReader2 extends Reader {
         }
         // 这时的index是当前应该读取的
         int index = bufIndex + 1;
-        if (index + i >= bufferLength) {
+        if (index + i - 1 >= bufferLength) {
             fill();
         }
         if (bufferLength == -1) {

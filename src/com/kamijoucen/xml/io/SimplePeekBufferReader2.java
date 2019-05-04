@@ -82,7 +82,7 @@ public class SimplePeekBufferReader2 extends Reader {
 
     private void fill() throws IOException {
         int size = bufferLength - 1 - bufIndex;
-        if (size != -1) {
+        if (size > 0) {
             System.arraycopy(buffer, bufIndex + 1, buffer, 0, size);
             bufferLength = in.read(buffer, size, allBufferSize - size) + size;
             bufIndex = -1;

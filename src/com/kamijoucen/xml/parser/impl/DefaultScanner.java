@@ -98,7 +98,7 @@ public class DefaultScanner implements Scanner {
                 if (currentChar == '\0') {
                     state = State.END_OF_FILE;
                 } else {
-                    if (isKeyWords(currentChar)) {
+                    if (isKeyChar(currentChar)) {
                         state = State.KEYWORDS;
                     } else if (textFlag) {
                         state = State.TEXT;
@@ -402,15 +402,16 @@ public class DefaultScanner implements Scanner {
         return ch >= IOUtil.identifierFlags.length || IOUtil.identifierFlags[ch];
     }
 
-    private boolean isKeyWords(char ch) {
-        if (ch == '<' || ch == '>' || (ch == '?' && peekChar() == '>')) {
-            return true;
-        } else if (ch == '=') {
-//            return peekChar() == '"' || peekChar() == '\'';
-            return true;
-        } else {
-            return ch == '/' && peekChar() == '>';
-        }
+    private boolean isKeyChar(char ch) {
+        return ch < IOUtil.keyFlags.length && IOUtil.keyFlags[ch];
+//        if (ch == '<' || ch == '>' || (ch == '?' && peekChar() == '>')) {
+//            return true;
+//        } else if (ch == '=') {
+////            return peekChar() == '"' || peekChar() == '\'';
+//            return true;
+//        } else {
+//            return ch == '/' && peekChar() == '>';
+//        }
     }
 
     private boolean isEndChar(char ch) {

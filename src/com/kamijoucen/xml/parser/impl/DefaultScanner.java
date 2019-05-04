@@ -403,7 +403,14 @@ public class DefaultScanner implements Scanner {
     }
 
     private boolean isKeyChar(char ch) {
-        return ch < IOUtil.keyFlags.length && IOUtil.keyFlags[ch];
+        if (ch < IOUtil.keyFlags.length && IOUtil.keyFlags[ch]) {
+            return true;
+        } else {
+            if (ch == '/') {
+                return peekChar() == '>';
+            }
+            return false;
+        }
 //        if (ch == '<' || ch == '>' || (ch == '?' && peekChar() == '>')) {
 //            return true;
 //        } else if (ch == '=') {

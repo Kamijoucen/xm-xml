@@ -13,8 +13,7 @@ public class IOUtil {
             if (c == '<'
                     || c == '>'
                     || c == '?'
-                    || c == '='
-                    || c == '/') {
+                    || c == '=') {
                 keyFlags[c] = true;
             }
         }

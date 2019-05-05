@@ -31,7 +31,7 @@ public class FormatBuilderVisitor {
                 CollecUtils.convertList(node.attrs(), new Convert<AttrNode, String>() {
                     @Override
                     public String convert(AttrNode o) {
-                        return visit(o);
+                        return o.formatBuilder(FormatBuilderVisitor.this);
                     }
                 }));
         StringBuilder blockNodeStr = new StringBuilder();

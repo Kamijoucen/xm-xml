@@ -19,7 +19,7 @@ public class BuilderVisitor {
                 CollecUtils.convertList(node.attrs(), new Convert<AttrNode, String>() {
                     @Override
                     public String convert(AttrNode o) {
-                        return visit(o);
+                        return o.builder(BuilderVisitor.this);
                     }
                 }));
         StringBuilder blockNodeStr = new StringBuilder();

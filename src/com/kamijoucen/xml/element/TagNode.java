@@ -12,6 +12,8 @@ public interface TagNode extends BaseNode {
 
     TagNode child(String str);
 
+    TagNode child(String str, int i);
+
     List<TagNode> childs(String str);
 
     List<TagNode> childs();

@@ -31,6 +31,16 @@ public class NoneTagNode extends BaseTagNodeAdapter {
     }
 
     @Override
+    public TagNode child(String s, int i) {
+        return NONENORMALAST;
+    }
+
+    @Override
+    public List<AttrNode> attrs() {
+        return CollecUtils.readOnlyList();
+    }
+
+    @Override
     public List<TagNode> childs(String s) {
         return CollecUtils.readOnlyList();
     }

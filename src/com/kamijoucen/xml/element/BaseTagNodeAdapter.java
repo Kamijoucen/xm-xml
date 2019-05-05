@@ -42,6 +42,12 @@ public abstract class BaseTagNodeAdapter implements TagNode {
     }
 
     @Override
+    public TagNode child(String s, int i) {
+        Validate.notBlankVal(s);
+        return CollecUtils.get(groupTags.get(s), i);
+    }
+
+    @Override
     public List<TagNode> childs(String s) {
         Validate.notBlankVal(s);
         return new ArrayList<TagNode>(groupTags.get(s));

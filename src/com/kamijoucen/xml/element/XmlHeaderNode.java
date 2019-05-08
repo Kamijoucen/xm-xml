@@ -5,6 +5,7 @@ import com.kamijoucen.common.utils.CollecUtils;
 import com.kamijoucen.common.utils.StringUtils;
 import com.kamijoucen.xml.build.BuilderVisitor;
 import com.kamijoucen.xml.build.FormatBuilderVisitor;
+import com.kamijoucen.xml.build.Visitor;
 import com.kamijoucen.xml.token.TokenLocation;
 
 import java.util.List;
@@ -42,12 +43,7 @@ public class XmlHeaderNode implements BaseNode {
     }
 
     @Override
-    public String formatBuilder(FormatBuilderVisitor visitor) {
-        return null;
-    }
-
-    @Override
-    public String builder(BuilderVisitor visitor) {
+    public String builder(Visitor visitor) {
         return null;
     }
 

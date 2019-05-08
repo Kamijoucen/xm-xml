@@ -8,12 +8,14 @@ import com.kamijoucen.xml.element.*;
 
 import java.util.List;
 
-public class BuilderVisitor {
+public class BuilderVisitor implements Visitor {
 
+    @Override
     public String visit(AttrNode node) {
         return StringUtils.joinString(node.getKey(), BUILT.ASSIGN, BUILT.STRING_DOUBLE, node.getVal(), BUILT.STRING_DOUBLE);
     }
 
+    @Override
     public String visit(TagBlockNode node) {
         String attrsStr = StringUtils.joinSepString(BUILT.SPACE,
                 CollecUtils.convertList(node.attrs(), new Convert<AttrNode, String>() {
@@ -44,6 +46,7 @@ public class BuilderVisitor {
         return blockNodeStr.toString();
     }
 
+    @Override
     public String visit(TextNode node) {
         return StringUtils.joinString(BUILT.CDATA_START, node.getText(), BUILT.CDATA_END);
     }

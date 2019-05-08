@@ -2,6 +2,7 @@ package com.kamijoucen.xml.element;
 
 
 import com.kamijoucen.xml.build.FormatBuilderVisitor;
+import com.kamijoucen.xml.build.Visitor;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.build.BuilderVisitor;
 
@@ -49,15 +50,7 @@ public class TagBlockNode extends BaseTagNodeAdapter {
     }
 
     @Override
-    public String formatBuilder(FormatBuilderVisitor visitor) {
-        visitor.addDepth();
-        String str = visitor.visit(this);
-        visitor.subDepth();
-        return str;
-    }
-
-    @Override
-    public String builder(BuilderVisitor visitor) {
+    public String builder(Visitor visitor) {
         return visitor.visit(this);
     }
 

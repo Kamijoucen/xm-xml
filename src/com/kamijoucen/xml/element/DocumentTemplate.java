@@ -50,7 +50,7 @@ public class DocumentTemplate {
 
     public String formatBuilder() {
         FormatBuilderVisitor visitor = new FormatBuilderVisitor(-1);
-        return root.formatBuilder(visitor);
+        return root.builder(visitor);
     }
 
 

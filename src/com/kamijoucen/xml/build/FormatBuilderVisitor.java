@@ -12,7 +12,7 @@ import com.kamijoucen.xml.element.TextNode;
 import java.util.List;
 
 
-public class FormatBuilderVisitor {
+public class FormatBuilderVisitor implements Visitor {
 
     private int curDepth;
 
@@ -20,18 +20,19 @@ public class FormatBuilderVisitor {
         this.curDepth = depth;
     }
 
-
-
+    @Override
     public String visit(AttrNode node) {
         return StringUtils.joinString(node.getKey(), BUILT.ASSIGN, BUILT.STRING_DOUBLE, node.getVal(), BUILT.STRING_DOUBLE);
     }
 
+    @Override
     public String visit(TagBlockNode node) {
+        addDepth();
         String attrsStr = StringUtils.joinSepString(BUILT.SPACE,
                 CollecUtils.convertList(node.attrs(), new Convert<AttrNode, String>() {
                     @Override
                     public String convert(AttrNode o) {
-                        return o.formatBuilder(FormatBuilderVisitor.this);
+                        return o.builder(FormatBuilderVisitor.this);
                     }
                 }));
         StringBuilder blockNodeStr = new StringBuilder();
@@ -53,19 +54,23 @@ public class FormatBuilderVisitor {
                 blockNodeStr.append(BUILT.LINE_SEPARATOR);
                 List<BaseNode> childs = node.allNodes();
                 for (BaseNode child : childs) {
-                    blockNodeStr.append(child.formatBuilder(this));
+                    blockNodeStr.append(child.builder(this));
                 }
                 appendFmtSpace(blockNodeStr);
             }
             blockNodeStr.append(BUILT.TAG_END_START).append(node.getTagName()).append(BUILT.TAG_END).append(BUILT.LINE_SEPARATOR);
         }
+        subDepth();
         return blockNodeStr.toString();
     }
 
+    @Override
     public String visit(TextNode node) {
+        addDepth();
         StringBuilder textStr = new StringBuilder();
         appendFmtSpace(textStr);
         textStr.append(BUILT.CDATA_START).append(node.getText()).append(BUILT.CDATA_END).append(BUILT.LINE_SEPARATOR);
+        subDepth();
         return textStr.toString();
     }
 
@@ -80,14 +85,12 @@ public class FormatBuilderVisitor {
         return curDepth;
     }
 
-    public int addDepth() {
+    private void addDepth() {
         this.curDepth += 1;
-        return this.curDepth;
     }
 
-    public int subDepth() {
+    private void subDepth() {
         this.curDepth -= 1;
-        return this.curDepth;
     }
 
 }

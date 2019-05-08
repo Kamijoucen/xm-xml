@@ -11,6 +11,6 @@ class BUILT {
     public static final String SPACE          = " ";
     public static final String STRING_DOUBLE  = "\"";
     public static final String STRING_SINGLE  = "'";
-    public static final String LINE_SEPARATOR = System.lineSeparator();
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static final String FMT_SPACE      = "  ";
 }

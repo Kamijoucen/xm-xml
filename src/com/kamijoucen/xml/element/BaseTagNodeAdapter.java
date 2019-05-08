@@ -44,7 +44,8 @@ public abstract class BaseTagNodeAdapter implements TagNode {
     @Override
     public TagNode child(String s, int i) {
         Validate.notBlankVal(s);
-        return CollecUtils.get(groupTags.get(s), i);
+        TagNode node = CollecUtils.get(groupTags.get(s), i);
+        return node == null ? NoneTagNode.INSTANCE() : node;
     }
 
     @Override

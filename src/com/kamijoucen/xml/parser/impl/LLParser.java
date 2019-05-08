@@ -49,7 +49,7 @@ public class LLParser implements Parser {
         TagEndNode blockEnd = parserTagEnd();
         if (!blockEnd.getTagName().equals(block.getTagName())) {
             throw new XmlSyntaxException("错误位置:" + blockEnd.getTokenLocation()
-                    + "处标签嵌套不正确，应该匹配 <"
+                    + "处标签 </" + blockEnd.getTagName() + "> 嵌套不正确，应该匹配 <"
                     + block.getTagName() + "> (" + block.getTokenLocation() + ") 的结束标签");
         }
         return block;

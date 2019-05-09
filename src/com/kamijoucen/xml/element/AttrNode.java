@@ -55,4 +55,13 @@ public class AttrNode implements BaseNode {
     public void setVal(String val) {
         this.val = val;
     }
+
+    @Override
+    public String toString() {
+        return "AttrNode{" +
+                "key='" + key + '\'' +
+                ", val='" + val + '\'' +
+                ", location=" + tokenLocation +
+                '}';
+    }
 }

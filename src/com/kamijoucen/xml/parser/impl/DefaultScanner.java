@@ -241,28 +241,36 @@ public class DefaultScanner implements Scanner {
 
     private void handleTagStart() {
         char pch = (char) peekChar();
-        if (pch == '/') {
-            nextChar();
-            addCharToBuffer(currentChar);
-            makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
-            textFlag = false;
-        } else if (pch == '!') {
-            nextChar();
-            addCharToBuffer(currentChar);
-            if (peekChar() == '[') {
-                handleCData();
-            } else {
-                handleDocType();
+        switch (pch) {
+            case '/': {
+                nextChar();
+                addCharToBuffer(currentChar);
+                makeToken(TokenType.TAG_END_START, buffer.toString(), tokenLocation);
+                textFlag = false;
             }
-            textFlag = true;
-        } else if (pch == '?') {
-            nextChar();
-            addCharToBuffer(currentChar);
-            makeToken(TokenType.XML_HEAD_START, buffer.toString(), tokenLocation);
-            textFlag = false;
-        } else {
-            makeToken(TokenType.TAG_START, "<", tokenLocation);
-            textFlag = false;
+            break;
+            case '!': {
+                nextChar();
+                addCharToBuffer(currentChar);
+                if (peekChar() == '[') {
+                    handleCData();
+                } else {
+                    handleDocType();
+                }
+                textFlag = true;
+            }
+            break;
+            case '?': {
+                nextChar();
+                addCharToBuffer(currentChar);
+                makeToken(TokenType.XML_HEAD_START, buffer.toString(), tokenLocation);
+                textFlag = false;
+            }
+            break;
+            default: {
+                makeToken(TokenType.TAG_START, "<", tokenLocation);
+                textFlag = false;
+            }
         }
     }
 

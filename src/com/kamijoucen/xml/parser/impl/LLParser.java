@@ -10,6 +10,7 @@ import com.kamijoucen.xml.parser.Parser;
 import com.kamijoucen.xml.token.Token;
 import com.kamijoucen.xml.token.TokenLocation;
 import com.kamijoucen.xml.token.TokenType;
+import com.kamijoucen.xml.util.TokenUtil;
 
 import java.util.List;
 
@@ -89,12 +90,12 @@ public class LLParser implements Parser {
         }
         scanner.nextToken();
         List<AttrNode> attrs = CollecUtils.list();
-        if (isTagEndToken(scanner.getToken().getTokenType())
+        if (isNotTagEndToken(scanner.getToken().getTokenType())
                 && scanner.getToken().getTokenType() != TokenType.IDENTIFIER) {
             throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
                     + "标签内部只允许出现属性, 但出现了 '" + scanner.getToken().getStrVal() + "'");
         }
-        while (isTagEndToken(scanner.getToken().getTokenType())) {
+        while (isNotTagEndToken(scanner.getToken().getTokenType())) {
             attrs.add(parserAttr());
         }
 
@@ -114,22 +115,26 @@ public class LLParser implements Parser {
     public AttrNode parserAttr() {
         Token key = scanner.getToken();
         Token op = scanner.nextToken();
-        if (op.getTokenType() == TokenType.OPERATE) {
-            Token val = scanner.nextToken();
-            if (val.getTokenType() == TokenType.STRING) {
-                scanner.nextToken();
-                return new AttrNode(key.getStrVal(), val.getStrVal(), key.getTokenLocation());
-            } else {
-                throw new XmlSyntaxException("错误位置:" + key.getTokenLocation() + "属性没有找到属性值");
+
+        switch (op.getTokenType()) {
+            case OPERATE: {
+                Token val = scanner.nextToken();
+                if (val.getTokenType() == TokenType.STRING) {
+                    scanner.nextToken();
+                    return new AttrNode(key.getStrVal(), val.getStrVal(), key.getTokenLocation());
+                } else {
+                    throw new XmlSyntaxException("错误位置:" + key.getTokenLocation() + "属性没有找到属性值");
+                }
             }
-        } else if (op.getTokenType() == TokenType.IDENTIFIER
-                || op.getTokenType() == TokenType.TAG_END
-                || op.getTokenType() == TokenType.SINGLE_TAG_END
-                || op.getTokenType() == TokenType.XML_HEAD_END) {
-            // TODO: 2017/8/23 这个不允许出现单独的属性名
-            return new AttrNode(key.getStrVal(), "", key.getTokenLocation());
-        } else {
-            throw new XmlSyntaxException("错误位置:" + key.getTokenLocation() + "属性后存在未识别的标识符");
+            case IDENTIFIER:
+            case TAG_END:
+            case SINGLE_TAG_END:
+            case XML_HEAD_END: {
+                return new AttrNode(key.getStrVal(), "", key.getTokenLocation());
+            }
+            default: {
+                throw new XmlSyntaxException("错误位置:" + key.getTokenLocation() + "属性后存在未识别的标识符");
+            }
         }
     }
 
@@ -160,8 +165,8 @@ public class LLParser implements Parser {
         return result;
     }
 
-    private boolean isTagEndToken(TokenType type) {
-        return type != TokenType.TAG_END && type != TokenType.SINGLE_TAG_END && type != TokenType.XML_HEAD_END;
+    private boolean isNotTagEndToken(TokenType type) {
+        return !TokenUtil.endTokenFlags[type.value];
     }
 
 }

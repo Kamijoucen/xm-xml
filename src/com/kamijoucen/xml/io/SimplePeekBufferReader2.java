@@ -2,7 +2,6 @@ package com.kamijoucen.xml.io;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Arrays;
 
 public class SimplePeekBufferReader2 extends Reader {
     private static final char EOF = '\0';

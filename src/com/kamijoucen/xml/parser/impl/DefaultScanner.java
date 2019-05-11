@@ -1,7 +1,7 @@
 package com.kamijoucen.xml.parser.impl;
 
 import com.kamijoucen.common.utils.StringUtils;
-import com.kamijoucen.xml.io.IOUtil;
+import com.kamijoucen.xml.util.IOUtil;
 import com.kamijoucen.xml.io.SimplePeekBufferReader2;
 import com.kamijoucen.xml.parser.Scanner;
 import com.kamijoucen.xml.exception.FileAccessException;
@@ -110,7 +110,7 @@ public class DefaultScanner implements Scanner {
                         final boolean[] firstIdent = IOUtil.firstIdentifierFlags;
                         boolean isFirst = currentChar >= firstIdent.length || firstIdent[currentChar];
                         if (!isFirst) {
-                            throw new XmlSyntaxException(tokenLocation + "错误的标识起始符:" + currentChar);
+                            throw new XmlSyntaxException(tokenLocation + " 非法的标识起始符: '" + currentChar + "'");
                         }
                         state = State.IDENTIFIER;
                     }

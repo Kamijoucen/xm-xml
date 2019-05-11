@@ -1,4 +1,4 @@
-package com.kamijoucen.xml.io;
+package com.kamijoucen.xml.util;
 
 public class IOUtil {
 

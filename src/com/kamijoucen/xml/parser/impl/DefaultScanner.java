@@ -194,6 +194,9 @@ public class DefaultScanner implements Scanner {
             if (currentChar == '\0') {
                 throw new XmlSyntaxException("错误位置:" + tokenLocation + "处字符串没有找到结束标识");
             }
+//            if (currentChar == '&') {
+//
+//            }
             addCharToBuffer(currentChar);
             nextChar();
         }

@@ -101,13 +101,16 @@ public class LLParser implements Parser {
 
         TokenType end = scanner.getToken().getTokenType();
         scanner.nextToken();
-        if (end == TokenType.TAG_END) {
-            return new TagBlockNode(tag.getStrVal(), attrs, TagBlockNode.TagStartType.BLOCK, location.getTokenLocation());
-        } else if (end == TokenType.SINGLE_TAG_END) {
-            return new TagBlockNode(tag.getStrVal(), attrs, TagBlockNode.TagStartType.SINGLE, location.getTokenLocation());
-        } else {
-            throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
-                    + "处需要一个标签结束符 '>' | '/>', 但是现在出现了 '" + scanner.getToken().getStrVal() + "'");
+        switch (end) {
+            case TAG_END:
+                return new TagBlockNode(tag.getStrVal(), attrs, TagBlockNode.TagStartType.BLOCK,
+                        location.getTokenLocation());
+            case SINGLE_TAG_END:
+                return new TagBlockNode(tag.getStrVal(), attrs, TagBlockNode.TagStartType.SINGLE,
+                        location.getTokenLocation());
+            default:
+                throw new XmlSyntaxException("错误位置:" + scanner.getToken().getTokenLocation()
+                        + "处需要一个标签结束符 '>' | '/>', 但是现在出现了 '" + scanner.getToken().getStrVal() + "'");
         }
     }
 

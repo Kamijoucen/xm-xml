@@ -44,15 +44,21 @@ public class DocumentTemplate {
 
     public String builder() {
         BuilderVisitor visitor = new BuilderVisitor();
-        return root.builder(visitor);
+        StringBuilder builder = new StringBuilder();
+        for (TagBlockNode node : list) {
+            builder.append(node.builder(visitor));
+        }
+        return builder.toString();
     }
-
 
     public String formatBuilder() {
         FormatBuilderVisitor visitor = new FormatBuilderVisitor(-1);
-        return root.builder(visitor);
+        StringBuilder builder = new StringBuilder();
+        for (TagBlockNode node : list) {
+            builder.append(node.builder(visitor));
+        }
+        return builder.toString();
     }
-
 
     public void addChild(TagNode node) {
         root.addChild(node);

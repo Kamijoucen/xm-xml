@@ -99,7 +99,11 @@ public class DefaultScanner implements Scanner {
                     state = State.END_OF_FILE;
                 } else {
                     if (isKeyChar(currentChar)) {
-                        state = State.KEYWORDS;
+                        if (textFlag && currentChar != '<') {
+                            state = State.TEXT;
+                        } else {
+                            state = State.KEYWORDS;
+                        }
                     } else if (textFlag) {
                         state = State.TEXT;
                     } else if (currentChar == '\"' || currentChar == '\'') {

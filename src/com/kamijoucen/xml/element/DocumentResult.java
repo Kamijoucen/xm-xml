@@ -69,7 +69,7 @@ public class DocumentResult {
         Validate.notBlankVal(charset);
         DocumentResult result = new DocumentResult();
         try {
-            result.scanner = new DefaultScanner(new File(filename, charset));
+            result.scanner = new DefaultScanner(new File(filename), charset);
         } catch (IOException e) {
             throw new FileAccessException(e);
         }
